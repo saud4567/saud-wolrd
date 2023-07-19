@@ -8,7 +8,7 @@ const compression = require("compression");
 
 const sharedConstants = require("shared/constants");
 const sharedMiddlewares = require("shared/middlewares");
-const appModules = require("modules");
+const appModules = require("module");
 
 const app = express();
 

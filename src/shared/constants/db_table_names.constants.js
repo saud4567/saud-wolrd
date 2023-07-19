@@ -1,3 +1,5 @@
-const dbTableNames = {};
+const dbTableNames = {
+	customers: "customers",	
+};
 
 module.exports = dbTableNames;

@@ -1,11 +1,11 @@
 const sharedServices = require("shared/services");
 const sharedConstants = require("shared/constants");
 
-const customerModels = {};
+const customerModel = {};
 
 // @model-name: create
 // @model-desc: create a new customer
-customerModels.create = async (
+customerModel.create = async (
   customerRefId,
 	name,
 	mobile,
@@ -70,7 +70,7 @@ customerModels.create = async (
 
 // @model-name: read
 // @model-desc: read customers based on filter
-customerModels.read = async (whereParams) => {
+customerModel.read = async (whereParams) => {
     const where = [];
 
     if (whereParams.customerId) {
@@ -97,7 +97,7 @@ customerModels.read = async (whereParams) => {
 
 // @model-name: update
 // @model-desc: update customers based on update and where params
-customerModels.update = async (updateParams, whereParams) => {
+customerModel.update = async (updateParams, whereParams) => {
     const where = [];
 
     if (whereParams.customerId) {
@@ -127,7 +127,7 @@ customerModels.update = async (updateParams, whereParams) => {
 
 // @model-name: delete
 // @model-desc: delete customer based on where params
-customerModels.delete = async (whereParams) => {
+customerModel.delete = async (whereParams) => {
     const where = [];
 
     if (whereParams.customerId) {
@@ -144,4 +144,4 @@ customerModels.delete = async (whereParams) => {
     return result;
 };
 
-module.exports = customerModels;
+module.exports = customerModel;

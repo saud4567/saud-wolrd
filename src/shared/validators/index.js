@@ -37,6 +37,8 @@ sharedValidators.isEquals = (value, matchValue) => value === matchValue;
 
 sharedValidators.isNotEquals = (value, matchValue) => value !== matchValue;
 
-sharedValidators.isValidDate = (value) => /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(value)
+sharedValidators.isValidDate = (value) => /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(value);
+
+sharedValidators.isInt = (value) => (value % 1 === 0) ? true : false;
 
 module.exports = sharedValidators;

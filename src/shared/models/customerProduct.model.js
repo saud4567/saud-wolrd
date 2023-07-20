@@ -23,6 +23,21 @@ customerProductModel.create = async (
     return result;
 };
 
+// @model-name: createMany
+// @model-desc: create bulk entry in customerProduct tbl
+customerProductModel.createMany = async (
+	bulkData
+) => {
+    const result = await new sharedServices.mysqlServices()
+        .insertMany(
+            sharedConstants.dbTableNames.customerProduct,
+            sharedServices.mysqlHelperServices.parseInsertManyValues(bulkData)
+        )
+        .build();
+
+    return result;
+};
+
 // @model-name: read
 // @model-desc: read customerProduct based on filter
 customerProductModel.read = async (whereParams) => {

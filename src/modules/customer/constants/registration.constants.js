@@ -352,6 +352,21 @@ module.exports = {
       statusCode: 400,
       message: "Product Code Is Required",
     },
+    CRE070: {
+      code: "CRE070",
+      statusCode: 400,
+      message: "Bank Account Details Are Invalid",
+    },
+    CRE071: {
+      code: "CRE071",
+      statusCode: 400,
+      message: "DP Details Are Invalid",
+    },
+    CRE072: {
+      code: "CRE072",
+      statusCode: 400,
+      message: "Product Details Are Invalid",
+    },
   },
 
   GENDER: {

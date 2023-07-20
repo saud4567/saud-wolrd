@@ -37,6 +37,7 @@ module.exports = async ({
   dpDetails,
   productDetails }) => {
 
+  /** Insert data into customers table */ 
   const customers = await sharedModels.customer.create(customerRefId,
     name,
     mobile,
@@ -63,13 +64,16 @@ module.exports = async ({
     rmCode,
     isActive);
 
+  
+  let customerId = customers.insertId;
 
-   let customerId = customers.insertId;
-   let passwordHash = await sharedServices.authServices.getPasswordHash(password);
-   let mpinHash = await sharedServices.authServices.getPasswordHash(mpin);
-   let biometricHash = await sharedServices.authServices.getPasswordHash(biometric);
+  /** password ,mpin and biometric encryption */
+  let passwordHash = await sharedServices.authServices.getPasswordHash(password);
+  let mpinHash = await sharedServices.authServices.getPasswordHash(mpin);
+  let biometricHash = await sharedServices.authServices.getPasswordHash(biometric);
 
-  const customerAuthentication = await sharedModels.customerAuthentication.create(
+  /** Insert data into customer_authentication table */
+  await sharedModels.customerAuthentication.create(
     customerId,
     password = passwordHash,
     mpin = mpinHash,
@@ -77,24 +81,46 @@ module.exports = async ({
     pwdLastSetDate,
     mpinLastSetDate,);
 
+  /** Prepare bulk bank account details data */  
+  let bankDetailsArray = [];
+  bankAccountDetails.map((b) => {
+    let bankDetails = {
+      "customer_id": customerId, ...b
+    }
+    bankDetailsArray.push(bankDetails);
+  });
 
-  const customerBank = await sharedModels.customerBank.createMany(
-    bankAccountDetails);
+  /** Insert bulk data into customer_bank table  */
+  await sharedModels.customerBank.createMany(
+    bankDetailsArray);
+
+  /** Prepare bulk DP details data */  
+  let dpDetailsArray = [];
+  dpDetails.map((d) => {
+    let dpDetails = {
+      "customer_id": customerId, ...d
+    }
+    bankDetadpDetailsArrayilsArray.push(dpDetails);
+  });
+
+  /** Insert bulk data into customer_dp table  */
+  await sharedModels.customerDp.createMany(
+    dpDetailsArray);
+
+  /** Prepare bulk customer product details data */  
+  let productDetailsArray = [];
+  productDetails.map((p) => {
+    let productDetails = {
+      "customer_id": customerId, ...p
+    }
+    productDetailsArray.push(productDetails);
+  });
+
+   /** Insert bulk data into customer_product table  */
+  await sharedModels.customerProduct.createMany(
+    productDetailsArray
+  );
 
 
-  const customerDp = await sharedModels.customerDp.create(
-    customerId,
-    dpId,
-    beneficiaryId,
-    secondHolderName,
-    isDefault,);
-
-
-  const customerProduct = await sharedModels.customerProduct.create(
-    customerId,
-    productCode,
-      );
-
-
-  return { requestId: customerId };
+  return { customerId: customerId };
 };

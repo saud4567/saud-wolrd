@@ -28,6 +28,21 @@ customerDpModel.create = async (
     return result;
 };
 
+// @model-name: createMany
+// @model-desc: create bulk entry in customerDp tbl
+customerDpModel.createMany = async (
+	bulkData
+) => {
+    const result = await new sharedServices.mysqlServices()
+        .insertMany(
+            sharedConstants.dbTableNames.customerDp,
+            sharedServices.mysqlHelperServices.parseInsertManyValues(bulkData)
+        )
+        .build();
+
+    return result;
+};
+
 // @model-name: read
 // @model-desc: read customerDp based on filter
 customerDpModel.read = async (whereParams) => {

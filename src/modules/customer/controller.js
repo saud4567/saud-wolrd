@@ -9,8 +9,10 @@ const customerModuleControllers = {};
 //      controller used to register customer
 customerModuleControllers.register = async (req, res, next) => {
 		try {
+			/** Validation of request data */
 			const validateBody = customerModuleValidators.registration(req.body)
 	
+			/** handle logic within service function */
 			const customerDetails = await customerModuleServices.registration({
 				customerRefId:validateBody.customerRefId,	
 				name: validateBody.name,
@@ -46,6 +48,8 @@ customerModuleControllers.register = async (req, res, next) => {
 				dpDetails:validateBody.dpDetails,
 				productDetails:validateBody.productDetails
 				});
+
+				/**return response */
 				next({...customerModuleConstants.registration.messages.CRS001, result: customerDetails});
 		} catch (error) {
 				next(JSON.parse(error.message));

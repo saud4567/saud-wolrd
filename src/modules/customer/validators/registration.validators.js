@@ -299,12 +299,12 @@ module.exports = ({ customerRefId,
 	}
 	if (!sharedValidators.isRequired(bankAccountDetails)) {
 		sharedServices.error.throw(
-			customerModuleConstants.registration.errorMessages.CRE050
+			customerModuleConstants.registration.errorMessages.CRE051
 		)
 	}
 	if (!sharedValidators.isArray(bankAccountDetails)) {
 		sharedServices.error.throw(
-			customerModuleConstants.registration.errorMessages.CRE051
+			customerModuleConstants.registration.errorMessages.CRE070
 		)
 	}
 	
@@ -353,10 +353,14 @@ module.exports = ({ customerRefId,
 		}
   })
 	
-
-	if (!sharedValidators.isArray(dpDetails)) {
+	if (!sharedValidators.isRequired(dpDetails)) {
 		sharedServices.error.throw(
 			customerModuleConstants.registration.errorMessages.CRE062
+		)
+	}
+	if (!sharedValidators.isArray(dpDetails)) {
+		sharedServices.error.throw(
+			customerModuleConstants.registration.errorMessages.CRE071
 		)
 	}
 	 // Check if key exists
@@ -394,10 +398,14 @@ module.exports = ({ customerRefId,
 		}
   })
 
-
-	if (!sharedValidators.isArray(productDetails)) {
+	if (!sharedValidators.isRequired(productDetails)) {
 		sharedServices.error.throw(
 			customerModuleConstants.registration.errorMessages.CRE067
+		)
+	}
+	if (!sharedValidators.isArray(productDetails)) {
+		sharedServices.error.throw(
+			customerModuleConstants.registration.errorMessages.CRE072
 		)
 	}
 	 // Check if key exists

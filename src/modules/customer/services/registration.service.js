@@ -3,7 +3,7 @@ const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 
 module.exports = async ({
-  customerRefId,
+  customer_ref_id,
   name,
   mobile,
   email,
@@ -12,34 +12,32 @@ module.exports = async ({
   pan,
   aadhar,
   address,
-  fatherName,
+  father_name,
   occupation,
-  annualIncome,
+  annual_income,
   fatca,
   pep,
-  type,
-  tradingExperience,
-  subscrptionPlan,
-  brokeragePlan,
+  customer_type,
+  trading_experience,
+  subscrption_plan,
+  brokerage_plan,
   ddpi,
-  disBooklet,
+  dis_booklet,
   bsda,
-  martialStatus,
-  uccId,
-  rmCode,
-  isActive,
+  martial_status,
+  ucc_id,
+  rm_code,
+  is_active,
   password,
   mpin,
   biometric,
-  pwdLastSetDate,
-  mpinLastSetDate,
-  bankAccountDetails,
-  dpDetails,
-  productDetails }) => {
+  bank_account_details,
+  dp_details,
+  product_details }) => {
 
   /** check if customer already exist */
   const customerDetails = await sharedModels.customer.read({ emailORmobile: { email: email, mobile: mobile } });
-  
+
   if (customerDetails.length) {
 
     if (customerDetails[0].mobile == mobile) {
@@ -55,9 +53,10 @@ module.exports = async ({
     }
 
   }
-    
-  /** Insert data into customers table */ 
-  const customers = await sharedModels.customer.create(customerRefId,
+
+  /** Insert data into customers table */
+  const customers = await sharedModels.customer.create(
+    customer_ref_id = null,
     name,
     mobile,
     email,
@@ -66,44 +65,43 @@ module.exports = async ({
     pan,
     aadhar,
     address,
-    fatherName,
+    father_name,
     occupation,
-    annualIncome,
+    annual_income,
     fatca,
     pep,
-    type,
-    tradingExperience,
-    subscrptionPlan,
-    brokeragePlan,
+    type = customer_type,
+    trading_experience,
+    subscrption_plan,
+    brokerage_plan,
     ddpi,
-    disBooklet,
+    dis_booklet,
     bsda,
-    martialStatus,
-    uccId,
-    rmCode,
-    isActive
-    );
+    martial_status,
+    ucc_id,
+    rm_code,
+    is_active
+  );
 
-  
-  let customerId = customers.insertId;
+
+  const customerId = customers.insertId;
 
   /** password ,mpin and biometric encryption */
-  let passwordHash = await sharedServices.authServices.getPasswordHash(password);
-  let mpinHash = await sharedServices.authServices.getPasswordHash(mpin);
-  let biometricHash = await sharedServices.authServices.getPasswordHash(biometric);
+  password = await sharedServices.authServices.getPasswordHash(password);
+  mpin = await sharedServices.authServices.getPasswordHash(mpin);
+  biometric = await sharedServices.authServices.getPasswordHash(biometric);
 
   /** Insert data into customer_authentication table */
   await sharedModels.customerAuthentication.create(
     customerId,
-    password = passwordHash,
-    mpin = mpinHash,
-    biometric = biometricHash,
-    pwdLastSetDate,
-    mpinLastSetDate,);
+    password,
+    mpin,
+    biometric,
+  );
 
-  /** Prepare bulk bank account details data */  
+  /** Prepare bulk bank account details data */
   let bankDetailsArray = [];
-  bankAccountDetails.map((b) => {
+  bank_account_details.map((b) => {
     let bankDetails = {
       "customer_id": customerId, ...b
     }
@@ -114,9 +112,9 @@ module.exports = async ({
   await sharedModels.customerBank.createMany(
     bankDetailsArray);
 
-  /** Prepare bulk DP details data */  
+  /** Prepare bulk DP details data */
   let dpDetailsArray = [];
-  dpDetails.map((d) => {
+  dp_details.map((d) => {
     let dpDetails = {
       "customer_id": customerId, ...d
     }
@@ -127,16 +125,16 @@ module.exports = async ({
   await sharedModels.customerDp.createMany(
     dpDetailsArray);
 
-  /** Prepare bulk customer product details data */  
+  /** Prepare bulk customer product details data */
   let productDetailsArray = [];
-  productDetails.map((p) => {
+  product_details.map((p) => {
     let productDetails = {
       "customer_id": customerId, ...p
     }
     productDetailsArray.push(productDetails);
   });
 
-   /** Insert bulk data into customer_product table  */
+  /** Insert bulk data into customer_product table  */
   await sharedModels.customerProduct.createMany(
     productDetailsArray
   );

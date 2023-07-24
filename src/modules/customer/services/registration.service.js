@@ -9,9 +9,9 @@ module.exports = async ({
   email,
   gender,
   dob,
-  panNo,
+  pan,
+  aadhar,
   address,
-  aadharNo,
   fatherName,
   occupation,
   annualIncome,
@@ -44,9 +44,9 @@ module.exports = async ({
     email,
     gender,
     dob,
-    panNo,
+    pan,
+    aadhar,
     address,
-    aadharNo,
     fatherName,
     occupation,
     annualIncome,
@@ -62,7 +62,8 @@ module.exports = async ({
     martialStatus,
     uccId,
     rmCode,
-    isActive);
+    isActive
+    );
 
   
   let customerId = customers.insertId;
@@ -100,7 +101,7 @@ module.exports = async ({
     let dpDetails = {
       "customer_id": customerId, ...d
     }
-    bankDetadpDetailsArrayilsArray.push(dpDetails);
+    dpDetailsArray.push(dpDetails);
   });
 
   /** Insert bulk data into customer_dp table  */

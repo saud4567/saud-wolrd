@@ -12,9 +12,9 @@ customerModel.create = async (
 	email,
 	gender,
 	dob,
-	panNo,
+	pan,
+    aadhar,
 	address,
-	aadharNo,
 	fatherName,
 	occupation,
 	annualIncome,
@@ -34,7 +34,7 @@ customerModel.create = async (
 ) => {
     const result = await new sharedServices.mysqlServices()
         .insert(
-            sharedConstants.dbTableNames.customers,
+            sharedConstants.dbTableNames.customer,
             sharedServices.mysqlHelperServices.parseInsertValues({
 							customer_ref_id:customerRefId,
 							name,
@@ -42,9 +42,9 @@ customerModel.create = async (
 							email,
 							gender,
 							dob,
-							pan:panNo,
-							address,
-							aadharNo:aadharNo,
+							pan,
+                            address,
+                            aadhar,
 							father_name:fatherName,
 							occupation,
 							annual_income:annualIncome,
@@ -84,7 +84,7 @@ customerModel.read = async (whereParams) => {
             email
             `
         )
-        .from(sharedConstants.dbTableNames.customers);
+        .from(sharedConstants.dbTableNames.customer);
 
     if (where.length) {
         result = result.where(where.join(" AND "));
@@ -113,7 +113,7 @@ customerModel.update = async (updateParams, whereParams) => {
 
     const result = await new sharedServices.mysqlServices()
         .update(
-            sharedConstants.dbTableNames.customers,
+            sharedConstants.dbTableNames.customer,
             sharedServices.mysqlHelperServices.parseUpdateValues({
                 name: updateParams.name,
                 email: updateParams.email,
@@ -137,7 +137,7 @@ customerModel.delete = async (whereParams) => {
     }
 
     const result = await new sharedServices.mysqlServices()
-        .delete(sharedConstants.dbTableNames.customers)
+        .delete(sharedConstants.dbTableNames.customer)
         .where(where.join(" AND "))
         .build();
 

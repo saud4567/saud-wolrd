@@ -20,10 +20,11 @@ mysqlHelperServices.parseInsertValues = (values) => {
 };
 
 mysqlHelperServices.parseInsertManyValues = (values) => {
+    let parsedValuesArray = [];
     const parsedValues = values.map((value) =>
-        parsedValues.push(mysqlHelperServices.parseInsertValues(value))
+    parsedValuesArray.push(mysqlHelperServices.parseInsertValues(value))
     );
-    return parsedValues;
+    return parsedValuesArray;
 };
 
 mysqlHelperServices.parseUpdateValues = (values) => {

@@ -3,7 +3,7 @@ module.exports = {
     CRS001: {
       code: "CRS001",
       statusCode: 200,
-      message: "Customer Register Succesfully",
+      message: "Customer Registered Succesfully",
     },
   },
   errorMessages: {
@@ -402,6 +402,6 @@ module.exports = {
     "UNMARRIED":"UNMARRIED",
   },
   BANK_DETAILS:["bank_name", "account_name", "account_number", "ifsc_code", "micr_code", "is_default"],
-  DP_DETAILS:["dp_id", "beneficiary_id", "member_id","is_default"],
+  DP_DETAILS:["dp_id", "beneficiary_id","is_default"],
   PRODUCT_DETAILS:["product_code"],
 };

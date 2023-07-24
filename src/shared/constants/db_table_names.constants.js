@@ -1,5 +1,5 @@
 const dbTableNames = {
-	customers: "customers",	
+	customer: "customer",	
 	customerAuthentication:"customer_authentication",
 	customerBank:"customer_bank",
 	customerDp:"customer_dp",

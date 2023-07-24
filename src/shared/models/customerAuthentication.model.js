@@ -1,6 +1,7 @@
 const sharedServices = require("shared/services");
 const sharedConstants = require("shared/constants");
 
+
 const customerAuthenticationModel = {};
 
 // @model-name: create

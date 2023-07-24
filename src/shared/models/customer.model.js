@@ -77,11 +77,20 @@ customerModel.read = async (whereParams) => {
         where.push(`id='${whereParams.customerId}'`);
     }
 
+    if (
+        whereParams.emailORmobile.email &&
+        whereParams.emailORmobile.mobile
+      ) {
+        where.push(`(mobile='${whereParams.emailORmobile.mobile}' or email='${whereParams.emailORmobile.email}')`);
+      }
+  
+
     let result = new sharedServices.mysqlServices()
         .select(
             `
             id AS customerId,
-            email
+            email,
+            mobile
             `
         )
         .from(sharedConstants.dbTableNames.customer);

@@ -1,5 +1,5 @@
 const sharedServices = require("shared/services");
-const sharedConstants = require("shared/constants");
+const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 
 module.exports = async ({
@@ -37,6 +37,25 @@ module.exports = async ({
   dpDetails,
   productDetails }) => {
 
+  /** check if customer already exist */
+  const customerDetails = await sharedModels.customer.read({ emailORmobile: { email: email, mobile: mobile } });
+  
+  if (customerDetails.length) {
+
+    if (customerDetails[0].mobile == mobile) {
+      sharedServices.error.throw(
+        customerModuleConstants.registration.errorMessages.CRE074
+      )
+    }
+
+    if (customerDetails[0].email == email) {
+      sharedServices.error.throw(
+        customerModuleConstants.registration.errorMessages.CRE073
+      )
+    }
+
+  }
+    
   /** Insert data into customers table */ 
   const customers = await sharedModels.customer.create(customerRefId,
     name,

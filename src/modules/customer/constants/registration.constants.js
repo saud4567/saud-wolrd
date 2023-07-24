@@ -367,6 +367,16 @@ module.exports = {
       statusCode: 400,
       message: "Product Details Are Invalid",
     },
+    CRE073: {
+      code: "CRE073",
+      statusCode: 400,
+      message: "Customer Email Id Already Exists",
+    },
+    CRE074: {
+      code: "CRE074",
+      statusCode: 400,
+      message: "Customer Mobile Number Already Exists",
+    },
   },
 
   GENDER: {

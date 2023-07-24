@@ -7,25 +7,20 @@ const customerAuthenticationModel = {};
 // @model-name: create
 // @model-desc: create a new entry in customerAuthentication tbl
 customerAuthenticationModel.create = async (
-	customerId,
-	password,
-	mpin,
-	biometric,
-	pwdLastSetDate,
-	mpinLastSetDate,
-	
+    customerId,
+    password,
+    mpin,
+    biometric,
 ) => {
     const result = await new sharedServices.mysqlServices()
         .insert(
             sharedConstants.dbTableNames.customerAuthentication,
             sharedServices.mysqlHelperServices.parseInsertValues({
-						customer_id:customerId,
-						password,
-						mpin,
-						biometric,
-						pwd_last_set_date:pwdLastSetDate,
-						mpin_last_set_date:mpinLastSetDate,
-						})
+                customer_id: customerId,
+                password,
+                mpin,
+                biometric,
+            })
         )
         .build();
 
@@ -79,13 +74,13 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
             `id='${whereParams.id}'`
         );
     }
-   
+
 
     const result = await new sharedServices.mysqlServices()
         .update(
             sharedConstants.dbTableNames.customerAuthentication,
             sharedServices.mysqlHelperServices.parseUpdateValues({
-							password: updateParams.password,
+                password: updateParams.password,
                 mpin: updateParams.mpin,
             })
         )

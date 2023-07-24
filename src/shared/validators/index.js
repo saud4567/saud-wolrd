@@ -7,11 +7,11 @@ sharedValidators.isUndefined = (value) => value === undefined;
 sharedValidators.isEmpty = (value) => value === "";
 
 sharedValidators.isRequired = (value) =>
-    (
-        sharedValidators.isNull(value) ||
-        sharedValidators.isUndefined(value) ||
-        sharedValidators.isEmpty(value)
-    );
+(
+    sharedValidators.isNull(value) ||
+    sharedValidators.isUndefined(value) ||
+    sharedValidators.isEmpty(value)
+);
 
 sharedValidators.isExist = !sharedValidators.isRequired;
 
@@ -19,7 +19,7 @@ sharedValidators.isNotExist = sharedValidators.isRequired;
 
 sharedValidators.isArray = value => value instanceof Array
 
-sharedValidators.isEmptyArray = (value) => !sharedValidators.isRequired(value) || sharedValidators.isArray(value) ||  value.length === 0;
+sharedValidators.isEmptyArray = (value) => !sharedValidators.isRequired(value) || sharedValidators.isArray(value) || value.length === 0;
 
 sharedValidators.isObject = value => value instanceof Object
 

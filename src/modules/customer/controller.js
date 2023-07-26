@@ -70,6 +70,10 @@ customerModuleControllers.validate = async (req, res, next) => {
 //      controller used to get customer details
 customerModuleControllers.customerDetails = async (req, res, next) => {
 	try {
+
+		req.body.apiKey = req.headers['api-key'];
+		req.body.apiSecret = req.headers['api-secret'];
+
 		/** Validation of request data */
 		const validateBody = customerModuleValidators.customerDetails(req.body)
 

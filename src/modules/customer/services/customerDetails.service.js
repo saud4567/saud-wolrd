@@ -12,7 +12,7 @@ module.exports = async ({
 
 	if (!customerDetails)
 		sharedServices.error.throw(
-			customerModuleConstants.customerDetails.errorMessages.CCDE001
+			customerModuleConstants.customerDetails.errorMessages.CCDE008
 		)
 
 	let resp = {};

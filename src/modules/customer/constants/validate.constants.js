@@ -5,11 +5,7 @@ module.exports = {
 			statusCode: 200,
 			message: "Customer Validate Successfully",
 		},
-		CVE002: {
-			code: "CVE002",
-			statusCode: 200,
-			message: "Your Token Is Expired or Invalidate",
-		},
+
 	},
 	errorMessages: {
 		CVE001: {

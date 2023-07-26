@@ -60,8 +60,6 @@ customerModuleControllers.validate = async (req, res, next) => {
 			return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
 		}
 
-		return next({ ...customerModuleConstants.validate.messages.CVE002, result: validateToken });
-
 	} catch (error) {
 		next(JSON.parse(error.message));
 	}

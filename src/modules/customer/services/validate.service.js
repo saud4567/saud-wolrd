@@ -1,7 +1,7 @@
 const sharedServices = require("shared/services");
 const customerModuleConstants = require("../constants");
 const sharedConstants = require("shared/constants");
-const sharedModels = require("shared/models");
+
 
 module.exports = async ({
 	token
@@ -22,12 +22,12 @@ module.exports = async ({
 				"isValid": true
 			}
 		}
-		return {
-			"isValid": false
-		}
+		sharedServices.error.throw(
+			customerModuleConstants.validate.errorMessages.CVE001
+		)
 	} catch (error) {
-		return {
-			"isValid": false
-		}
+		sharedServices.error.throw(
+			customerModuleConstants.validate.errorMessages.CVE001
+		)
 	}
 };

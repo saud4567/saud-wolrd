@@ -1,12 +1,11 @@
 const express = require("express");
 const appModules = express.Router();
+const customer = require("../modules/customer/routes");
 
-const sampleModules = require("app_modules/sample_module/routes");
-
-// module_name: sample
-// module_route: /sample
+// module_name: customer
+// module_route: /customer
 // module_description:
-//      handles routes related to sample module
-appModules.use("/sample", sampleModules)
+//      handles routes related to customer module
+appModules.use("/customer", customer)
 
 module.exports = appModules;

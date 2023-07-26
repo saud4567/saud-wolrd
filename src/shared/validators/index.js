@@ -25,7 +25,7 @@ sharedValidators.isObject = value => value instanceof Object
 
 sharedValidators.isEmptyObject = (value) => Object.keys(value).length === 0
 
-sharedValidators.isValidName = (value) => /[\w{}]$/.test(value);
+sharedValidators.isValidName = (value) => /[A-z\s]+$/.test(value);
 
 sharedValidators.isValidPan = (value) => /[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value);
 
@@ -40,5 +40,7 @@ sharedValidators.isNotEquals = (value, matchValue) => value !== matchValue;
 sharedValidators.isValidDate = (value) => /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(value);
 
 sharedValidators.isInt = (value) => (value % 1 === 0) ? true : false;
+
+sharedValidators.isValidAadhar = (value) => /^\d{12}$/.test(value);
 
 module.exports = sharedValidators;

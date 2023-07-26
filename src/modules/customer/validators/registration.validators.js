@@ -7,380 +7,530 @@ module.exports = (body) => {
 	let errorListArray = [];
 	if (sharedValidators.isRequired(body.name)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE002
+			{
+				"name": customerModuleConstants.registration.errorMessages.CRE002.message
+			}
+
 		);
 	}
-	if (!sharedValidators.isValidName(body.name)) {
+	if (body.email && !sharedValidators.isValidName(body.name)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE003
+			{
+				"name": customerModuleConstants.registration.errorMessages.CRE003.message
+			}
 		);
 	}
 	if (sharedValidators.isRequired(body.email)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE004
+			{
+				"email": customerModuleConstants.registration.errorMessages.CRE004.message
+			}
 		);
 	}
 
-	if (!sharedValidators.isValidEmail(body.email)) {
+	if (body.email && !sharedValidators.isValidEmail(body.email)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE005
+			{
+				"email": customerModuleConstants.registration.errorMessages.CRE005.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.mobile)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE006
+			{
+				"mobile": customerModuleConstants.registration.errorMessages.CRE006.message
+			}
 		)
 	}
-	if (!sharedValidators.isvalidMobileNumber(body.mobile)) {
+	if (body.mobile && !sharedValidators.isvalidMobileNumber(body.mobile)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE007
+			{
+				"mobile": customerModuleConstants.registration.errorMessages.CRE007.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.gender)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE008
+			{
+				"gender": customerModuleConstants.registration.errorMessages.CRE008.message
+			}
 		)
 	}
 
-	if (!customerModuleConstants.registration.GENDER.hasOwnProperty(body.gender)) {
+	if (body.gender && !customerModuleConstants.registration.GENDER.hasOwnProperty(body.gender)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE009
+			{
+				"gender": customerModuleConstants.registration.errorMessages.CRE009.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.dob)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE010
+			{
+				"DOB": customerModuleConstants.registration.errorMessages.CRE010.message
+			}
 		)
 	}
 
-	if (!sharedValidators.isValidDate(body.dob)) {
+	if (body.dob && !sharedValidators.isValidDate(body.dob)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE011
+			{
+				"DOB": customerModuleConstants.registration.errorMessages.CRE011.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.pan)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE012
+			{
+				"pan": customerModuleConstants.registration.errorMessages.CRE012.message
+			}
 		)
 	}
-	if (!sharedValidators.isValidPan(body.pan)) {
+	if (body.pan && !sharedValidators.isValidPan(body.pan)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE013
+			{
+				"pan": customerModuleConstants.registration.errorMessages.CRE013.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.aadhar)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE016
+			{
+				"aadhar": customerModuleConstants.registration.errorMessages.CRE016.message
+			}
 		)
 	}
 
-	if (sharedValidators.isInt(body.aadhar)) {
+	if (body.aadhar && !sharedValidators.isValidAadhar(body.aadhar)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE017
+			{
+				"aadhar": customerModuleConstants.registration.errorMessages.CRE017.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.address)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE014
+			{
+				"address": customerModuleConstants.registration.errorMessages.CRE014.message
+			}
 		)
 	}
 
-	if (!sharedValidators.isObject(body.address) || !customerModuleConstants.registration.ADDRESS_KEYS.every(key => key in body.address)) {
+	if (body.address && (!sharedValidators.isObject(body.address) || !customerModuleConstants.registration.ADDRESS_KEYS.every(key => key in body.address))) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE015
+			{
+				"address": customerModuleConstants.registration.errorMessages.CRE015.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.father_name)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE018
+			{
+				"father_name": customerModuleConstants.registration.errorMessages.CRE018.message
+			}
 		)
 	}
-	if (!sharedValidators.isValidName(body.father_name)) {
+	if (body.father_name && !sharedValidators.isValidName(body.father_name)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE019
+			{
+				"father_name": customerModuleConstants.registration.errorMessages.CRE019.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.occupation)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE021
+			{
+				"occupation": customerModuleConstants.registration.errorMessages.CRE021.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.annual_income)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE022
+			{
+				"annual_income": customerModuleConstants.registration.errorMessages.CRE022.message
+			}
 		)
 	}
 	if (!sharedValidators.isInt(body.annual_income)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE023
+			{
+				"annual_income": customerModuleConstants.registration.errorMessages.CRE023.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.fatca)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE024
+			{
+				"fatca": customerModuleConstants.registration.errorMessages.CRE024.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.fatca)) {
+	if (body.fatca && !customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.fatca)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE025
+			{
+				"fatca": customerModuleConstants.registration.errorMessages.CRE025.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.pep)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE026
+			{
+				"pep": customerModuleConstants.registration.errorMessages.CRE026.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.pep)) {
+	if (body.pep && !customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.pep)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE027
+			{
+				"pep": customerModuleConstants.registration.errorMessages.CRE027.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.customer_type)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE028
+			{
+				"customer_type": customerModuleConstants.registration.errorMessages.CRE028.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.TYPE.hasOwnProperty(body.customer_type)) {
+	if (body.customer_type && !customerModuleConstants.registration.TYPE.hasOwnProperty(body.customer_type)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE029
+			{
+				"customer_type": customerModuleConstants.registration.errorMessages.CRE029.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.trading_experience)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE030
+			{
+				"trading_experience": customerModuleConstants.registration.errorMessages.CRE030.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.subscription_plan)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE031
+			{
+				"subscription_plan": customerModuleConstants.registration.errorMessages.CRE031.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.SUBSCRIPTION_PLAN.hasOwnProperty(body.subscription_plan)) {
+	if (body.subscription_plan && !customerModuleConstants.registration.SUBSCRIPTION_PLAN.hasOwnProperty(body.subscription_plan)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE032
+			{
+				"subscription_plan": customerModuleConstants.registration.errorMessages.CRE032.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.brokerage_plan)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE033
+			{
+				"brokerage_plan": customerModuleConstants.registration.errorMessages.CRE033.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.BROKERAGE_PLAN.hasOwnProperty(body.brokerage_plan)) {
+	if (body.brokerage_plan && !customerModuleConstants.registration.BROKERAGE_PLAN.hasOwnProperty(body.brokerage_plan)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE034
+			{
+				"brokerage_plan": customerModuleConstants.registration.errorMessages.CRE034.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.ddpi)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE035
+			{
+				"ddpi": customerModuleConstants.registration.errorMessages.CRE035.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.ddpi)) {
+	if (body.ddpi && !customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.ddpi)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE036
+			{
+				"ddpi": customerModuleConstants.registration.errorMessages.CRE036.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.dis_booklet)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE037
+			{
+				"dis_booklet": customerModuleConstants.registration.errorMessages.CRE037.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.dis_booklet)) {
+	if (body.dis_booklet && !customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.dis_booklet)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE038
+			{
+				"dis_booklet": customerModuleConstants.registration.errorMessages.CRE038.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.bsda)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE039
+			{
+				"bsda": customerModuleConstants.registration.errorMessages.CRE039.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.bsda)) {
+	if (body.bsda && !customerModuleConstants.registration.YES_NO_FLAG.hasOwnProperty(body.bsda)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE040
+			{
+				"bsda": customerModuleConstants.registration.errorMessages.CRE040.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.martial_status)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE041
+			{
+				"martial_status": customerModuleConstants.registration.errorMessages.CRE041.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.MARITIAL_STATUS.hasOwnProperty(body.martial_status)) {
+	if (body.martial_status && !customerModuleConstants.registration.MARITIAL_STATUS.hasOwnProperty(body.martial_status)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE042
+			{
+				"martial_status": customerModuleConstants.registration.errorMessages.CRE042.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.ucc_id)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE043
+			{
+				"ucc_id": customerModuleConstants.registration.errorMessages.CRE043.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.rm_code)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE044
+			{
+				"rm_code": customerModuleConstants.registration.errorMessages.CRE044.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.is_active)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE060
+			{
+				"is_active": customerModuleConstants.registration.errorMessages.CRE060.message
+			}
 		)
 	}
-	if (!customerModuleConstants.registration.IS_ACTIVE.hasOwnProperty(body.is_active)) {
+	if (body.is_active && !customerModuleConstants.registration.IS_ACTIVE.hasOwnProperty(body.is_active)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE061
+			{
+				"is_active": customerModuleConstants.registration.errorMessages.CRE061.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.password)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE045
+			{
+				"password": customerModuleConstants.registration.errorMessages.CRE045.message
+			}
 		)
 	}
 
 	if (sharedValidators.isRequired(body.mpin)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE046
+			{
+				"mpin": customerModuleConstants.registration.errorMessages.CRE046.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.biometric)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE048
+			{
+				"biometric": customerModuleConstants.registration.errorMessages.CRE048.message
+			}
 		)
 	}
 	if (sharedValidators.isRequired(body.bank_account_details)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE051
+			{
+				"bank_account_details": customerModuleConstants.registration.errorMessages.CRE051.message
+			}
 		)
 	}
-	if (!sharedValidators.isArray(body.bank_account_details)) {
+	if (body.bank_account_details && !sharedValidators.isArray(body.bank_account_details)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE070
+			{
+				"bank_account_details": customerModuleConstants.registration.errorMessages.CRE070.message
+			}
 		)
 	}
 
 	// Check if key exists
-	body.bank_account_details.map((b) => {
-		if (!customerModuleConstants.registration.BANK_DETAILS.every(key => key in b)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE052
-			)
-		}
+	if (body.bank_account_details) {
+		body.bank_account_details.map((b) => {
+			if (!customerModuleConstants.registration.BANK_DETAILS.every(key => key in b)) {
+				errorListArray.push(
+					{
+						"bank_account_details": customerModuleConstants.registration.errorMessages.CRE052.message
+					}
+				)
+			}
 
-		if (sharedValidators.isRequired(b.bank_name)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE053
-			)
-		}
-		if (sharedValidators.isRequired(b.account_name)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE054
-			)
-		}
-		if (sharedValidators.isRequired(b.account_number)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE055
-			)
-		}
-		if (sharedValidators.isRequired(b.ifsc_code)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE056
-			)
-		}
-		if (sharedValidators.isRequired(b.micr_code)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE057
-			)
-		}
-		if (sharedValidators.isRequired(b.is_default)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE058
-			)
-		}
-		if (!customerModuleConstants.registration.IS_ACTIVE.hasOwnProperty(b.is_default)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE059
-			)
-		}
-	})
+			if (sharedValidators.isRequired(b.bank_name)) {
+				errorListArray.push(
+					{
+						"bank_name": customerModuleConstants.registration.errorMessages.CRE053.message
+					}
+				)
+			}
+			if (sharedValidators.isRequired(b.account_name)) {
+				errorListArray.push(
+					{
+						"account_name": customerModuleConstants.registration.errorMessages.CRE054.message
+					}
+				)
+			}
+			if (sharedValidators.isRequired(b.account_number)) {
+				errorListArray.push(
+					{
+						"account_number": customerModuleConstants.registration.errorMessages.CRE055.message
+					}
+				)
+			}
+			if (sharedValidators.isRequired(b.ifsc_code)) {
+				errorListArray.push(
+					{
+						"ifsc_code": customerModuleConstants.registration.errorMessages.CRE056.message
+					}
+				)
+			}
+			if (sharedValidators.isRequired(b.micr_code)) {
+				errorListArray.push(
+					{
+						"micr_code": customerModuleConstants.registration.errorMessages.CRE057.message
+					}
+				)
+			}
+			if (sharedValidators.isRequired(b.is_default)) {
+				errorListArray.push(
+					{
+						"bank_details_is_default": customerModuleConstants.registration.errorMessages.CRE058.message
+					}
+				)
+			}
+			if (b.is_default && !customerModuleConstants.registration.IS_ACTIVE.hasOwnProperty(b.is_default)) {
+				errorListArray.push(
+					{
+						"bank_details_is_default": customerModuleConstants.registration.errorMessages.CRE059.message
+					}
+				)
+			}
+		})
+	}
 
 	if (sharedValidators.isRequired(body.dp_details)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE062
+			{
+				"dp_details": customerModuleConstants.registration.errorMessages.CRE062.message
+			}
 		)
 	}
-	if (!sharedValidators.isArray(body.dp_details)) {
+	if (body.dp_details && !sharedValidators.isArray(body.dp_details)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE071
+			{
+				"dp_details": customerModuleConstants.registration.errorMessages.CRE071.message
+			}
 		)
 	}
 	// Check if key exists
-	body.dp_details.map((d) => {
-		if (!customerModuleConstants.registration.DP_DETAILS.every(key => key in d)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE063
-			)
-		}
+	if (body.dp_details) {
+		body.dp_details.map((d) => {
+			if (!customerModuleConstants.registration.DP_DETAILS.every(key => key in d)) {
+				errorListArray.push(
+					{
+						"dp_details": customerModuleConstants.registration.errorMessages.CRE063.message
+					}
+				)
+			}
 
-		if (sharedValidators.isRequired(d.dp_id)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE064
-			)
-		}
-		if (sharedValidators.isRequired(d.beneficiary_id)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE065
-			)
-		}
-		// if (sharedValidators.isRequired(d.member_id)) {
-		// 	sharedServices.error.throw(
-		// 		customerModuleConstants.registration.errorMessages.CRE066
-		// 	)
-		// }
-		if (sharedValidators.isRequired(d.is_default)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE058
-			)
-		}
-		if (!customerModuleConstants.registration.IS_ACTIVE.hasOwnProperty(d.is_default)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE059
-			)
-		}
-	})
+			if (sharedValidators.isRequired(d.dp_id)) {
+				errorListArray.push(
+					{
+						"dp_id": customerModuleConstants.registration.errorMessages.CRE064.message
+					}
+				)
+			}
+			if (sharedValidators.isRequired(d.beneficiary_id)) {
+				errorListArray.push(
+					{
+						"beneficiary_id": customerModuleConstants.registration.errorMessages.CRE065.message
+					}
+				)
+			}
+			// if (sharedValidators.isRequired(d.member_id)) {
+			// 	sharedServices.error.throw(
+			// 		customerModuleConstants.registration.errorMessages.CRE066
+			// 	)
+			// }
+			if (sharedValidators.isRequired(d.is_default)) {
+				errorListArray.push(
+					{
+						"dp_details_is_default": customerModuleConstants.registration.errorMessages.CRE058.message
+					}
+				)
+			}
+			if (!customerModuleConstants.registration.IS_ACTIVE.hasOwnProperty(d.is_default)) {
+				errorListArray.push(
+					{
+						"dp_details_is_default": customerModuleConstants.registration.errorMessages.CRE059.message
+					}
+				)
+			}
+		})
+	}
+
 
 	if (sharedValidators.isRequired(body.product_details)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE067
+			{
+				"product_details": customerModuleConstants.registration.errorMessages.CRE067.message
+			}
 		)
 	}
-	if (!sharedValidators.isArray(body.product_details)) {
+	if (body.product_details && !sharedValidators.isArray(body.product_details)) {
 		errorListArray.push(
-			customerModuleConstants.registration.errorMessages.CRE072
+			{
+				"product_details": customerModuleConstants.registration.errorMessages.CRE072.message
+			}
 		)
 	}
 	// Check if key exists
-	body.product_details.map((p) => {
-		if (!customerModuleConstants.registration.PRODUCT_DETAILS.every(key => key in p)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE068
-			)
-		}
+	if (body.product_details) {
+		body.product_details.map((p) => {
+			if (!customerModuleConstants.registration.PRODUCT_DETAILS.every(key => key in p)) {
+				errorListArray.push(
+					{
+						"product_details": customerModuleConstants.registration.errorMessages.CRE068.message
+					}
+				)
+			}
 
-		if (sharedValidators.isRequired(p.product_code)) {
-			errorListArray.push(
-				customerModuleConstants.registration.errorMessages.CRE069
-			)
-		}
+			if (sharedValidators.isRequired(p.product_code)) {
+				errorListArray.push(
+					{
+						"product_code": customerModuleConstants.registration.errorMessages.CRE069.message
+					}
+				)
+			}
 
-	});
+		});
+	}
 
 	if (errorListArray.length) {
-		return errorListArray;
+
+		let errorObj = {
+			"statusCode": 400,
+			"message": errorListArray
+		};
+
+		sharedServices.error.throw(errorObj)
 	}
 
 	return { body };

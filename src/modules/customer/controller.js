@@ -12,16 +12,12 @@ customerModuleControllers.register = async (req, res, next) => {
 		/** Validation of request data */
 		const validateBody = customerModuleValidators.registration(req.body);
 
-		if (Array.isArray(validateBody) && validateBody.length) {
-			/** return bulk error response */
-			next({ "statusCode": 400, "message": validateBody });
-		} else {
-			/** handle logic within service function */
-			const customerDetails = await customerModuleServices.registration(validateBody.body);
+		/** handle logic within service function */
+		const customerDetails = await customerModuleServices.registration(validateBody.body);
 
-			/**return response */
-			next({ ...customerModuleConstants.registration.messages.CRS001, result: customerDetails });
-		}
+		/**return response */
+		next({ ...customerModuleConstants.registration.messages.CRS001, result: customerDetails });
+
 	} catch (error) {
 		next(JSON.parse(error.message));
 	}

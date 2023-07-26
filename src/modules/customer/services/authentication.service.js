@@ -11,22 +11,28 @@ module.exports = async ({
 }) => {
 
 	/** get customer details using username*/
-	const customerDetails = await models.getCustomerDetails({ username });
+	const customerDetails = await sharedModels.customer.read({ username });
 
 	if (!customerDetails)
 		sharedServices.error.throw(
 			customerModuleConstants.authentication.errorMessages.CAE005
 		)
 
+	const customerAuthentication = await sharedModels.customerAuthentication.read({ customerId: customerDetails[0].customerId });
+
+	if (!customerAuthentication)
+		sharedServices.error.throw(
+			customerModuleConstants.authentication.errorMessages.CAE005
+		)
 
 	/** based on authorization type compare password,mpin and biometric*/
 	let passwordHash;
 	if (authorizationType == customerModuleConstants.authentication.AUTHORIZATION_TYPE.password) {
-		passwordHash = customerDetails.password;
+		passwordHash = customerAuthentication[0].password;
 	} else if (authorizationType == customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin) {
-		passwordHash = customerDetails.mpin;
+		passwordHash = customerAuthentication[0].mpin;
 	} else if (authorizationType == customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric) {
-		passwordHash = customerDetails.biometric;
+		passwordHash = customerAuthentication[0].biometric;
 	}
 
 	const match = await sharedServices.authServices.comparePassword(authorizationKey, passwordHash);
@@ -36,9 +42,12 @@ module.exports = async ({
 		)
 	}
 
-	// generate a jwt token based on customer_id and authorization type
+	// generate a jwt token based on customer_id and customerRefId
 	const token = sharedServices.authServices.getJWT(
-		{ customerId: customerDetails.customerId, authorizationType },
+		{
+			customerId: customerDetails[0].customerId,
+			customerRefId: customerDetails[0].customerRefId
+		},
 		sharedConstants.appConfig.app.userJWTSecret,
 		{ expiresIn: sharedConstants.appConfig.app.userJWTExpiresIn }
 	);

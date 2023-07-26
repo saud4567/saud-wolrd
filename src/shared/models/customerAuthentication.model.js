@@ -33,25 +33,12 @@ customerAuthenticationModel.read = async (whereParams) => {
     const where = [];
 
     if (whereParams.customerId) {
-        where.push(`id='${whereParams.customerId}'`);
+        where.push(`customer_id=${whereParams.customerId}`);
     }
 
     let result = new sharedServices.mysqlServices()
         .select(
-            `
-						id,
-						customer_id,
-						password,
-						mpin,
-						biometric,
-						pwd_last_set_date,
-						mpin_last_set_date,
-						failed_login_attempt,
-						last_failed_login_date,
-						is_login_blocked,
-						created_at,
-						updated_at,
-            `
+            `id,customer_id as customerId,password,mpin,biometric,pwd_last_set_date,mpin_last_set_date,failed_login_attempt,last_failed_login_date,is_login_blocked,created_at,updated_at,`
         )
         .from(sharedConstants.dbTableNames.customerAuthentication);
 

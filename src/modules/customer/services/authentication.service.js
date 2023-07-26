@@ -2,7 +2,7 @@ const sharedServices = require("shared/services");
 const sharedConstants = require("shared/constants");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
-const models = require("../models.js");
+
 
 module.exports = async ({
 	username,

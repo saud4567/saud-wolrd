@@ -55,7 +55,7 @@ module.exports = {
     CRE010: {
       code: "CRE010",
       statusCode: 400,
-      message: "DOB Required",
+      message: "DOB Is Required",
     },
     CRE011: {
       code: "CRE011",
@@ -145,12 +145,12 @@ module.exports = {
     CRE028: {
       code: "CRE028",
       statusCode: 400,
-      message: "Type Is Required",
+      message: "Customer Type Is Required",
     },
     CRE029: {
       code: "CRE029",
       statusCode: 400,
-      message: "Type Is Invalid",
+      message: "Customer Type Is Invalid",
     },
     CRE030: {
       code: "CRE030",
@@ -389,29 +389,29 @@ module.exports = {
     "YES": "YES",
     "NO": "NO"
   },
-  TYPE:{
-    "NRI":"NRI",
-    "RI":"RI"
+  TYPE: {
+    "NRI": "NRI",
+    "RI": "RI"
   },
-  IS_ACTIVE:{
-    "0":0,
-    "1":1
+  IS_ACTIVE: {
+    "0": 0,
+    "1": 1
   },
-  SUBSCRIPTION_PLAN:{
-    "SILVER":"SILVER",
-    "GOLD":"GOLD",
-    "PLATINUM":"PLATINUM",
+  SUBSCRIPTION_PLAN: {
+    "SILVER": "SILVER",
+    "GOLD": "GOLD",
+    "PLATINUM": "PLATINUM",
   },
-  BROKERAGE_PLAN:{
-    "GALAXC":"GALAXC",
-    "GALAXC_PLUS":"GALAXC_PLUS",
-    "GALAXC_FREEDOM":"GALAXC_FREEDOM",
+  BROKERAGE_PLAN: {
+    "GALAXC": "GALAXC",
+    "GALAXC_PLUS": "GALAXC_PLUS",
+    "GALAXC_FREEDOM": "GALAXC_FREEDOM",
   },
-  MARITIAL_STATUS:{
-    "MARRIED":"MARRIED",
-    "UNMARRIED":"UNMARRIED",
+  MARITIAL_STATUS: {
+    "MARRIED": "MARRIED",
+    "UNMARRIED": "UNMARRIED",
   },
-  BANK_DETAILS:["bank_name", "account_name", "account_number", "ifsc_code", "micr_code", "is_default"],
-  DP_DETAILS:["dp_id", "beneficiary_id","is_default"],
-  PRODUCT_DETAILS:["product_code"],
+  BANK_DETAILS: ["bank_name", "account_name", "account_number", "ifsc_code", "micr_code", "is_default"],
+  DP_DETAILS: ["dp_id", "beneficiary_id", "is_default"],
+  PRODUCT_DETAILS: ["product_code"],
 };

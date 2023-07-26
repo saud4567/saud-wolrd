@@ -19,7 +19,7 @@ module.exports = async ({
   pep,
   customer_type,
   trading_experience,
-  subscrption_plan,
+  subscription_plan,
   brokerage_plan,
   ddpi,
   dis_booklet,
@@ -54,9 +54,15 @@ module.exports = async ({
 
   }
 
+  if (subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
+    subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.SILVER) {
+
+    customer_ref_id = sharedServices.uuidServices.uuidV4();
+  }
+
   /** Insert data into customers table */
   const customers = await sharedModels.customer.create(
-    customer_ref_id = null,
+    customer_ref_id,
     name,
     mobile,
     email,
@@ -72,7 +78,7 @@ module.exports = async ({
     pep,
     type = customer_type,
     trading_experience,
-    subscrption_plan,
+    subscription_plan,
     brokerage_plan,
     ddpi,
     dis_booklet,

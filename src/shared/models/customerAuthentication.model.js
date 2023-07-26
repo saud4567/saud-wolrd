@@ -38,7 +38,18 @@ customerAuthenticationModel.read = async (whereParams) => {
 
     let result = new sharedServices.mysqlServices()
         .select(
-            `id,customer_id as customerId,password,mpin,biometric,pwd_last_set_date,mpin_last_set_date,failed_login_attempt,last_failed_login_date,is_login_blocked,created_at,updated_at,`
+            `id,
+            customer_id as customerId,
+            password,
+            mpin,
+            biometric,
+            pwd_last_set_date,
+            mpin_last_set_date,
+            failed_login_attempt,
+            last_failed_login_date,
+            is_login_blocked,
+            created_at,
+            updated_at`
         )
         .from(sharedConstants.dbTableNames.customerAuthentication);
 

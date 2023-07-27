@@ -51,14 +51,15 @@ customerModuleControllers.authenticate = async (req, res, next) => {
 //      controller used to validate token
 customerModuleControllers.validate = async (req, res, next) => {
 	try {
-		let token = req.headers.authorization;
+
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.tokenValidate(req);
+
 		/** handle logic within service function */
-		const validateToken = await customerModuleServices.validate({ token });
+		const validateToken = await customerModuleServices.validate({ token: req.headers.authorization });
 
 		/**return response */
-		if (validateToken.isValid === true) {
-			return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
-		}
+		return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
 
 	} catch (error) {
 		next(JSON.parse(error.message));

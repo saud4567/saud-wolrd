@@ -7,11 +7,6 @@ module.exports = async ({
 	token
 }) => {
 
-	if (!token) {
-		sharedServices.error.throw(
-			customerModuleConstants.validate.errorMessages.CVE001
-		)
-	}
 	try {
 		const isValid = sharedServices.authServices.validateJWT(
 			token,
@@ -23,11 +18,11 @@ module.exports = async ({
 			}
 		}
 		sharedServices.error.throw(
-			customerModuleConstants.validate.errorMessages.CVE001
+			customerModuleConstants.validate.errorMessages.CVE002
 		)
 	} catch (error) {
 		sharedServices.error.throw(
-			customerModuleConstants.validate.errorMessages.CVE001
+			customerModuleConstants.validate.errorMessages.CVE002
 		)
 	}
 };

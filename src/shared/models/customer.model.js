@@ -93,8 +93,30 @@ customerModel.read = async (whereParams) => {
             `
             id as customerId,
             customer_ref_id as customerRefId,
+            name,
+            mobile,
             email,
-            mobile
+            gender,
+            dob,
+            pan,
+            address,
+            aadhar,
+            father_name as fatherName,
+            occupation,
+            annual_income as annualIncome,
+            fatca,
+            pep,
+            type,
+            trading_experience as tradingExperience,
+            subscription_plan as subscriptionPlan,
+            brokerage_plan as brokeragePlan,
+            ddpi,
+            dis_booklet as disBooklet,
+            bsda,
+            martial_status as martialStatus,
+            ucc_id as uccId,
+            rm_code as rmCode,
+            is_active as isActive
             `
         )
         .from(sharedConstants.dbTableNames.customer);

@@ -44,5 +44,51 @@ customerModuleControllers.authenticate = async (req, res, next) => {
 	} catch (error) {
 		next(JSON.parse(error.message));
 	}
+}
+
+// controller_name: validate
+// controller_description:
+//      controller used to validate token
+customerModuleControllers.validate = async (req, res, next) => {
+	try {
+		let token = req.headers.authorization;
+		/** handle logic within service function */
+		const validateToken = await customerModuleServices.validate({ token });
+
+		/**return response */
+		if (validateToken.isValid === true) {
+			return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
+		}
+
+	} catch (error) {
+		next(JSON.parse(error.message));
+	}
 };
+
+// controller_name: customerDetails
+// controller_description:
+//      controller used to get customer details
+customerModuleControllers.customerDetails = async (req, res, next) => {
+	try {
+
+		req.body.apiKey = req.headers['api-key'];
+		req.body.apiSecret = req.headers['api-secret'];
+
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.customerDetails(req.body)
+
+		/** handle logic within service function */
+		const customerDetails = await customerModuleServices.customerDetails({
+			customerId: validateBody.customer_id,
+			requestedData: validateBody.requested_data,
+		});
+
+		/**return response */
+		next({ ...customerModuleConstants.customerDetails.messages.CCDS001, result: customerDetails });
+	} catch (error) {
+		next(JSON.parse(error.message));
+	}
+}
+
+
 module.exports = customerModuleControllers;

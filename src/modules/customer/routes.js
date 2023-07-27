@@ -15,4 +15,16 @@ customerModuleRoutes.post("/register", customerModuleControllers.register);
 //      route used to authenticate customer
 customerModuleRoutes.post("/authenticate", customerModuleControllers.authenticate);
 
+// route_name: validate
+// route_path: /customer/validate
+// route_description:
+//      route used to validate token
+customerModuleRoutes.get("/validate", customerModuleControllers.validate);
+
+// route_name: info
+// route_path: /customer/info
+// route_description:
+//      route used to validate token
+customerModuleRoutes.get("/info", customerModuleControllers.customerDetails);
+
 module.exports = customerModuleRoutes;

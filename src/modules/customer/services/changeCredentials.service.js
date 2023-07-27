@@ -18,12 +18,13 @@ module.exports = async ({
 
 	let updateParams = {};
 	/** password,mpin and biometric encryption */
-	if (resetMode == customerModuleConstants.authentication.AUTHORIZATION_TYPE.password) {
-		updateParams.password = await sharedServices.authServices.getPasswordHash(changedCredentials);
-	} else if (resetMode == customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin) {
-		updateParams.mpin = await sharedServices.authServices.getPasswordHash(mpin);
-	} else if (resetMode == customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric) {
-		updateParams.biometric = await sharedServices.authServices.getPasswordHash(biometric);
+	const newCredentialHash = await sharedServices.authServices.getPasswordHash(changedCredentials);
+	if (resetMode.toUpperCase() == (customerModuleConstants.authentication.AUTHORIZATION_TYPE.password).toUpperCase()) {
+		updateParams.password = newCredentialHash;
+	} else if (resetMode.toUpperCase() == (customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin).toUpperCase()) {
+		updateParams.mpin = newCredentialHash;
+	} else if (resetMode.toUpperCase() == (customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric).toUpperCase()) {
+		updateParams.biometric = newCredentialHash;
 	}
 
 	/**Update credential into customer_authentication table */

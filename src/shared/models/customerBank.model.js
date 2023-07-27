@@ -6,29 +6,29 @@ const customerBankModel = {};
 // @model-name: create
 // @model-desc: create a new entry in customerBank tbl
 customerBankModel.create = async (
-	customerId,
-	bankName,
-	accountName,
-	accountNumber,
-	ifscCode,
-	upiHandle,
-	micrCode,
-	isDefault,
-	
+    customerId,
+    bankName,
+    accountName,
+    accountNumber,
+    ifscCode,
+    upiHandle,
+    micrCode,
+    isDefault,
+
 ) => {
     const result = await new sharedServices.mysqlServices()
         .insert(
             sharedConstants.dbTableNames.customerBank,
             sharedServices.mysqlHelperServices.parseInsertValues({
-							customer_id:customerId,
-							bank_name:bankName,
-							account_name:accountName,
-							account_number:accountNumber,
-							ifsc_code:ifscCode,
-							upi_handle:upiHandle,
-							micr_code:micrCode,
-							is_default:isDefault,
-						})
+                customer_id: customerId,
+                bank_name: bankName,
+                account_name: accountName,
+                account_number: accountNumber,
+                ifsc_code: ifscCode,
+                upi_handle: upiHandle,
+                micr_code: micrCode,
+                is_default: isDefault,
+            })
         )
         .build();
 
@@ -38,7 +38,7 @@ customerBankModel.create = async (
 // @model-name: createMany
 // @model-desc: create bulk entry in customerBank tbl
 customerBankModel.createMany = async (
-	bulkData
+    bulkData
 ) => {
     const result = await new sharedServices.mysqlServices()
         .insertMany(
@@ -61,18 +61,17 @@ customerBankModel.read = async (whereParams) => {
 
     let result = new sharedServices.mysqlServices()
         .select(
-					`
-						id,
-						customer_id,
-						bank_name,
-						account_name,
-						account_number,
-						ifsc_code,
-						upi_handle,
-						micr_code,
-						is_default,
-						created_at,
-						updated_at,
+            `id,
+            customer_id,
+            bank_name,
+            account_name,
+            account_number,
+            ifsc_code,
+            upi_handle,
+            micr_code,
+            is_default,
+            created_at,
+            updated_at
             `
         )
         .from(sharedConstants.dbTableNames.customerBank);
@@ -96,15 +95,15 @@ customerBankModel.update = async (updateParams, whereParams) => {
             `id='${whereParams.id}'`
         );
     }
-   
+
 
     const result = await new sharedServices.mysqlServices()
         .update(
             sharedConstants.dbTableNames.customerBank,
             sharedServices.mysqlHelperServices.parseUpdateValues({
-							bank_name: updateParams.bankName,
-							account_name: updateParams.accountName,
-               
+                bank_name: updateParams.bankName,
+                account_name: updateParams.accountName,
+
             })
         )
         .where(where.join(" AND "))

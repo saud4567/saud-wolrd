@@ -6,22 +6,22 @@ const customerDpModel = {};
 // @model-name: create
 // @model-desc: create a new entry in customerDp tbl
 customerDpModel.create = async (
-	customerId,
-	dpId,
-	beneficiaryId,
-	secondHolderName,
-	isDefault,
+    customerId,
+    dpId,
+    beneficiaryId,
+    secondHolderName,
+    isDefault,
 ) => {
     const result = await new sharedServices.mysqlServices()
         .insert(
             sharedConstants.dbTableNames.customerDp,
-            sharedServices.mysqlHelperServices.parseInsertValues({		
-							customer_id:customerId,
-							dp_id:dpId,
-							beneficiary_id:beneficiaryId,
-							second_holder_name:secondHolderName,
-							is_default:isDefault,
-						})
+            sharedServices.mysqlHelperServices.parseInsertValues({
+                customer_id: customerId,
+                dp_id: dpId,
+                beneficiary_id: beneficiaryId,
+                second_holder_name: secondHolderName,
+                is_default: isDefault,
+            })
         )
         .build();
 
@@ -31,7 +31,7 @@ customerDpModel.create = async (
 // @model-name: createMany
 // @model-desc: create bulk entry in customerDp tbl
 customerDpModel.createMany = async (
-	bulkData
+    bulkData
 ) => {
     const result = await new sharedServices.mysqlServices()
         .insertMany(
@@ -54,15 +54,14 @@ customerDpModel.read = async (whereParams) => {
 
     let result = new sharedServices.mysqlServices()
         .select(
-					`
-					id,
-					customer_id,
-					dp_id,
-					beneficiary_id,
-					second_holder_name,
-					is_default,
-					created_at,
-					updated_at,
+            `id,
+            customer_id,
+            dp_id,
+            beneficiary_id,
+            second_holder_name,
+            is_default,
+            created_at,
+            updated_at
             `
         )
         .from(sharedConstants.dbTableNames.customerDp);
@@ -86,15 +85,15 @@ customerDpModel.update = async (updateParams, whereParams) => {
             `id='${whereParams.id}'`
         );
     }
-   
+
 
     const result = await new sharedServices.mysqlServices()
         .update(
             sharedConstants.dbTableNames.customerDp,
             sharedServices.mysqlHelperServices.parseUpdateValues({
-							beneficiary_id: updateParams.beneficiaryId,
-							dp_id: updateParams.dpId,
-               
+                beneficiary_id: updateParams.beneficiaryId,
+                dp_id: updateParams.dpId,
+
             })
         )
         .where(where.join(" AND "))

@@ -96,7 +96,7 @@ customerModel.read = async (whereParams) => {
         .select(
             `
             id as customerId,
-            customer_ref_id as customerRefId,
+            customer_ref_id,
             name,
             mobile,
             email,
@@ -105,22 +105,22 @@ customerModel.read = async (whereParams) => {
             pan,
             address,
             aadhar,
-            father_name as fatherName,
+            father_name,
             occupation,
-            annual_income as annualIncome,
+            annual_income,
             fatca,
             pep,
             type,
-            trading_experience as tradingExperience,
-            subscription_plan as subscriptionPlan,
-            brokerage_plan as brokeragePlan,
+            trading_experience,
+            subscription_plan,
+            brokerage_plan,
             ddpi,
-            dis_booklet as disBooklet,
+            dis_booklet,
             bsda,
-            martial_status as martialStatus,
-            ucc_id as uccId,
-            rm_code as rmCode,
-            is_active as isActive
+            martial_status,
+            ucc_id,
+            rm_code,
+            is_active
             `
         )
         .from(sharedConstants.dbTableNames.customer);

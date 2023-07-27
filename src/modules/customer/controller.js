@@ -51,14 +51,15 @@ customerModuleControllers.authenticate = async (req, res, next) => {
 //      controller used to validate token
 customerModuleControllers.validate = async (req, res, next) => {
 	try {
-		let token = req.headers.authorization;
+
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.tokenValidate(req);
+
 		/** handle logic within service function */
-		const validateToken = await customerModuleServices.validate({ token });
+		const validateToken = await customerModuleServices.validate({ token: req.headers.authorization });
 
 		/**return response */
-		if (validateToken.isValid === true) {
-			return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
-		}
+		return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
 
 	} catch (error) {
 		next(JSON.parse(error.message));
@@ -70,17 +71,13 @@ customerModuleControllers.validate = async (req, res, next) => {
 //      controller used to get customer details
 customerModuleControllers.customerDetails = async (req, res, next) => {
 	try {
-
-		req.body.apiKey = req.headers['api-key'];
-		req.body.apiSecret = req.headers['api-secret'];
-
 		/** Validation of request data */
-		const validateBody = customerModuleValidators.customerDetails(req.body)
+		const validateBody = customerModuleValidators.customerDetails(req)
 
 		/** handle logic within service function */
 		const customerDetails = await customerModuleServices.customerDetails({
-			customerId: validateBody.customer_id,
-			requestedData: validateBody.requested_data,
+			customerRefId: validateBody.req.body.customer_id,
+			requestedData: validateBody.req.body.requested_data,
 		});
 
 		/**return response */

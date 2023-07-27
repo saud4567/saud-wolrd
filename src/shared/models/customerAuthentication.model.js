@@ -69,7 +69,7 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
 
     if (whereParams.customerId) {
         where.push(
-            `customer_id='${whereParams.customerId}'`
+            `customer_id=${whereParams.customerId}`
         );
     }
 

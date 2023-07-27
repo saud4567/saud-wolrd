@@ -131,4 +131,25 @@ customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
 	}
 };
 
+// controller_name: confirmResetCredentials
+// controller_description:
+//      controller used to reset credentials of customer
+customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
+	try {
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.confirmResetCredentials(req.body);
+		/** handle logic within service function */
+		const confirmReset = await customerModuleServices.confirmResetCredentials({
+			resetRequestId: validateBody.reset_request_id,
+			resetCredentials: validateBody.reset_credentials
+		});
+
+		/**return response */
+		return next({ ...customerModuleConstants.confirmResetCredentials.messages.CCRCS001, result: "" });
+
+	} catch (error) {
+		next(JSON.parse(error.message));
+	}
+};
+
 module.exports = customerModuleControllers;

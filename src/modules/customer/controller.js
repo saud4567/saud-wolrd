@@ -90,5 +90,26 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
 	}
 }
 
+// controller_name: changeCredentials
+// controller_description:
+//      controller used to change the credentials of customer
+customerModuleControllers.changeCredentials = async (req, res, next) => {
+	try {
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.changeCredentials(req.body);
+		/** handle logic within service function */
+		const changeCredentials = await customerModuleServices.changeCredentials({
+			resetMode: validateBody.reset_mode,
+			changedCredentials: validateBody.changed_credentials,
+			customerRefId: req.customerRefId
+		});
+
+		/**return response */
+		return next({ ...customerModuleConstants.changeCredentials.messages.CCCS001, result: "" });
+
+	} catch (error) {
+		next(JSON.parse(error.message));
+	}
+};
 
 module.exports = customerModuleControllers;

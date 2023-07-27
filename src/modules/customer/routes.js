@@ -1,4 +1,5 @@
 const express = require("express");
+const sharedConstants = require("shared/middlewares");
 const customerModuleRoutes = express.Router();
 
 const customerModuleControllers = require("./controller.js");
@@ -26,5 +27,11 @@ customerModuleRoutes.get("/validate", customerModuleControllers.validate);
 // route_description:
 //      route used to validate token
 customerModuleRoutes.get("/info", customerModuleControllers.customerDetails);
+
+// route_name: change-credentials
+// route_path: /customer/change-credentials
+// route_description:
+//      route used to change the credentials of customers
+customerModuleRoutes.post("/change-credentials", sharedConstants.authMiddleware, customerModuleControllers.changeCredentials);
 
 module.exports = customerModuleRoutes;

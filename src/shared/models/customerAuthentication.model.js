@@ -69,10 +69,9 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
 
     if (whereParams.customerId) {
         where.push(
-            `customer_id='${whereParams.customerId}'`
+            `customer_id=${whereParams.customerId}`
         );
     }
-
 
     const result = await new sharedServices.mysqlServices()
         .update(
@@ -80,7 +79,9 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
             sharedServices.mysqlHelperServices.parseUpdateValues({
                 password: updateParams.password,
                 mpin: updateParams.mpin,
-                biometric: updateParams.biometric
+                biometric: updateParams.biometric,
+                pwd_last_set_date: updateParams.pwdLastSetDate,
+                mpin_last_set_date: updateParams.mpinLastSetDate,
             })
         )
         .where(where.join(" AND "))

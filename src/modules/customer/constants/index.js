@@ -4,6 +4,7 @@ const validateConstants = require("./validate.constants");
 const customerDetailsConstants = require("./customerDetails.constants");
 const changeCredentialsConstants = require("./changeCredentials.constants");
 const initiateResetCredentialsConstants = require("./initiateResetCredentials.constants");
+const confirmResetCredentialsConstants = require("./confirmResetCredentials.constants");
 
 const customerModuleConstants = {
     registration: registrationConstants,
@@ -11,7 +12,8 @@ const customerModuleConstants = {
     validate: validateConstants,
     customerDetails: customerDetailsConstants,
     changeCredentials: changeCredentialsConstants,
-    initiateResetCredentials: initiateResetCredentialsConstants
+    initiateResetCredentials: initiateResetCredentialsConstants,
+    confirmResetCredentials: confirmResetCredentialsConstants
 };
 
 module.exports = customerModuleConstants;

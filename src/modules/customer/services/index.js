@@ -4,6 +4,7 @@ const validateService = require("./validate.service");
 const customerDetailsService = require("./customerDetails.service");
 const changeCredentialsService = require("./changeCredentials.service");
 const initiateResetCredentialsService = require("./initiateResetCredentials.service");
+const confirmResetCredentialsService = require("./confirmResetCredentials.service");
 
 const customerModuleServices = {
     registration: registrationService,
@@ -11,7 +12,8 @@ const customerModuleServices = {
     validate: validateService,
     customerDetails: customerDetailsService,
     changeCredentials: changeCredentialsService,
-    initiateResetCredentials: initiateResetCredentialsService
+    initiateResetCredentials: initiateResetCredentialsService,
+    confirmResetCredentials: confirmResetCredentialsService
 };
 
 module.exports = customerModuleServices;

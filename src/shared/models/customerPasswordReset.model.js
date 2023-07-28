@@ -36,6 +36,10 @@ customerPasswordResetModel.read = async (whereParams) => {
 		where.push(`customer_id=${whereParams.customerId}`);
 	}
 
+	if (whereParams.resetRequestId) {
+		where.push(`reset_request_id='${whereParams.resetRequestId}'`);
+	}
+
 	let result = new sharedServices.mysqlServices()
 		.select(
 			`id,

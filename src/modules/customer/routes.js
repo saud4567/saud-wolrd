@@ -25,6 +25,6 @@ customerModuleRoutes.get("/validate", customerModuleControllers.validate);
 // route_path: /customer/info
 // route_description:
 //      route used to validate token
-customerModuleRoutes.get("/info", customerModuleControllers.customerDetails);
+customerModuleRoutes.post("/info", customerModuleControllers.customerDetails);
 
 module.exports = customerModuleRoutes;

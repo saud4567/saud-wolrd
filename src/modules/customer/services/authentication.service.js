@@ -2,7 +2,7 @@ const sharedServices = require("shared/services");
 const sharedConstants = require("shared/constants");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
-
+const moment = require("moment");
 
 module.exports = async ({
 	username,
@@ -42,6 +42,10 @@ module.exports = async ({
 		)
 	}
 
+	/** set JWT token expiry to midnight */
+	let midnightTime = moment().startOf('day');
+	let jwtExpiresIn = moment().diff(midnightTime, "hours");
+
 	// generate a jwt token based on customer_id and customerRefId
 	const token = sharedServices.authServices.getJWT(
 		{
@@ -49,7 +53,7 @@ module.exports = async ({
 			customerRefId: customerDetails[0].customerRefId
 		},
 		sharedConstants.appConfig.app.userJWTSecret,
-		{ expiresIn: sharedConstants.appConfig.app.userJWTExpiresIn }
+		{ expiresIn: jwtExpiresIn }
 	);
 
 

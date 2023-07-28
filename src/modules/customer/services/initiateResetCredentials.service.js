@@ -30,7 +30,7 @@ module.exports = async ({
 
 	/** generate reset_request_id and set expiry for 5 mins */
 	const resetRequestId = sharedServices.uuidServices.uuidV4();
-	let resetRequestExpiry = moment(new Date()).add(sharedConstants.appConfig.app.resetRequestExpiry, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+	let resetRequestExpiry = moment().add(sharedConstants.appConfig.app.resetRequestExpiry, 'minutes').format('YYYY-MM-DD HH:mm:ss');
 
 	/** Insert data into customer_password_reset table */
 	await sharedModels.customerPasswordReset.create(

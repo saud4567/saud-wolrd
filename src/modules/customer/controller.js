@@ -80,8 +80,8 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
 
 		/** handle logic within service function */
 		const customerDetails = await customerModuleServices.customerDetails({
-			customerRefId: validateBody.req.body.customer_id,
-			requestedData: validateBody.req.body.requested_data,
+			customerRefId: validateBody.customerId,
+			requestedData: validateBody.requestedData,
 		});
 
 		/**return response */

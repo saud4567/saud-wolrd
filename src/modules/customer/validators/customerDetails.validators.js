@@ -6,50 +6,56 @@ const sharedConstants = require("shared/constants");
 module.exports = (
 	req
 ) => {
+	let apiKey = req.headers['api-key'];
+	let apiSecret = req.headers['api-secret'];
+	let customerId = req.body.customer_id;
+	let requestedData = req.body.requested_data;
 
-	if (sharedValidators.isRequired(req.headers['api-key'])) {
+
+	if (sharedValidators.isRequired(apiKey)) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE001
 		)
 	}
 
-	if (req.headers['api-key'] !== sharedConstants.appConfig.app.apiKey) {
+	if (apiKey !== sharedConstants.appConfig.app.apiKey) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE002
 		)
 	}
 
-	if (sharedValidators.isRequired(req.headers['api-secret'])) {
+	if (sharedValidators.isRequired(apiSecret)) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE003
 		)
 	}
 
-	if (req.headers['api-secret'] !== sharedConstants.appConfig.app.apiSecret) {
+	if (apiSecret !== sharedConstants.appConfig.app.apiSecret) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE004
 		)
 	}
 
-	if (sharedValidators.isRequired(req.body.customer_id)) {
+	if (sharedValidators.isRequired(customerId)) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE005
 		)
 	}
 
-	if (sharedValidators.isRequired(req.body.requested_data) || req.body.requested_data.length === 0) {
+	if (sharedValidators.isRequired(requestedData) || requestedData === 0) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE006
 		)
 	}
 
-	if (!sharedValidators.isArray(req.body.requested_data)) {
+	if (!sharedValidators.isArray(requestedData)) {
 		sharedServices.error.throw(
 			customerModuleConstants.customerDetails.errorMessages.CCDE007
 		)
 	}
 
 	return {
-		req
+		customerId,
+		requestedData,
 	};
 };

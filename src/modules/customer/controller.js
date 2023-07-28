@@ -44,5 +44,31 @@ customerModuleControllers.authenticate = async (req, res, next) => {
 	} catch (error) {
 		next(JSON.parse(error.message));
 	}
+}
+
+// controller_name: validate
+// controller_description:
+//      controller used to validate token
+customerModuleControllers.validate = async (req, res, next) => {
+	try {
+
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.tokenValidate(req.headers);
+
+		/** handle logic within service function */
+		const validateToken = await customerModuleServices.validate({ token: validateBody.authorization });
+
+		/**return response */
+		return next({ ...customerModuleConstants.validate.messages.CVS001, result: validateToken });
+
+	} catch (error) {
+		if (error.name == customerModuleConstants.validate.tokenExpiredError) {
+			next({ ...customerModuleConstants.validate.errorMessages.CVE002, result: { isValid: false } });
+		} else {
+			next(JSON.parse(error.message));
+		}
+	}
 };
+
+
 module.exports = customerModuleControllers;

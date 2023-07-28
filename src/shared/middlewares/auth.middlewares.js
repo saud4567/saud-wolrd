@@ -22,7 +22,7 @@ const authMiddleware = (req, res, next) => {
       sharedServices.error.throw(unAuthorisedResponse);
     }
 
-	req.userRefId = token.userRefId;
+    req.userRefId = token.userRefId;
 
     next();
   } catch (error) {

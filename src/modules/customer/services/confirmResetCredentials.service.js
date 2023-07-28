@@ -24,7 +24,6 @@ module.exports = async ({
 		sharedServices.error.throw(
 			customerModuleConstants.confirmResetCredentials.errorMessages.CCRCE004
 		)
-
 	}
 
 	let updateParams = {};
@@ -32,8 +31,10 @@ module.exports = async ({
 	const newCredentialsHash = await sharedServices.authServices.getPasswordHash(resetCredentials);
 	if (customerResetData[0].authorization_mode == customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD) {
 		updateParams.password = newCredentialsHash;
+		updateParams.pwdLastSetDate = moment().format('YYYY-MM-DD HH:mm:ss');
 	} else if (customerResetData[0].authorization_mode == customerModuleConstants.confirmResetCredentials.RESET_TYPE.MPIN) {
 		updateParams.mpin = newCredentialsHash;
+		updateParams.mpinLastSetDate = moment().format('YYYY-MM-DD HH:mm:ss');
 	} else if (customerResetData[0].authorization_mode == customerModuleConstants.confirmResetCredentials.RESET_TYPE.BIOMETRIC) {
 		updateParams.biometric = newCredentialsHash;
 	}

@@ -73,14 +73,15 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
         );
     }
 
-
     const result = await new sharedServices.mysqlServices()
         .update(
             sharedConstants.dbTableNames.customerAuthentication,
             sharedServices.mysqlHelperServices.parseUpdateValues({
                 password: updateParams.password,
                 mpin: updateParams.mpin,
-                biometric: updateParams.biometric
+                biometric: updateParams.biometric,
+                pwd_last_set_date: updateParams.pwdLastSetDate,
+                mpin_last_set_date: updateParams.mpinLastSetDate,
             })
         )
         .where(where.join(" AND "))

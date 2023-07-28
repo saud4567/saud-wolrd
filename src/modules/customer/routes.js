@@ -34,4 +34,10 @@ customerModuleRoutes.post("/info", customerModuleControllers.customerDetails);
 //      route used to change the credentials of customers
 customerModuleRoutes.post("/change-credentials", sharedConstants.authMiddleware, customerModuleControllers.changeCredentials);
 
+// route_name: initiate-reset
+// route_path: /customer/initiate-reset
+// route_description:
+//      route used to initiate the process for resetting the credentials of customer
+customerModuleRoutes.post("/initiate-reset", customerModuleControllers.initiateResetCredentials);
+
 module.exports = customerModuleRoutes;

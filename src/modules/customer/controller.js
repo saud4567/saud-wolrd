@@ -130,4 +130,26 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
   }
 };
 
+// controller_name: initiateResetCredentials
+// controller_description:
+//      controller used to initiate the process for resetting the credentials of customer
+customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
+	try {
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.initiateResetCredentials(req.body);
+		/** handle logic within service function */
+		const initiateReset = await customerModuleServices.initiateResetCredentials({
+			username: validateBody.username,
+			twoFa: validateBody.two_fa,
+			resetMode: validateBody.reset_mode,
+		});
+
+		/**return response */
+		return next({ ...customerModuleConstants.initiateResetCredentials.messages.CIRCS001, result: initiateReset });
+
+	} catch (error) {
+		next(JSON.parse(error.message));
+	}
+};
+
 module.exports = customerModuleControllers;

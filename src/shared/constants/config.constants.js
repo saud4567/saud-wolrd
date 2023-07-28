@@ -8,6 +8,8 @@ const config = {
         userJWTExpiresIn: process.env.APP_USER_JWT_EXPIRESIN,
         apiKey: process.env.API_KEY,
         apiSecret: process.env.API_SECRET,
+        resetRequestExpiry: process.env.RESET_REQUEST_EXPIRY,
+
     },
     database: {
         host: process.env.DATABASE_HOST,

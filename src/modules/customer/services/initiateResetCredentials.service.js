@@ -20,6 +20,7 @@ module.exports = async ({
 		)
 	}
 
+	/**check if two factor authentivation key is valid or not */
 	if (twoFa !== customerDetails[0].pan && twoFa !== customerDetails[0].dob) {
 		sharedServices.error.throw(
 			customerModuleConstants.initiateResetCredentials.errorMessages.CIRCE005
@@ -27,8 +28,9 @@ module.exports = async ({
 
 	}
 
+	/** generate reset_request_id and set expiry for 5 mins */
 	const resetRequestId = sharedServices.uuidServices.uuidV4();
-	let resetRequestExpiry = moment(new Date()).add(5, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+	let resetRequestExpiry = moment(new Date()).add(sharedConstants.appConfig.app.resetRequestExpiry, 'minutes').format('YYYY-MM-DD HH:mm:ss');
 
 	/** Insert data into customer_password_reset table */
 	await sharedModels.customerPasswordReset.create(

@@ -3,7 +3,7 @@ module.exports = {
 		CVS001: {
 			code: "CVS001",
 			statusCode: 200,
-			message: "Customer Validate Successfully",
+			message: "Token Validate Successfully",
 		},
 
 	},
@@ -19,5 +19,5 @@ module.exports = {
 			message: "Your Token Is Expired or Invalidate",
 		},
 	},
-
+	tokenExpiredError: "TokenExpiredError",
 };

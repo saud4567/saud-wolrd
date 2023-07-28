@@ -15,6 +15,7 @@ const responseMiddleware = (parsedResponse, req, res, next) => {
     res.status(parsedResponse.statusCode).send({
       code: parsedResponse.code,
       message: parsedResponse.message,
+      result: parsedResponse.result,
     });
     next(JSON.stringify(parsedResponse));
   } else {

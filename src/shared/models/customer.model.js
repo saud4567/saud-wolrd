@@ -88,13 +88,39 @@ customerModel.read = async (whereParams) => {
         where.push(`(mobile='${whereParams.username}' or email='${whereParams.username}')`);
     }
 
+    if (whereParams.customerRefId) {
+        where.push(`customer_ref_id='${whereParams.customerRefId}'`);
+    }
+
     let result = new sharedServices.mysqlServices()
         .select(
             `
             id as customerId,
-            customer_ref_id as customerRefId,
+            customer_ref_id,
+            name,
+            mobile,
             email,
-            mobile
+            gender,
+            dob,
+            pan,
+            address,
+            aadhar,
+            father_name,
+            occupation,
+            annual_income,
+            fatca,
+            pep,
+            type,
+            trading_experience,
+            subscription_plan,
+            brokerage_plan,
+            ddpi,
+            dis_booklet,
+            bsda,
+            martial_status,
+            ucc_id,
+            rm_code,
+            is_active
             `
         )
         .from(sharedConstants.dbTableNames.customer);

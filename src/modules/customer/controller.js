@@ -70,5 +70,26 @@ customerModuleControllers.validate = async (req, res, next) => {
 	}
 };
 
+// controller_name: customerDetails
+// controller_description:
+//      controller used to get customer details
+customerModuleControllers.customerDetails = async (req, res, next) => {
+	try {
+		/** Validation of request data */
+		const validateBody = customerModuleValidators.customerDetails(req)
+
+		/** handle logic within service function */
+		const customerDetails = await customerModuleServices.customerDetails({
+			customerRefId: validateBody.customerId,
+			requestedData: validateBody.requestedData,
+		});
+
+		/**return response */
+		next({ ...customerModuleConstants.customerDetails.messages.CCDS001, result: customerDetails });
+	} catch (error) {
+		next(JSON.parse(error.message));
+	}
+}
+
 
 module.exports = customerModuleControllers;

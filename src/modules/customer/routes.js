@@ -21,4 +21,10 @@ customerModuleRoutes.post("/authenticate", customerModuleControllers.authenticat
 //      route used to validate token
 customerModuleRoutes.get("/validate", customerModuleControllers.validate);
 
+// route_name: info
+// route_path: /customer/info
+// route_description:
+//      route used to validate token
+customerModuleRoutes.post("/info", customerModuleControllers.customerDetails);
+
 module.exports = customerModuleRoutes;

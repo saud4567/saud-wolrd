@@ -24,7 +24,7 @@ module.exports = async ({
   ddpi,
   dis_booklet,
   bsda,
-  martial_status,
+  marital_status,
   ucc_id,
   rm_code,
   is_active,
@@ -86,7 +86,7 @@ module.exports = async ({
     ddpi,
     dis_booklet,
     bsda,
-    martial_status,
+    marital_status,
     ucc_id,
     rm_code,
     is_active

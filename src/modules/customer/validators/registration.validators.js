@@ -262,20 +262,20 @@ module.exports = (body) => {
       bsda: customerModuleConstants.registration.errorMessages.CRE040.message,
     });
   }
-  if (sharedValidators.isRequired(body.martial_status)) {
+  if (sharedValidators.isRequired(body.marital_status)) {
     errorListArray.push({
-      martial_status:
+      marital_status:
         customerModuleConstants.registration.errorMessages.CRE041.message,
     });
   }
   if (
-    body.martial_status &&
+    body.marital_status &&
     !customerModuleConstants.registration.MARITIAL_STATUS.hasOwnProperty(
-      body.martial_status
+      body.marital_status
     )
   ) {
     errorListArray.push({
-      martial_status:
+      marital_status:
         customerModuleConstants.registration.errorMessages.CRE042.message,
     });
   }

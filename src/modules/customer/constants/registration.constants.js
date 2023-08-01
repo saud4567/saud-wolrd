@@ -210,12 +210,12 @@ module.exports = {
     CRE041: {
       code: "CRE041",
       statusCode: 400,
-      message: "Martial Status Is Required",
+      message: "Marital Status Is Required",
     },
     CRE042: {
       code: "CRE042",
       statusCode: 400,
-      message: "Martial Status Is Invalid",
+      message: "Marital Status Is Invalid",
     },
     CRE043: {
       code: "CRE043",

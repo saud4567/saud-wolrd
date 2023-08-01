@@ -27,7 +27,7 @@ customerModel.create = async (
   ddpi,
   dis_booklet,
   bsda,
-  martial_status,
+  marital_status,
   ucc_id,
   rm_code,
   is_active
@@ -57,7 +57,7 @@ customerModel.create = async (
         ddpi,
         dis_booklet,
         bsda,
-        martial_status,
+        marital_status,
         ucc_id,
         rm_code,
         is_active,
@@ -122,7 +122,7 @@ customerModel.read = async (whereParams) => {
             ddpi,
             dis_booklet,
             bsda,
-            martial_status,
+            marital_status,
             ucc_id,
             rm_code,
             is_active

@@ -8,14 +8,14 @@ const error = require("shared/services/error.services");
 const awsServices = require("shared/services/aws.services");
 
 const sharedServices = {
-    authServices,
-    loggerServices,
-    mysqlServices,
-    mysqlHelperServices,
-    responseServices,
-    uuidServices,
-    error,
-    awsServices,
+  authServices,
+  loggerServices,
+  mysqlServices,
+  mysqlHelperServices,
+  responseServices,
+  uuidServices,
+  error,
+  awsServices,
 };
 
 module.exports = sharedServices;

@@ -15,7 +15,7 @@ const authMiddleware = (req, res, next) => {
 
     token = sharedServices.authServices.validateJWT(
       req.headers.authorization,
-      sharedConstants.appConfig.app.userJWTSecret,
+      sharedConstants.appConfig.app.userJWTSecret
     );
 
     if (token == null) {

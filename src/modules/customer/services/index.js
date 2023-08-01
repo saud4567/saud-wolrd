@@ -7,13 +7,13 @@ const initiateResetCredentialsService = require("./initiateResetCredentials.serv
 const confirmResetCredentialsService = require("./confirmResetCredentials.service");
 
 const customerModuleServices = {
-    registration: registrationService,
-    authentication: authenticationService,
-    validate: validateService,
-    customerDetails: customerDetailsService,
-    changeCredentials: changeCredentialsService,
-    initiateResetCredentials: initiateResetCredentialsService,
-    confirmResetCredentials: confirmResetCredentialsService
+  registration: registrationService,
+  authentication: authenticationService,
+  validate: validateService,
+  customerDetails: customerDetailsService,
+  changeCredentials: changeCredentialsService,
+  initiateResetCredentials: initiateResetCredentialsService,
+  confirmResetCredentials: confirmResetCredentialsService,
 };
 
 module.exports = customerModuleServices;

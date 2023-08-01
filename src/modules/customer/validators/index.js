@@ -7,13 +7,13 @@ const initiateResetCredentialsValidators = require("./initiateResetCredentials.v
 const confirmResetCredentialsValidators = require("./confirmResetCredentials.validators");
 
 const customerModuleValidators = {
-	registration: registrationValidators,
-	authentication: authenticationValidators,
-	customerDetails: customerDetailsValidators,
-	changeCredentials: changeCredentialsValidators,
-	tokenValidate: tokenValidateValidators,
-	initiateResetCredentials: initiateResetCredentialsValidators,
-	confirmResetCredentials: confirmResetCredentialsValidators,
+  registration: registrationValidators,
+  authentication: authenticationValidators,
+  customerDetails: customerDetailsValidators,
+  changeCredentials: changeCredentialsValidators,
+  tokenValidate: tokenValidateValidators,
+  initiateResetCredentials: initiateResetCredentialsValidators,
+  confirmResetCredentials: confirmResetCredentialsValidators,
 };
 
 module.exports = customerModuleValidators;

@@ -146,5 +146,5 @@ module.exports = async ({
   /** Insert bulk data into customer_product table  */
   await sharedModels.customerProduct.createMany(productDetailsArray);
 
-  return { customerId: customerId };
+  return { customerId: customer_ref_id };
 };

@@ -6,7 +6,7 @@ module.exports = async ({ customerRefId, requestedData }) => {
   /** get customer details using customerRefId*/
   let customerDetails = await sharedModels.customer.read({ customerRefId });
 
-  if (!customerDetails)
+  if (!customerDetails.length)
     sharedServices.error.throw(
       customerModuleConstants.customerDetails.errorMessages.CCDE008
     );

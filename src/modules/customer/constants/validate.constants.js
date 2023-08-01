@@ -19,4 +19,5 @@ module.exports = {
     },
   },
   tokenExpiredError: "TokenExpiredError",
+  JsonWebTokenError: "JsonWebTokenError",
 };

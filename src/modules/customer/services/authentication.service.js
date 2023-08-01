@@ -50,10 +50,10 @@ module.exports = async ({
 	const token = sharedServices.authServices.getJWT(
 		{
 			customerId: customerDetails[0].customerId,
-			customerRefId: customerDetails[0].customerRefId
+			customerRefId: customerDetails[0].customer_ref_id
 		},
 		sharedConstants.appConfig.app.userJWTSecret,
-		{ expiresIn: jwtExpiresIn }
+		{ expiresIn: jwtExpiresIn + 'h' }
 	);
 
 

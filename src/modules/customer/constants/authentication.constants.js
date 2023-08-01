@@ -36,7 +36,7 @@ module.exports = {
     CAE006: {
       code: "CAE006",
       statusCode: 400,
-      message: "Please Enter Correct Password",
+      message: "Please Enter Correct Credentials",
     },
   },
   AUTHORIZATION_TYPE: {

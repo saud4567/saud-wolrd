@@ -71,7 +71,10 @@ customerModuleControllers.validate = async (req, res, next) => {
       result: validateToken,
     });
   } catch (error) {
-    if (error.name == customerModuleConstants.validate.JsonWebTokenError || error.name == customerModuleConstants.validate.tokenExpiredError) {
+    if (
+      error.name == customerModuleConstants.validate.JsonWebTokenError ||
+      error.name == customerModuleConstants.validate.tokenExpiredError
+    ) {
       next({
         ...customerModuleConstants.validate.errorMessages.CVE002,
         result: { isValid: false },

@@ -3,9 +3,9 @@ const responseMiddleware = require("shared/middlewares/response.middlewares");
 const authMiddleware = require("shared/middlewares/auth.middlewares");
 
 const sharedMiddlewares = {
-    eventLoggingMiddleware,
-    responseMiddleware,
-    authMiddleware
-}
+  eventLoggingMiddleware,
+  responseMiddleware,
+  authMiddleware,
+};
 
 module.exports = sharedMiddlewares;

@@ -14,7 +14,10 @@ customerModuleRoutes.post("/register", customerModuleControllers.register);
 // route_path: /customer/authenticate
 // route_description:
 //      route used to authenticate customer
-customerModuleRoutes.post("/authenticate", customerModuleControllers.authenticate);
+customerModuleRoutes.post(
+  "/authenticate",
+  customerModuleControllers.authenticate
+);
 
 // route_name: validate
 // route_path: /customer/validate
@@ -32,18 +35,28 @@ customerModuleRoutes.post("/info", customerModuleControllers.customerDetails);
 // route_path: /customer/change-credentials
 // route_description:
 //      route used to change the credentials of customers
-customerModuleRoutes.post("/change-credentials", sharedConstants.authMiddleware, customerModuleControllers.changeCredentials);
+customerModuleRoutes.post(
+  "/change-credentials",
+  sharedConstants.authMiddleware,
+  customerModuleControllers.changeCredentials
+);
 
 // route_name: initiate-reset
 // route_path: /customer/initiate-reset
 // route_description:
 //      route used to initiate the process for resetting the credentials of customer
-customerModuleRoutes.post("/initiate-reset", customerModuleControllers.initiateResetCredentials);
+customerModuleRoutes.post(
+  "/initiate-reset",
+  customerModuleControllers.initiateResetCredentials
+);
 
 // route_name: confirm-reset
 // route_path: /customer/confirm-reset
 // route_description:
 //      route used to reset credentials of customer
-customerModuleRoutes.post("/confirm-reset", customerModuleControllers.confirmResetCredentials);
+customerModuleRoutes.post(
+  "/confirm-reset",
+  customerModuleControllers.confirmResetCredentials
+);
 
 module.exports = customerModuleRoutes;

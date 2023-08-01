@@ -380,38 +380,45 @@ module.exports = {
   },
 
   GENDER: {
-    "MALE": "MALE",
-    "FEMALE": "FEMALE",
-    "OTHER": "OTHER"
+    MALE: "MALE",
+    FEMALE: "FEMALE",
+    OTHER: "OTHER",
   },
   ADDRESS_KEYS: ["address_line_1", "city", "country", "pin_code", "state"],
   YES_NO_FLAG: {
-    "YES": "YES",
-    "NO": "NO"
+    YES: "YES",
+    NO: "NO",
   },
   TYPE: {
-    "NRI": "NRI",
-    "RI": "RI"
+    NRI: "NRI",
+    RI: "RI",
   },
   IS_ACTIVE: {
-    "0": 0,
-    "1": 1
+    0: 0,
+    1: 1,
   },
   SUBSCRIPTION_PLAN: {
-    "SILVER": "SILVER",
-    "GOLD": "GOLD",
-    "PLATINUM": "PLATINUM",
+    SILVER: "SILVER",
+    GOLD: "GOLD",
+    PLATINUM: "PLATINUM",
   },
   BROKERAGE_PLAN: {
-    "GALAXC": "GALAXC",
-    "GALAXC_PLUS": "GALAXC_PLUS",
-    "GALAXC_FREEDOM": "GALAXC_FREEDOM",
+    GALAXC: "GALAXC",
+    GALAXC_PLUS: "GALAXC_PLUS",
+    GALAXC_FREEDOM: "GALAXC_FREEDOM",
   },
   MARITIAL_STATUS: {
-    "MARRIED": "MARRIED",
-    "UNMARRIED": "UNMARRIED",
+    MARRIED: "MARRIED",
+    UNMARRIED: "UNMARRIED",
   },
-  BANK_DETAILS: ["bank_name", "account_name", "account_number", "ifsc_code", "micr_code", "is_default"],
+  BANK_DETAILS: [
+    "bank_name",
+    "account_name",
+    "account_number",
+    "ifsc_code",
+    "micr_code",
+    "is_default",
+  ],
   DP_DETAILS: ["dp_id", "beneficiary_id", "is_default"],
   PRODUCT_DETAILS: ["product_code"],
 };

@@ -134,43 +134,53 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
 // controller_description:
 //      controller used to initiate the process for resetting the credentials of customer
 customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
-	try {
-		/** Validation of request data */
-		const validateBody = customerModuleValidators.initiateResetCredentials(req.body);
-		/** handle logic within service function */
-		const initiateReset = await customerModuleServices.initiateResetCredentials({
-			username: validateBody.username,
-			twoFa: validateBody.two_fa,
-			resetMode: validateBody.reset_mode,
-		});
+  try {
+    /** Validation of request data */
+    const validateBody = customerModuleValidators.initiateResetCredentials(
+      req.body
+    );
+    /** handle logic within service function */
+    const initiateReset = await customerModuleServices.initiateResetCredentials(
+      {
+        username: validateBody.username,
+        twoFa: validateBody.two_fa,
+        resetMode: validateBody.reset_mode,
+      }
+    );
 
-		/**return response */
-		return next({ ...customerModuleConstants.initiateResetCredentials.messages.CIRCS001, result: initiateReset });
-
-	} catch (error) {
-		next(JSON.parse(error.message));
-	}
+    /**return response */
+    return next({
+      ...customerModuleConstants.initiateResetCredentials.messages.CIRCS001,
+      result: initiateReset,
+    });
+  } catch (error) {
+    next(JSON.parse(error.message));
+  }
 };
 
 // controller_name: confirmResetCredentials
 // controller_description:
 //      controller used to reset credentials of customer
 customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
-	try {
-		/** Validation of request data */
-		const validateBody = customerModuleValidators.confirmResetCredentials(req.body);
-		/** handle logic within service function */
-		const confirmReset = await customerModuleServices.confirmResetCredentials({
-			resetRequestId: validateBody.reset_request_id,
-			resetCredentials: validateBody.reset_credentials
-		});
+  try {
+    /** Validation of request data */
+    const validateBody = customerModuleValidators.confirmResetCredentials(
+      req.body
+    );
+    /** handle logic within service function */
+    const confirmReset = await customerModuleServices.confirmResetCredentials({
+      resetRequestId: validateBody.reset_request_id,
+      resetCredentials: validateBody.reset_credentials,
+    });
 
-		/**return response */
-		return next({ ...customerModuleConstants.confirmResetCredentials.messages.CCRCS001, result: "" });
-
-	} catch (error) {
-		next(JSON.parse(error.message));
-	}
+    /**return response */
+    return next({
+      ...customerModuleConstants.confirmResetCredentials.messages.CCRCS001,
+      result: "",
+    });
+  } catch (error) {
+    next(JSON.parse(error.message));
+  }
 };
 
 module.exports = customerModuleControllers;

@@ -7,13 +7,13 @@ const initiateResetCredentialsConstants = require("./initiateResetCredentials.co
 const confirmResetCredentialsConstants = require("./confirmResetCredentials.constants");
 
 const customerModuleConstants = {
-    registration: registrationConstants,
-    authentication: authenticationConstants,
-    validate: validateConstants,
-    customerDetails: customerDetailsConstants,
-    changeCredentials: changeCredentialsConstants,
-    initiateResetCredentials: initiateResetCredentialsConstants,
-    confirmResetCredentials: confirmResetCredentialsConstants
+  registration: registrationConstants,
+  authentication: authenticationConstants,
+  validate: validateConstants,
+  customerDetails: customerDetailsConstants,
+  changeCredentials: changeCredentialsConstants,
+  initiateResetCredentials: initiateResetCredentialsConstants,
+  confirmResetCredentials: confirmResetCredentialsConstants,
 };
 
 module.exports = customerModuleConstants;

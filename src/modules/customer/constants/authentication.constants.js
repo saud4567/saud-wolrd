@@ -17,12 +17,12 @@ module.exports = {
       statusCode: 400,
       message: "Authentication Type Is Required",
     },
-		CAE003: {
+    CAE003: {
       code: "CAE003",
       statusCode: 400,
       message: "Authentication Type Is Invalid",
     },
-		CAE004: {
+    CAE004: {
       code: "CAE004",
       statusCode: 400,
       message: "Authorization Key Is Required",
@@ -30,7 +30,8 @@ module.exports = {
     CAE005: {
       code: "CAE005",
       statusCode: 400,
-      message: "Entered email/mobile is not registered please sign up using correct credentials",
+      message:
+        "Entered email/mobile is not registered please sign up using correct credentials",
     },
     CAE006: {
       code: "CAE006",
@@ -39,9 +40,8 @@ module.exports = {
     },
   },
   AUTHORIZATION_TYPE: {
-    "password": "password",
-    "mpin": "mpin",
-		"biometric":"biometric",
+    password: "password",
+    mpin: "mpin",
+    biometric: "biometric",
   },
- 
 };

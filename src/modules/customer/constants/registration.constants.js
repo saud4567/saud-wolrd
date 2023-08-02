@@ -419,6 +419,6 @@ module.exports = {
     "micr_code",
     "is_default",
   ],
-  DP_DETAILS: ["dp_id", "beneficiary_id", "is_default"],
+  DP_DETAILS: ["dp_provider", "dp_id", "beneficiary_id", "is_default"],
   PRODUCT_DETAILS: ["product_code"],
 };

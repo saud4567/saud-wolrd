@@ -6,6 +6,7 @@ const responseServices = require("shared/services/response.services");
 const uuidServices = require("shared/services/uuid.services");
 const error = require("shared/services/error.services");
 const awsServices = require("shared/services/aws.services");
+const encryptionServices = require("shared/services/encryption.services");
 
 const sharedServices = {
   authServices,
@@ -16,6 +17,7 @@ const sharedServices = {
   uuidServices,
   error,
   awsServices,
+  encryptionServices,
 };
 
 module.exports = sharedServices;

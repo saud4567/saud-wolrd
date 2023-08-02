@@ -1,6 +1,7 @@
 const mysql = require("mysql2/promise");
 const sharedConstants = require("shared/constants");
 const sharedServices = require("shared/services");
+const encryptionServices = require("./encryption.services");
 
 class mysqlServices {
   constructor() {
@@ -173,7 +174,9 @@ class mysqlServices {
 
   async build() {
     try {
-      const result = await this.execute();
+      let result = await this.execute();
+      /** decypt the result */
+      result = encryptionServices.decryptData(result);
       return result;
     } catch (error) {
       throw error;

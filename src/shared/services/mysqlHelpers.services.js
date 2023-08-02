@@ -1,4 +1,5 @@
 const sharedValidators = require("../validators");
+const encryptionServices = require("./encryption.services");
 
 const mysqlHelperServices = {};
 
@@ -16,7 +17,10 @@ mysqlHelperServices.parseInsertValues = (values) => {
     }
     parsedValues[key] = values[key];
   });
-  return parsedValues;
+
+  const encryptedParsedValues = encryptionServices.encryptData(parsedValues);
+
+  return encryptedParsedValues;
 };
 
 mysqlHelperServices.parseInsertManyValues = (values) => {

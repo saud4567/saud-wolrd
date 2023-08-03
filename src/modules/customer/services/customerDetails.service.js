@@ -16,9 +16,11 @@ module.exports = async ({ customerRefId, requestedData }) => {
   /** get customer bank and DP details */
   const customerBank = await sharedModels.customerBank.read({
     customerId: customerDetails.customerId,
+    isDefault: 1
   });
   const customerDp = await sharedModels.customerDp.read({
     customerId: customerDetails.customerId,
+    isDefault: 1
   });
 
   let resp = {};

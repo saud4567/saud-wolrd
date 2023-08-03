@@ -17,6 +17,7 @@ customerDpModel.create = async (
       sharedConstants.dbTableNames.customerDp,
       sharedServices.mysqlHelperServices.parseInsertValues({
         customer_id: customerId,
+        dp_provider: dpProvider,
         dp_id: dpId,
         beneficiary_id: beneficiaryId,
         second_holder_name: secondHolderName,
@@ -50,10 +51,16 @@ customerDpModel.read = async (whereParams) => {
     where.push(`customer_id='${whereParams.customerId}'`);
   }
 
+  if (whereParams.isDefault) {
+    where.push(`is_default='${whereParams.isDefault}'`);
+  }
+
+
   let result = new sharedServices.mysqlServices()
     .select(
       `id,
             customer_id,
+            dp_provider,
             dp_id,
             beneficiary_id,
             second_holder_name,
@@ -88,6 +95,7 @@ customerDpModel.update = async (updateParams, whereParams) => {
       sharedServices.mysqlHelperServices.parseUpdateValues({
         beneficiary_id: updateParams.beneficiaryId,
         dp_id: updateParams.dpId,
+        dp_provder: updateParams.dpProvider,
       })
     )
     .where(where.join(" AND "))

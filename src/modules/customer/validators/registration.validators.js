@@ -430,7 +430,12 @@ module.exports = (body) => {
             customerModuleConstants.registration.errorMessages.CRE063.message,
         });
       }
-
+      if (sharedValidators.isRequired(d.dp_provider)) {
+        errorListArray.push({
+          dp_provider:
+            customerModuleConstants.registration.errorMessages.CRE063.message,
+        });
+      }
       if (sharedValidators.isRequired(d.dp_id)) {
         errorListArray.push({
           dp_id:

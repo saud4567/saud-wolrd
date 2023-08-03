@@ -22,6 +22,7 @@ const masterConstants = {
 		"dp_id",
 		"beneficiary_id",
 		"second_holder_name",
+		"username",
 	],
 
 };

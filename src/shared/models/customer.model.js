@@ -1,5 +1,6 @@
 const sharedServices = require("shared/services");
 const sharedConstants = require("shared/constants");
+const encryptionServices = require("shared/services/encryption.services");
 
 const customerModel = {};
 
@@ -72,18 +73,19 @@ customerModel.create = async (
 // @model-desc: read customers based on filter
 customerModel.read = async (whereParams) => {
   const where = [];
+  /** encyption of  where params */
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`id='${whereParams.customerId}'`);
   }
 
-  if (
-    whereParams.emailORmobile &&
-    whereParams.emailORmobile.email &&
-    whereParams.emailORmobile.mobile
+  if (whereParams.emailORmobile &&
+    whereParams.email &&
+    whereParams.mobile
   ) {
     where.push(
-      `(mobile='${whereParams.emailORmobile.mobile}' or email='${whereParams.emailORmobile.email}')`
+      `(mobile='${whereParams.mobile}' or email='${whereParams.email}')`
     );
   }
 
@@ -143,6 +145,8 @@ customerModel.read = async (whereParams) => {
 // @model-desc: update customers based on update and where params
 customerModel.update = async (updateParams, whereParams) => {
   const where = [];
+  /** encyption of  where params */
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`id='${whereParams.customerId}'`);

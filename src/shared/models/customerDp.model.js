@@ -51,6 +51,11 @@ customerDpModel.read = async (whereParams) => {
     where.push(`customer_id='${whereParams.customerId}'`);
   }
 
+  if (whereParams.isDefault) {
+    where.push(`is_default='${whereParams.isDefault}'`);
+  }
+
+
   let result = new sharedServices.mysqlServices()
     .select(
       `id,

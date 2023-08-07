@@ -8,7 +8,7 @@ module.exports = async ({ username, authorizationType, authorizationKey }) => {
   /** get customer details using username*/
   const customerDetails = await sharedModels.customer.read({ username });
 
-  if (!customerDetails)
+  if (!customerDetails.length)
     sharedServices.error.throw(
       customerModuleConstants.authentication.errorMessages.CAE005
     );

@@ -27,6 +27,10 @@ const config = {
       folder_prefix: process.env.FL_STRG_FLDR_PREFIX,
     },
   },
+  encryption: {
+    secretKey: process.env.ENCRYPTION_SECRET_KEY,
+    secretIv: process.env.ENCRYPTION_SECRET_IV,
+  }
 };
 
 module.exports = config;

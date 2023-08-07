@@ -37,7 +37,7 @@ module.exports = async ({
 }) => {
   /** check if customer already exist */
   const customerDetails = await sharedModels.customer.read({
-    emailORmobile: { email: email, mobile: mobile },
+    email, mobile, emailORmobile: 1,
   });
 
   if (customerDetails.length) {
@@ -56,9 +56,9 @@ module.exports = async ({
 
   if (
     subscription_plan ==
-      customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
+    customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
     subscription_plan ==
-      customerModuleConstants.registration.SUBSCRIPTION_PLAN.SILVER
+    customerModuleConstants.registration.SUBSCRIPTION_PLAN.SILVER
   ) {
     customer_ref_id = sharedServices.uuidServices.uuidV4();
   }

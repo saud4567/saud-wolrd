@@ -1,5 +1,6 @@
 const sharedServices = require("shared/services");
 const sharedConstants = require("shared/constants");
+const encryptionServices = require("shared/services/encryption.services");
 
 const customerAuthenticationModel = {};
 
@@ -30,6 +31,8 @@ customerAuthenticationModel.create = async (
 // @model-desc: read customerAuthentication based on filter
 customerAuthenticationModel.read = async (whereParams) => {
   const where = [];
+  /** encyption of  where params */
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`customer_id=${whereParams.customerId}`);
@@ -65,6 +68,8 @@ customerAuthenticationModel.read = async (whereParams) => {
 // @model-desc: update customerAuthentication based on update and where params
 customerAuthenticationModel.update = async (updateParams, whereParams) => {
   const where = [];
+  /** encyption of  where params */
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`customer_id=${whereParams.customerId}`);

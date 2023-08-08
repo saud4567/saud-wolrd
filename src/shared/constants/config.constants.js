@@ -9,6 +9,10 @@ const config = {
     apiKey: process.env.API_KEY,
     apiSecret: process.env.API_SECRET,
     resetRequestExpiry: process.env.RESET_REQUEST_EXPIRY,
+    requestPublicKey: process.env.APP_REQUEST_PUBLIC_KEY_PATH,
+    requestPrivateKey: process.env.APP_REQUEST_PRIVATE_KEY_PATH,
+    responsePublicKey: process.env.APP_RESPONSE_PUBLIC_KEY_PATH,
+    responsePublicKey: process.env.APP_RESPONSE_PRIVATE_KEY_PATH,
   },
   database: {
     host: process.env.DATABASE_HOST,

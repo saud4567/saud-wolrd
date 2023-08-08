@@ -1,6 +1,7 @@
 const sharedServices = require("shared/services");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
+const encryptionServices = require("shared/services/encryption.services");
 
 module.exports = async ({
   customer_ref_id,
@@ -146,5 +147,6 @@ module.exports = async ({
   /** Insert bulk data into customer_product table  */
   await sharedModels.customerProduct.createMany(productDetailsArray);
 
-  return { customerId: customer_ref_id };
+  const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify({ customerId: customer_ref_id }));
+  return encyptedResponse;
 };

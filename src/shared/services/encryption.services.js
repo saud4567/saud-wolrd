@@ -3,17 +3,17 @@ const sharedConstants = require("shared/constants");
 
 const encryptionServices = {};
 
-const aeskey = crypto
-	.createHash('sha512')
-	.update(sharedConstants.appConfig.encryption.secretKey)
-	.digest('hex')
-	.substring(0, 32);
+// const aeskey = crypto
+// 	.createHash('sha512')
+// 	.update(sharedConstants.appConfig.encryption.secretKey)
+// 	.digest('hex')
+// 	.substring(0, 32);
 
-const encryptionIV = crypto
-	.createHash('sha512')
-	.update(sharedConstants.appConfig.encryption.secretIv)
-	.digest('hex')
-	.substring(0, 16);
+// const encryptionIV = crypto
+// 	.createHash('sha512')
+// 	.update(sharedConstants.appConfig.encryption.secretIv)
+// 	.digest('hex')
+// 	.substring(0, 16);
 
 // service_name: encryptData
 // service_description: data encryption

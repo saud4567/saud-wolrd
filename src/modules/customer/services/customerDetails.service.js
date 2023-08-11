@@ -52,7 +52,5 @@ module.exports = async ({ token, customerRefId, requestedData }) => {
     resp = customerModuleParsers.customerDetails({ customerDetails, customerBank, customerDp });
   }
 
-
-
   return resp;
 };

@@ -81,16 +81,19 @@ encryptionServices.encryptUsingRsaAlgorithm = (data) => {
 	);
 
 	// Simulate sender encrypting data in chunks with RSA
-	const plainText = data;
+	const requestPayload = data;
 	const chunkSize = 256; // Size that fits within RSA limitations
-	const chunks = [];
+	let chunks = "";
 
-	for (let i = 0; i < plainText.length; i += chunkSize) {
-		const chunk = plainText.slice(i, i + chunkSize);
-		const encryptedChunk = crypto.publicEncrypt(publicKey, Buffer.from(chunk, 'utf-8'));
-		chunks.push(encryptedChunk.toString('base64'));
+	for (let i = 0; i < requestPayload.length; i += chunkSize) {
+		const chunk = requestPayload.slice(i, i + chunkSize);
+		const encryptedChunk = crypto.publicEncrypt({
+			key: publicKey,
+			padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+		}, Buffer.from(chunk, 'utf-8'));
+		chunks += (encryptedChunk.toString('base64') + '.');
 	}
-	return chunks;
+	return chunks.substring(0, chunks.length - 1);;
 
 }
 
@@ -100,15 +103,19 @@ encryptionServices.decryptUsingRsaAlgorithm = async (data) => {
 		sharedConstants.appConfig.app.requestPrivateKey
 	);
 	// Simulate receiver decrypting data chunks with RSA
-	const decryptedChunks = [];
+	let decryptedChunks = "";
+	data = data.split(".");
 
-	for (const encryptedChunk of data) {
-		let bufferData = Buffer.from(encryptedChunk, 'base64');
-		const decryptedChunk = crypto.privateDecrypt(privateKey, bufferData);
-		decryptedChunks.push(decryptedChunk.toString('utf-8'));
+	for (const encryptedData of data) {
+		let bufferData = Buffer.from(encryptedData, 'base64');
+		const decryptedChunk = crypto.privateDecrypt({
+			key: privateKey,
+			padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+		}, bufferData);
+		decryptedChunks += decryptedChunk.toString('utf-8');
 	}
 
-	const decryptedData = decryptedChunks.join('');
+	const decryptedData = decryptedChunks;
 
 
 	return JSON.parse(decryptedData);

@@ -47,5 +47,10 @@ module.exports = {
       statusCode: 400,
       message: "Customer Details Not Found",
     },
+    CCDE009: {
+      code: "CCDE009",
+      statusCode: 400,
+      message: "Token Is Required",
+    },
   },
 };

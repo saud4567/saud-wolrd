@@ -18,9 +18,9 @@ mysqlHelperServices.parseInsertValues = (values) => {
     parsedValues[key] = values[key];
   });
 
-  const encryptedParsedValues = encryptionServices.encryptData(parsedValues);
+  // const encryptedParsedValues = encryptionServices.encryptData(parsedValues);
 
-  return encryptedParsedValues;
+  return parsedValues;
 };
 
 mysqlHelperServices.parseInsertManyValues = (values) => {

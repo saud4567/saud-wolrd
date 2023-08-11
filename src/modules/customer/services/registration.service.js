@@ -96,56 +96,63 @@ module.exports = async ({
   const customerId = customers.insertId;
 
   /** password ,mpin and biometric encryption */
-  password = await sharedServices.authServices.getPasswordHash(password);
-  mpin = await sharedServices.authServices.getPasswordHash(mpin);
-  biometric = await sharedServices.authServices.getPasswordHash(biometric);
+  // password = await sharedServices.authServices.getPasswordHash(password);
+  // mpin = await sharedServices.authServices.getPasswordHash(mpin);
+  //  biometric = await sharedServices.authServices.getPasswordHash(biometric);
 
   /** Insert data into customer_authentication table */
-  await sharedModels.customerAuthentication.create(
-    customerId,
-    password,
-    mpin,
-    biometric
-  );
+  // await sharedModels.customerAuthentication.create(
+  //   customerId,
+  //   password,
+  //   mpin,
+  //   biometric
+  //);
 
   /** Prepare bulk bank account details data */
-  let bankDetailsArray = [];
-  bank_account_details.map((b) => {
-    let bankDetails = {
-      customer_id: customerId,
-      ...b,
-    };
-    bankDetailsArray.push(bankDetails);
-  });
+  if (bank_account_details) {
+    let bankDetailsArray = [];
+    bank_account_details.map((b) => {
+      let bankDetails = {
+        customer_id: customerId,
+        ...b,
+      };
+      bankDetailsArray.push(bankDetails);
+    });
 
-  /** Insert bulk data into customer_bank table  */
-  await sharedModels.customerBank.createMany(bankDetailsArray);
+    /** Insert bulk data into customer_bank table  */
+    await sharedModels.customerBank.createMany(bankDetailsArray);
+  }
 
-  /** Prepare bulk DP details data */
-  let dpDetailsArray = [];
-  dp_details.map((d) => {
-    let dpDetails = {
-      customer_id: customerId,
-      ...d,
-    };
-    dpDetailsArray.push(dpDetails);
-  });
+  if (dp_details) {
+    /** Prepare bulk DP details data */
+    let dpDetailsArray = [];
+    dp_details.map((d) => {
+      let dpDetails = {
+        customer_id: customerId,
+        ...d,
+      };
+      dpDetailsArray.push(dpDetails);
+    });
 
-  /** Insert bulk data into customer_dp table  */
-  await sharedModels.customerDp.createMany(dpDetailsArray);
+    /** Insert bulk data into customer_dp table  */
+    await sharedModels.customerDp.createMany(dpDetailsArray);
+  }
 
-  /** Prepare bulk customer product details data */
-  let productDetailsArray = [];
-  product_details.map((p) => {
-    let productDetails = {
-      customer_id: customerId,
-      ...p,
-    };
-    productDetailsArray.push(productDetails);
-  });
 
-  /** Insert bulk data into customer_product table  */
-  await sharedModels.customerProduct.createMany(productDetailsArray);
+  if (product_details) {
+    /** Prepare bulk customer product details data */
+    let productDetailsArray = [];
+    product_details.map((p) => {
+      let productDetails = {
+        customer_id: customerId,
+        ...p,
+      };
+      productDetailsArray.push(productDetails);
+    });
+
+    /** Insert bulk data into customer_product table  */
+    await sharedModels.customerProduct.createMany(productDetailsArray);
+  }
 
   const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify({ customerId: customer_ref_id }));
   return encyptedResponse;

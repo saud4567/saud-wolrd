@@ -96,17 +96,17 @@ module.exports = async ({
   const customerId = customers.insertId;
 
   /** password ,mpin and biometric encryption */
-  // password = await sharedServices.authServices.getPasswordHash(password);
+  password = await sharedServices.authServices.getPasswordHash(password);
   // mpin = await sharedServices.authServices.getPasswordHash(mpin);
   //  biometric = await sharedServices.authServices.getPasswordHash(biometric);
 
   /** Insert data into customer_authentication table */
-  // await sharedModels.customerAuthentication.create(
-  //   customerId,
-  //   password,
-  //   mpin,
-  //   biometric
-  //);
+  await sharedModels.customerAuthentication.create(
+    customerId,
+    password,
+    mpin,
+    biometric
+  );
 
   /** Prepare bulk bank account details data */
   if (bank_account_details) {
@@ -154,6 +154,7 @@ module.exports = async ({
     await sharedModels.customerProduct.createMany(productDetailsArray);
   }
 
+  /**encrypt response */
   const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify({ customerId: customer_ref_id }));
   return encyptedResponse;
 };

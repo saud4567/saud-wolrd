@@ -10,21 +10,22 @@ const customerModuleControllers = {};
 //      controller used to register customer
 customerModuleControllers.register = async (req, res, next) => {
   try {
-
-    // const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
-    const encyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(req.body);
+    /** note : added only for testing purpose */
+    const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(encyptedResponse);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.registration(encyptedPayload);
+    const validateBody = customerModuleValidators.registration(decyptedPayload);
 
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.registration(
-      encyptedPayload
+      validateBody.body
     );
 
     /**return response */
     next({
       ...customerModuleConstants.registration.messages.CRS001,
-      result: encyptedPayload,
+      result: customerDetails,
     });
   } catch (error) {
     next(JSON.parse(error.message));
@@ -36,8 +37,11 @@ customerModuleControllers.register = async (req, res, next) => {
 //      controller used to authenticate customer and generate token
 customerModuleControllers.authenticate = async (req, res, next) => {
   try {
+    const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(encyptedResponse);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.authentication(req.body);
+    const validateBody = customerModuleValidators.authentication(decyptedPayload);
 
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.authentication({
@@ -61,12 +65,14 @@ customerModuleControllers.authenticate = async (req, res, next) => {
 //      controller used to validate token
 customerModuleControllers.validate = async (req, res, next) => {
   try {
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(req.headers.authorization);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.tokenValidate(req.headers);
+    const validateBody = customerModuleValidators.tokenValidate(decyptedPayload);
 
     /** handle logic within service function */
     const validateToken = await customerModuleServices.validate({
-      token: validateBody.authorization,
+      token: validateBody.token,
     });
 
     /**return response */
@@ -94,8 +100,15 @@ customerModuleControllers.validate = async (req, res, next) => {
 //      controller used to get customer details
 customerModuleControllers.customerDetails = async (req, res, next) => {
   try {
+    const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(
+      JSON.stringify({
+        "headers": req.headers,
+        "body": req.body
+      }));
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(encyptedResponse);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.customerDetails(req);
+    const validateBody = customerModuleValidators.customerDetails(decyptedPayload);
 
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.customerDetails({
@@ -129,8 +142,11 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
 //      controller used to change the credentials of customer
 customerModuleControllers.changeCredentials = async (req, res, next) => {
   try {
+    const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(encyptedResponse);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.changeCredentials(req.body);
+    const validateBody = customerModuleValidators.changeCredentials(decyptedPayload);
     /** handle logic within service function */
     const changeCredentials = await customerModuleServices.changeCredentials({
       resetMode: validateBody.reset_mode,
@@ -153,10 +169,11 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
 //      controller used to initiate the process for resetting the credentials of customer
 customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
   try {
+    const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(encyptedResponse);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.initiateResetCredentials(
-      req.body
-    );
+    const validateBody = customerModuleValidators.initiateResetCredentials(decyptedPayload);
     /** handle logic within service function */
     const initiateReset = await customerModuleServices.initiateResetCredentials(
       {
@@ -181,10 +198,12 @@ customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
 //      controller used to reset credentials of customer
 customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
   try {
+
+    const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
+    /**decrypt the requested payload  */
+    const decyptedPayload = await encryptionServices.decryptUsingRsaAlgorithm(encyptedResponse);
     /** Validation of request data */
-    const validateBody = customerModuleValidators.confirmResetCredentials(
-      req.body
-    );
+    const validateBody = customerModuleValidators.confirmResetCredentials(decyptedPayload);
     /** handle logic within service function */
     const confirmReset = await customerModuleServices.confirmResetCredentials({
       resetRequestId: validateBody.reset_request_id,

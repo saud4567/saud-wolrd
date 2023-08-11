@@ -74,7 +74,7 @@ encryptionServices.generateRSAKeysForRequest = () => {
 
 }
 
-encryptionServices.encryptUsingRsaAlgorithm = (data) => {
+encryptionServices.encryptUsingRsaAlgorithm = async (data) => {
 
 	const publicKey = fs.readFileSync(
 		sharedConstants.appConfig.app.requestPublicKey
@@ -137,8 +137,8 @@ encryptionServices.generateRSAKeysForResponse = () => {
 	});
 
 	// Creating public and private key files
-	fs.writeFileSync("response_public_key", publicKey);
-	fs.writeFileSync("response_private_key", privateKey);
+	fs.writeFileSync(sharedConstants.appConfig.app.responsePublicKey, publicKey);
+	fs.writeFileSync(sharedConstants.appConfig.app.responsePrivateKey, privateKey);
 };
 
 module.exports = encryptionServices;

@@ -3,6 +3,7 @@ const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const sharedConstants = require("shared/constants");
 const customerModuleParsers = require("../parsers");
+const encryptionServices = require("shared/services/encryption.services");
 
 module.exports = async ({ token, customerRefId, requestedData }) => {
   if (token) {
@@ -52,5 +53,8 @@ module.exports = async ({ token, customerRefId, requestedData }) => {
     resp = customerModuleParsers.customerDetails({ customerDetails, customerBank, customerDp });
   }
 
-  return resp;
+  /**encrypt response */
+  const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(resp));
+
+  return encyptedResponse;
 };

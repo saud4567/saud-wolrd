@@ -95,6 +95,7 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
 
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.customerDetails({
+      token: validateBody.token,
       customerRefId: validateBody.customerId,
       requestedData: validateBody.requestedData,
     });
@@ -105,7 +106,17 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
       result: customerDetails,
     });
   } catch (error) {
-    next(JSON.parse(error.message));
+    if (
+      error.name == customerModuleConstants.validate.JsonWebTokenError ||
+      error.name == customerModuleConstants.validate.tokenExpiredError
+    ) {
+      next({
+        ...customerModuleConstants.validate.errorMessages.CVE002,
+        result: "",
+      });
+    } else {
+      next(JSON.parse(error.message));
+    }
   }
 };
 

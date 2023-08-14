@@ -91,7 +91,7 @@ customerModel.read = async (whereParams) => {
 
   if (whereParams.username) {
     where.push(
-      `(mobile='${whereParams.username}' or email='${whereParams.username}')`
+      `(mobile='${whereParams.username}' or email='${whereParams.username}' or customer_ref_id='${whereParams.username}')`
     );
   }
 

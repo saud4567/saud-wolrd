@@ -1,4 +1,5 @@
 const sharedServices = require("shared/services");
+//const encryptionServices = require("shared/services/encryption.services");
 
 const getParams = (params) => {
   if (params.length === 3) {
@@ -21,6 +22,7 @@ const getParams = (params) => {
 const eventLoggingMiddleware = (...params) => {
   const { req, res, next, error } = getParams(params);
   const requestId = sharedServices.uuidServices.uuidV4();
+  req.body = sharedServices.encryptionServices.decryptUsingRsaAlgorithm(req.body);
   req.requestId = requestId;
 
   req.on("end", () => requestOnEnd(...params));

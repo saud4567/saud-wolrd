@@ -3,7 +3,7 @@ const sharedConstants = require("shared/constants");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const moment = require("moment");
-const encryptionServices = require("shared/services/encryption.services");
+
 
 module.exports = async ({ username, authorizationType, authorizationKey }) => {
   /** get customer details using username*/
@@ -66,9 +66,6 @@ module.exports = async ({ username, authorizationType, authorizationKey }) => {
     { expiresIn: jwtExpiresIn + "h" }
   );
 
-  /**encrypt response */
-  const encyptedResponse = await encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify({ token: token }));
-
-  return encyptedResponse;
+  return { token: token };
 
 };

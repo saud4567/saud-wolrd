@@ -12,6 +12,13 @@ const appModules = require("../src/modules");
 
 const app = express();
 
+// enable middleware for parsing JSON request bodies
+app.use(express.json());
+// enable middleware for parsing text request bodies
+app.use(express.text({ extended: true }));
+// enable middleware for parsing URL-encoded request bodies
+app.use(express.urlencoded({ extended: true }));
+
 // enable req and res event logging middleware
 app.use(sharedMiddlewares.eventLoggingMiddleware);
 
@@ -42,12 +49,6 @@ app.use(
         },
     })
 );
-
-// enable middleware for parsing JSON request bodies
-app.use(express.json());
-
-// enable middleware for parsing URL-encoded request bodies
-app.use(express.urlencoded({ extended: true }));
 
 // load all app modules
 app.use(appModules);

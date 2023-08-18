@@ -36,4 +36,5 @@ module.exports = async ({ username, twoFa, resetMode }) => {
   );
 
   return { resetRequestId: resetRequestId };
+
 };

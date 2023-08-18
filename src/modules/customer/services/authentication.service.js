@@ -4,6 +4,7 @@ const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const moment = require("moment");
 
+
 module.exports = async ({ username, authorizationType, authorizationKey }) => {
   /** get customer details using username*/
   const customerDetails = await sharedModels.customer.read({ username });
@@ -74,4 +75,5 @@ module.exports = async ({ username, authorizationType, authorizationKey }) => {
   );
 
   return { token: token };
+
 };

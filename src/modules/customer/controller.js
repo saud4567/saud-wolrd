@@ -1,6 +1,7 @@
 const customerModuleConstants = require("./constants");
 const customerModuleServices = require("./services");
 const customerModuleValidators = require("./validators");
+const encryptionServices = require("shared/services/encryption.services");
 
 const customerModuleControllers = {};
 
@@ -32,6 +33,7 @@ customerModuleControllers.register = async (req, res, next) => {
 //      controller used to authenticate customer and generate token
 customerModuleControllers.authenticate = async (req, res, next) => {
   try {
+
     /** Validation of request data */
     const validateBody = customerModuleValidators.authentication(req.body);
 
@@ -62,7 +64,7 @@ customerModuleControllers.validate = async (req, res, next) => {
 
     /** handle logic within service function */
     const validateToken = await customerModuleServices.validate({
-      token: validateBody.authorization,
+      token: validateBody.token,
     });
 
     /**return response */
@@ -125,7 +127,7 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
 //      controller used to change the credentials of customer
 customerModuleControllers.changeCredentials = async (req, res, next) => {
   try {
-    /** Validation of request data */
+    // /** Validation of request data */
     const validateBody = customerModuleValidators.changeCredentials(req.body);
     /** handle logic within service function */
     const changeCredentials = await customerModuleServices.changeCredentials({
@@ -149,10 +151,9 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
 //      controller used to initiate the process for resetting the credentials of customer
 customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
   try {
+
     /** Validation of request data */
-    const validateBody = customerModuleValidators.initiateResetCredentials(
-      req.body
-    );
+    const validateBody = customerModuleValidators.initiateResetCredentials(req.body);
     /** handle logic within service function */
     const initiateReset = await customerModuleServices.initiateResetCredentials(
       {
@@ -178,9 +179,7 @@ customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
 customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
   try {
     /** Validation of request data */
-    const validateBody = customerModuleValidators.confirmResetCredentials(
-      req.body
-    );
+    const validateBody = customerModuleValidators.confirmResetCredentials(req.body);
     /** handle logic within service function */
     const confirmReset = await customerModuleServices.confirmResetCredentials({
       resetRequestId: validateBody.reset_request_id,

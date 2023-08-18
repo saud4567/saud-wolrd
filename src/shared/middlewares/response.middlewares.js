@@ -3,7 +3,7 @@ const responseMiddleware = (parsedResponse, req, res, next) => {
   res.setHeader("X-Request-Id", req.requestId);
 
   if (parsedResponse.statusCode >= 200 && parsedResponse.statusCode < 300) {
-    parsedResponse.result = encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(parsedResponse.result));
+    // parsedResponse.result = encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(parsedResponse.result));
     res.status(parsedResponse.statusCode).send({
       code: parsedResponse.code,
       message: parsedResponse.message,

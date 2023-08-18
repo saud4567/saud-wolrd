@@ -22,7 +22,7 @@ const getParams = (params) => {
 const eventLoggingMiddleware = (...params) => {
   const { req, res, next, error } = getParams(params);
   const requestId = sharedServices.uuidServices.uuidV4();
-  req.body = sharedServices.encryptionServices.decryptUsingRsaAlgorithm(req.body);
+  // req.body = sharedServices.encryptionServices.decryptUsingRsaAlgorithm(req.body);
   req.requestId = requestId;
 
   req.on("end", () => requestOnEnd(...params));

@@ -64,7 +64,7 @@ customerModuleControllers.validate = async (req, res, next) => {
 
     /** handle logic within service function */
     const validateToken = await customerModuleServices.validate({
-      token: validateBody.token,
+      token: validateBody.authorization,
     });
 
     /**return response */

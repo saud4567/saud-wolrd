@@ -10,6 +10,6 @@ module.exports = ({ authorization }) => {
   }
 
   return {
-    token,
+    authorization,
   };
 };

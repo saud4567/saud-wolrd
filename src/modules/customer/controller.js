@@ -28,6 +28,84 @@ customerModuleControllers.register = async (req, res, next) => {
   }
 };
 
+// controller_name: loginType
+// controller_description:
+//      controller used to get customer login type
+customerModuleControllers.loginType = async (req, res, next) => {
+  try {
+
+    /** Validation of request data */
+    const validateBody = customerModuleValidators.loginType(req.body);
+
+    /** handle logic within service function */
+    const customerDetails = await customerModuleServices.loginType({
+      username: validateBody.username,
+    });
+
+    /**return response */
+    next({
+      ...customerModuleConstants.authentication.messages.CAS002,
+      result: customerDetails,
+    });
+  } catch (error) {
+    next(JSON.parse(error.message));
+  }
+};
+
+// controller_name: firstTimeLoginValidate
+// controller_description:
+//      controller used to validate customer for first time login
+customerModuleControllers.firstTimeLoginValidate = async (req, res, next) => {
+  try {
+
+    /** Validation of request data */
+    const validateBody = customerModuleValidators.firstTimeLoginValidate(req.body);
+
+    /** handle logic within service function */
+    const customerDetails = await customerModuleServices.firstTimeLoginValidate({
+      username: validateBody.username,
+      twoFa: validateBody.two_fa,
+    });
+
+    /**return response */
+    next({
+      ...customerModuleConstants.authentication.messages.CAS002,
+      result: customerDetails,
+    });
+  } catch (error) {
+    next(JSON.parse(error.message));
+  }
+};
+
+// controller_name: firstTimeLogin
+// controller_description:
+//      controller used to login for first time
+customerModuleControllers.firstTimeLogin = async (req, res, next) => {
+  try {
+
+    /** Validation of request data */
+    const validateBody = customerModuleValidators.firstTimeLogin(req.body);
+
+    /** handle logic within service function */
+    const customerDetails = await customerModuleServices.firstTimeLogin({
+      username: validateBody.username,
+      twoFa: validateBody.two_fa,
+      mpin: validateBody.mpin,
+      biometric: validateBody.biometric,
+      password: validateBody.password
+    });
+
+    /**return response */
+    next({
+      ...customerModuleConstants.authentication.messages.CAS002,
+      result: customerDetails,
+    });
+  } catch (error) {
+    next(JSON.parse(error.message));
+  }
+};
+
+
 // controller_name: authenticate
 // controller_description:
 //      controller used to authenticate customer and generate token
@@ -40,8 +118,9 @@ customerModuleControllers.authenticate = async (req, res, next) => {
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.authentication({
       username: validateBody.username,
-      authorizationType: validateBody.authorization_type,
-      authorizationKey: validateBody.authorization_key,
+      mpin: validateBody.mpin,
+      biometric: validateBody.biometric,
+      password: validateBody.password
     });
 
     /**return response */

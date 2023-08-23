@@ -10,7 +10,8 @@ customerAuthenticationModel.create = async (
   customerId,
   password,
   mpin,
-  biometric
+  biometric,
+  session_id
 ) => {
   const result = await new sharedServices.mysqlServices()
     .insert(
@@ -20,6 +21,7 @@ customerAuthenticationModel.create = async (
         password,
         mpin,
         biometric,
+        session_id
       })
     )
     .build();
@@ -45,6 +47,7 @@ customerAuthenticationModel.read = async (whereParams) => {
             password,
             mpin,
             biometric,
+            session_id,
             pwd_last_set_date,
             mpin_last_set_date,
             failed_login_attempt,
@@ -84,6 +87,7 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
         biometric: updateParams.biometric,
         pwd_last_set_date: updateParams.pwdLastSetDate,
         mpin_last_set_date: updateParams.mpinLastSetDate,
+        session_id: updateParams.sessionId
       })
     )
     .where(where.join(" AND "))

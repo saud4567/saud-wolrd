@@ -1,5 +1,8 @@
 const registrationService = require("./registration.service");
 const authenticationService = require("./authentication.service");
+const loginTypeService = require("./loginType.service");
+const firstTimeLoginValidateService = require("./firstTimeLoginValidate.service");
+const firstTimeLoginService = require("./firstTimeLogin.service");
 const validateService = require("./validate.service");
 const customerDetailsService = require("./customerDetails.service");
 const changeCredentialsService = require("./changeCredentials.service");
@@ -9,11 +12,14 @@ const confirmResetCredentialsService = require("./confirmResetCredentials.servic
 const customerModuleServices = {
   registration: registrationService,
   authentication: authenticationService,
+  loginType: loginTypeService,
+  firstTimeLoginValidate: firstTimeLoginValidateService,
+  firstTimeLogin: firstTimeLoginService,
   validate: validateService,
   customerDetails: customerDetailsService,
   changeCredentials: changeCredentialsService,
   initiateResetCredentials: initiateResetCredentialsService,
-  confirmResetCredentials: confirmResetCredentialsService,
+  confirmResetCredentials: confirmResetCredentialsService
 };
 
 module.exports = customerModuleServices;

@@ -10,6 +10,33 @@ const customerModuleControllers = require("./controller.js");
 //      route used to register customer
 customerModuleRoutes.post("/register", customerModuleControllers.register);
 
+// route_name: login-type
+// route_path: /customer/login-type
+// route_description:
+//      route used to get customer login type
+customerModuleRoutes.post(
+  "/login-type",
+  customerModuleControllers.loginType
+);
+
+// route_name: first-login-validate
+// route_path: /customer/first-login-validate
+// route_description:
+//      route used to validate customer for first time login
+customerModuleRoutes.post(
+  "/first-login-validate",
+  customerModuleControllers.firstTimeLoginValidate
+);
+
+// route_name: first-login
+// route_path: /customer/first-login
+// route_description:
+//      route used to login for first time
+customerModuleRoutes.post(
+  "/first-login",
+  customerModuleControllers.firstTimeLogin
+);
+
 // route_name: authenticate
 // route_path: /customer/authenticate
 // route_description:

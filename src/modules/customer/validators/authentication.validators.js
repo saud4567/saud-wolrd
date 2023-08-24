@@ -2,38 +2,23 @@ const sharedServices = require("shared/services");
 const sharedValidators = require("shared/validators");
 const customerModuleConstants = require("../constants");
 
-module.exports = ({ username, authorization_type, authorization_key }) => {
+module.exports = ({ username, mpin, biometric, password }) => {
   if (sharedValidators.isRequired(username)) {
     sharedServices.error.throw(
       customerModuleConstants.authentication.errorMessages.CAE001
     );
   }
 
-  if (sharedValidators.isRequired(authorization_type)) {
+  if (sharedValidators.isRequired(mpin) && sharedValidators.isRequired(biometric) && sharedValidators.isRequired(password)) {
     sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE002
-    );
-  }
-
-  if (
-    !customerModuleConstants.authentication.AUTHORIZATION_TYPE.hasOwnProperty(
-      authorization_type
-    )
-  ) {
-    sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE003
-    );
-  }
-
-  if (sharedValidators.isRequired(authorization_key)) {
-    sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE004
+      customerModuleConstants.authentication.errorMessages.CAE009
     );
   }
 
   return {
     username,
-    authorization_type,
-    authorization_key,
+    mpin,
+    biometric,
+    password
   };
 };

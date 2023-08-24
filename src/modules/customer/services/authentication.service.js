@@ -5,7 +5,7 @@ const sharedModels = require("shared/models");
 const moment = require("moment");
 
 
-module.exports = async ({ username, authorizationType, authorizationKey }) => {
+module.exports = async ({ username, mpin, biometric, password }) => {
   /** get customer details using username*/
   const customerDetails = await sharedModels.customer.read({ username });
 
@@ -14,66 +14,92 @@ module.exports = async ({ username, authorizationType, authorizationKey }) => {
       customerModuleConstants.authentication.errorMessages.CAE005
     );
 
+  /** get customer authentication data */
   const customerAuthentication = await sharedModels.customerAuthentication.read(
     { customerId: customerDetails[0].customerId }
   );
 
-  // if (!customerAuthentication.length)
-  //   sharedServices.error.throw(
-  //     customerModuleConstants.authentication.errorMessages.CAE005
-  //   );
+  if (!customerAuthentication.length)
+    sharedServices.error.throw(
+      customerModuleConstants.authentication.errorMessages.CAE005
+    );
 
-  /** based on authorization type compare password,mpin and biometric*/
-  let passwordHash;
-  if (
-    authorizationType ==
-    customerModuleConstants.authentication.AUTHORIZATION_TYPE.password
-  ) {
-    if (authorizationKey != 'Password@123') {
-    sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE006
-    );
+  /** check if previous session_id is valid or not */
+  try {
+    if (customerAuthentication[0].session_id) {
+      const isValid = sharedServices.authServices.validateJWT(
+        customerAuthentication[0].session_id,
+        sharedConstants.appConfig.app.userJWTSecret
+      );
+      if (isValid) {
+        return { token: customerAuthentication[0].session_id };
+      }
+    }
+  } catch (error) {
+
   }
-  } else if (
-    authorizationType ==
-    customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin
-  ) {
-    if (authorizationKey != '12341234') {
-    sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE006
-    );
-  }
-  } else if (
-    authorizationType ==
-    customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric
-  ) {
-    if (authorizationKey != 'ABCD1234') {
+
+  /** if previous session_id is not valid then generate new session_id */
+  if (customerDetails[0].subscription_plan ==
+    customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM) {
+    if (!password && !mpin && !biometric) {
       sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE006
+        customerModuleConstants.authentication.errorMessages.CAE009
+      );
+    }
+  } else {
+    if (!mpin && !biometric) {
+      sharedServices.error.throw(
+        customerModuleConstants.authentication.errorMessages.CAE010
       );
     }
   }
 
-  // const match = await sharedServices.authServices.comparePassword(
-  //   authorizationKey,
-  //   passwordHash
-  // );
-  
+  /** based on subscription_plan compare mpin,biometric or password */
+  let passwordHash;
+  let authorizationKey;
+  if (password) {
+    passwordHash = customerAuthentication[0].password;
+    authorizationKey = password;
+  } else if (mpin) {
+    passwordHash = customerAuthentication[0].mpin;
+    authorizationKey = mpin;
+  } else if (biometric) {
+    passwordHash = customerAuthentication[0].biometric;
+    authorizationKey = biometric;
+  }
 
-  /** set JWT token expiry to midnight */
-  let midnightTime = moment().startOf("day");
-  let jwtExpiresIn = moment().diff(midnightTime, "hours");
-
-  // generate a jwt token based on customer_id and customerRefId
-  const token = sharedServices.authServices.getJWT(
-    {
-      customerId: customerDetails[0].customerId,
-      customerRefId: customerDetails[0].customer_ref_id,
-    },
-    sharedConstants.appConfig.app.userJWTSecret,
-    { expiresIn: jwtExpiresIn + "h" }
+  /**compare credentials */
+  const match = await sharedServices.authServices.comparePassword(
+    authorizationKey,
+    passwordHash
   );
 
-  return { token: token };
+  if (match) {
+    /** set JWT token expiry to midnight */
+    let midnightTime = moment().add(1, 'days').startOf('day');
+    let jwtExpiresIn = moment(midnightTime).diff(moment(), "hours");
+
+    // generate a jwt token based on customer_id and customerRefId
+    const token = sharedServices.authServices.getJWT(
+      {
+        customerId: customerDetails[0].customerId,
+        customerRefId: customerDetails[0].customer_ref_id,
+      },
+      sharedConstants.appConfig.app.userJWTSecret,
+      { expiresIn: jwtExpiresIn + "h" }
+    );
+
+    /**Update credential into customer_authentication table */
+    await sharedModels.customerAuthentication.update({ sessionId: token }, {
+      customerId: customerDetails[0].customerId,
+    });
+
+    return { token: token };
+  } else {
+    sharedServices.error.throw(
+      customerModuleConstants.authentication.errorMessages.CAE011
+    );
+  }
 
 };

@@ -11,7 +11,7 @@ customerAuthenticationModel.create = async (
   password,
   mpin,
   biometric,
-  session_id
+  token
 ) => {
   const result = await new sharedServices.mysqlServices()
     .insert(
@@ -21,7 +21,7 @@ customerAuthenticationModel.create = async (
         password,
         mpin,
         biometric,
-        session_id
+        token
       })
     )
     .build();

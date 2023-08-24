@@ -377,6 +377,16 @@ module.exports = {
       statusCode: 400,
       message: "Customer Mobile Number Already Exists",
     },
+    CRE075: {
+      code: "CRE075",
+      statusCode: 400,
+      message: "Trading Experience Is Invalid",
+    },
+    CRE076: {
+      code: "CRE076",
+      statusCode: 400,
+      message: "Customer Reference Id Is Required",
+    },
   },
 
   GENDER: {

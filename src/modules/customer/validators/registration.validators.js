@@ -82,6 +82,15 @@ module.exports = (body) => {
     });
   }
 
+  if (body.subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM) {
+    if (sharedValidators.isRequired(body.customer_ref_id)) {
+      errorListArray.push({
+        subscription_plan:
+          customerModuleConstants.registration.errorMessages.CRE076.message,
+      });
+    }
+  }
+
   if (body.subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
     body.subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM) {
     if (sharedValidators.isRequired(body.pan)) {
@@ -301,7 +310,7 @@ module.exports = (body) => {
         customerModuleConstants.registration.errorMessages.CRE022.message,
     });
   }
-  if (!sharedValidators.isInt(body.annual_income)) {
+  if (!sharedValidators.isFloat(body.annual_income)) {
     errorListArray.push({
       annual_income:
         customerModuleConstants.registration.errorMessages.CRE023.message,
@@ -356,7 +365,12 @@ module.exports = (body) => {
         customerModuleConstants.registration.errorMessages.CRE030.message,
     });
   }
-
+  if (!sharedValidators.isFloat(body.trading_experience)) {
+    errorListArray.push({
+      annual_income:
+        customerModuleConstants.registration.errorMessages.CRE075.message,
+    });
+  }
   if (sharedValidators.isRequired(body.brokerage_plan)) {
     errorListArray.push({
       brokerage_plan:

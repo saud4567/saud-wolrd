@@ -41,6 +41,8 @@ sharedValidators.isValidDate = (value) => /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1
 
 sharedValidators.isInt = (value) => (value % 1 === 0) ? true : false;
 
+sharedValidators.isFloat = (value) => /[+-]?([0-9]*[.])?[0-9]+$/.test(value);
+
 sharedValidators.isValidAadhar = (value) => /^\d{12}$/.test(value);
 
 module.exports = sharedValidators;

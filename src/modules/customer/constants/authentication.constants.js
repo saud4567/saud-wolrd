@@ -36,7 +36,7 @@ module.exports = {
       code: "CAE005",
       statusCode: 400,
       message:
-        "Entered email/mobile is not registered please sign up using correct credentials",
+        "Entered email/mobile/customer Id is not registered please sign up using correct credentials",
     },
     CAE006: {
       code: "CAE006",
@@ -66,9 +66,13 @@ module.exports = {
     CAE011: {
       code: "CAE011",
       statusCode: 400,
-      message: "Credentials Does Not Match",
+      message: "Credentials Does Not Match, <number> Number of Attempt(s) Remaining",
     },
-
+    CAE012: {
+      code: "CAE012",
+      statusCode: 400,
+      message: "Login Is Blocked, Please Try After 1 Hour",
+    },
   },
   AUTHORIZATION_TYPE: {
     password: "password",

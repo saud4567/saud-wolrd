@@ -47,7 +47,7 @@ customerAuthenticationModel.read = async (whereParams) => {
             password,
             mpin,
             biometric,
-            session_id,
+            token,
             pwd_last_set_date,
             mpin_last_set_date,
             failed_login_attempt,
@@ -87,7 +87,10 @@ customerAuthenticationModel.update = async (updateParams, whereParams) => {
         biometric: updateParams.biometric,
         pwd_last_set_date: updateParams.pwdLastSetDate,
         mpin_last_set_date: updateParams.mpinLastSetDate,
-        session_id: updateParams.sessionId
+        token: updateParams.token,
+        failed_login_attempt: updateParams.failedLoginAttempt,
+        last_failed_login_date: updateParams.lastFailedLoginDate,
+        is_login_blocked: updateParams.isLoginBlocked
       })
     )
     .where(where.join(" AND "))

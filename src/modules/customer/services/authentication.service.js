@@ -24,22 +24,35 @@ module.exports = async ({ username, mpin, biometric, password }) => {
       customerModuleConstants.authentication.errorMessages.CAE005
     );
 
-  /** check if previous session_id is valid or not */
+  /** check if previous token is valid or not */
   try {
-    if (customerAuthentication[0].session_id) {
+    if (customerAuthentication[0].token) {
       const isValid = sharedServices.authServices.validateJWT(
-        customerAuthentication[0].session_id,
+        customerAuthentication[0].token,
         sharedConstants.appConfig.app.userJWTSecret
       );
       if (isValid) {
-        return { token: customerAuthentication[0].session_id };
+        return { token: customerAuthentication[0].token };
       }
     }
   } catch (error) {
 
   }
 
-  /** if previous session_id is not valid then generate new session_id */
+  /** check if is_login_blocked is set or not */
+  if (customerAuthentication[0].is_login_blocked == 1) {
+    let loginBlockedHrs = moment().diff(customerAuthentication[0].last_failed_login_date, "hours");
+    if (loginBlockedHrs >= sharedConstants.appConfig.app.loginBlockedTime) {
+      await sharedModels.customerAuthentication.update({ failedLoginAttempt: 0, isLoginBlocked: 0 }, {
+        customerId: customerDetails[0].customerId,
+      })
+    } else {
+      sharedServices.error.throw(
+        customerModuleConstants.authentication.errorMessages.CAE012
+      );
+    }
+  }
+  /** if previous token is not valid then generate new token */
   if (customerDetails[0].subscription_plan ==
     customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM) {
     if (!password && !mpin && !biometric) {
@@ -91,14 +104,38 @@ module.exports = async ({ username, mpin, biometric, password }) => {
     );
 
     /**Update credential into customer_authentication table */
-    await sharedModels.customerAuthentication.update({ sessionId: token }, {
+    await sharedModels.customerAuthentication.update({ token }, {
       customerId: customerDetails[0].customerId,
     });
 
     return { token: token };
   } else {
+    /** get customer authentication data */
+    const customerAuthentication = await sharedModels.customerAuthentication.read(
+      { customerId: customerDetails[0].customerId }
+    );
+    /**Update login attempt failed count into customer_authentication table */
+    let updateParams = {};
+    updateParams.failedLoginAttempt = (customerAuthentication[0].failed_login_attempt + 1);
+    updateParams.lastFailedLoginDate = moment().format("YYYY-MM-DD HH:mm:ss");
+    if (updateParams.failedLoginAttempt == sharedConstants.appConfig.app.failedLoginAttemptLimit) {
+      updateParams.isLoginBlocked = 1;
+    }
+    await sharedModels.customerAuthentication.update(updateParams, {
+      customerId: customerDetails[0].customerId,
+    });
+
+    let remainingLoginAttempts = sharedConstants.appConfig.app.failedLoginAttemptLimit - updateParams.failedLoginAttempt;
+    let errorMsg = {
+      code: "CAE011",
+      statusCode: "400",
+      message: ""
+    };
+    errorMsg.message = customerModuleConstants.authentication.errorMessages.CAE011.message;
+    errorMsg.message = errorMsg.message.replace("<number>", remainingLoginAttempts);
+
     sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE011
+      errorMsg
     );
   }
 

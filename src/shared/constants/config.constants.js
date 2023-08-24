@@ -13,6 +13,8 @@ const config = {
     requestPrivateKey: process.env.APP_REQUEST_PRIVATE_KEY_PATH,
     responsePublicKey: process.env.APP_RESPONSE_PUBLIC_KEY_PATH,
     responsePrivateKey: process.env.APP_RESPONSE_PRIVATE_KEY_PATH,
+    failedLoginAttemptLimit: process.env.FAILED_LOGIN_ATTEMPT_LIMIT,
+    loginBlockedTime: process.env.LOGIN_BLOCKED_TIME,
   },
   database: {
     host: process.env.DATABASE_HOST,

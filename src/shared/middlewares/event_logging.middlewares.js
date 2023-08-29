@@ -22,11 +22,15 @@ const getParams = (params) => {
 const eventLoggingMiddleware = (...params) => {
   const { req, res, next, error } = getParams(params);
   const requestId = sharedServices.uuidServices.uuidV4();
-  if(!req.headers["api-key"] && !req.headers["api-secret"]){
-    req.body = encryptionServices.decryptUsingRsaAlgorithm(req.body);
+
+  if (!req.headers["api-key"] && !req.headers["api-secret"]) {
+    req.body = encryptionServices.decryptUsingRsaAlgorithm(
+      req.body,
+      (keyType = "REQUEST_PRIVATE")
+    );
   }
-  req.body = encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
-  
+  //req.body = encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
+
   req.requestId = requestId;
 
   req.on("end", () => requestOnEnd(...params));

@@ -82,17 +82,31 @@ module.exports = (body) => {
     });
   }
 
-  if (body.subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM) {
+  if (
+    body.subscription_plan ==
+    customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
     if (sharedValidators.isRequired(body.customer_ref_id)) {
       errorListArray.push({
         subscription_plan:
           customerModuleConstants.registration.errorMessages.CRE076.message,
       });
     }
+
+    if (sharedValidators.isRequired(body.password)) {
+      errorListArray.push({
+        password:
+          customerModuleConstants.registration.errorMessages.CRE045.message,
+      });
+    }
   }
 
-  if (body.subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
-    body.subscription_plan == customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM) {
+  if (
+    body.subscription_plan ==
+      customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
+    body.subscription_plan ==
+      customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
     if (sharedValidators.isRequired(body.pan)) {
       errorListArray.push({
         pan: customerModuleConstants.registration.errorMessages.CRE012.message,
@@ -105,13 +119,15 @@ module.exports = (body) => {
     }
     if (sharedValidators.isRequired(body.aadhar)) {
       errorListArray.push({
-        aadhar: customerModuleConstants.registration.errorMessages.CRE016.message,
+        aadhar:
+          customerModuleConstants.registration.errorMessages.CRE016.message,
       });
     }
 
     if (body.aadhar && !sharedValidators.isValidAadhar(body.aadhar)) {
       errorListArray.push({
-        aadhar: customerModuleConstants.registration.errorMessages.CRE017.message,
+        aadhar:
+          customerModuleConstants.registration.errorMessages.CRE017.message,
       });
     }
 
@@ -207,7 +223,6 @@ module.exports = (body) => {
           customerModuleConstants.registration.errorMessages.CRE071.message,
       });
     }
-
 
     // Check if key exists
     if (body.dp_details) {
@@ -476,12 +491,6 @@ module.exports = (body) => {
         customerModuleConstants.registration.errorMessages.CRE061.message,
     });
   }
-  // if (sharedValidators.isRequired(body.password)) {
-  //   errorListArray.push({
-  //     password:
-  //       customerModuleConstants.registration.errorMessages.CRE045.message,
-  //   });
-  // }
 
   // if (sharedValidators.isRequired(body.mpin)) {
   //   errorListArray.push({
@@ -494,7 +503,6 @@ module.exports = (body) => {
   //       customerModuleConstants.registration.errorMessages.CRE048.message,
   //   });
   // }
-
 
   if (sharedValidators.isRequired(body.product_details)) {
     errorListArray.push({

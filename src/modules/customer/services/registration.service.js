@@ -2,7 +2,6 @@ const sharedServices = require("shared/services");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 
-
 module.exports = async ({
   customer_ref_id,
   name,
@@ -38,7 +37,9 @@ module.exports = async ({
 }) => {
   /** check if customer already exist */
   const customerDetails = await sharedModels.customer.read({
-    email, mobile, emailORmobile: 1,
+    email,
+    mobile,
+    emailORmobile: 1,
   });
 
   if (customerDetails.length) {
@@ -57,9 +58,9 @@ module.exports = async ({
 
   if (
     subscription_plan ==
-    customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
+      customerModuleConstants.registration.SUBSCRIPTION_PLAN.GOLD ||
     subscription_plan ==
-    customerModuleConstants.registration.SUBSCRIPTION_PLAN.SILVER
+      customerModuleConstants.registration.SUBSCRIPTION_PLAN.SILVER
   ) {
     customer_ref_id = sharedServices.uuidServices.uuidV4();
   }
@@ -95,18 +96,23 @@ module.exports = async ({
 
   const customerId = customers.insertId;
 
-  /** password ,mpin and biometric encryption */
-  //password = await sharedServices.authServices.getPasswordHash(password);
-  // mpin = await sharedServices.authServices.getPasswordHash(mpin);
-  //  biometric = await sharedServices.authServices.getPasswordHash(biometric);
+  if (
+    subscription_plan ==
+    customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
+    /** password ,mpin and biometric encryption */
+    password = await sharedServices.authServices.getPasswordHash(password);
+    // mpin = await sharedServices.authServices.getPasswordHash(mpin);
+    //  biometric = await sharedServices.authServices.getPasswordHash(biometric);
 
-  /** Insert data into customer_authentication table */
-  // await sharedModels.customerAuthentication.create(
-  //   customerId,
-  //   password,
-  //   mpin,
-  //   biometric
-  // );
+    /** Insert data into customer_authentication table */
+    await sharedModels.customerAuthentication.create(
+      customerId,
+      password
+      //  mpin,
+      //  biometric
+    );
+  }
 
   /** Prepare bulk bank account details data */
   if (bank_account_details) {
@@ -137,7 +143,6 @@ module.exports = async ({
     /** Insert bulk data into customer_dp table  */
     await sharedModels.customerDp.createMany(dpDetailsArray);
   }
-
 
   if (product_details) {
     /** Prepare bulk customer product details data */

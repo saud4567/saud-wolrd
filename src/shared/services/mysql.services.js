@@ -177,7 +177,7 @@ class mysqlServices {
       let result = await this.execute();
       /** decypt the result */
       if (result.length) {
-        // result = encryptionServices.decryptData(result);
+         result = encryptionServices.decryptData(result);
       }
       return result;
     } catch (error) {

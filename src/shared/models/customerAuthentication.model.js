@@ -34,7 +34,7 @@ customerAuthenticationModel.create = async (
 customerAuthenticationModel.read = async (whereParams) => {
   const where = [];
   /** encyption of  where params */
-  // whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`customer_id=${whereParams.customerId}`);
@@ -72,7 +72,7 @@ customerAuthenticationModel.read = async (whereParams) => {
 customerAuthenticationModel.update = async (updateParams, whereParams) => {
   const where = [];
   /** encyption of  where params */
-  // whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`customer_id=${whereParams.customerId}`);

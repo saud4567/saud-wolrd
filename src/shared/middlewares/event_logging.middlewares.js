@@ -25,8 +25,9 @@ const eventLoggingMiddleware = (...params) => {
   const requestId = sharedServices.uuidServices.uuidV4();
 
   if (
-    (!req.headers["api-key"] && !req.headers["api-secret"]) ||
-    !sharedConstants.appConfig.app.isEncrypt
+    !req.headers["api-key"] &&
+    !req.headers["api-secret"] &&
+    sharedConstants.appConfig.app.isEncrypt == 1
   ) {
     req.body = encryptionServices.decryptUsingRsaAlgorithm(
       req.body,

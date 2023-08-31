@@ -5,8 +5,9 @@ const responseMiddleware = (parsedResponse, req, res, next) => {
 
   if (parsedResponse.statusCode >= 200 && parsedResponse.statusCode < 300) {
     if (
-      (!req.headers["api-key"] && !req.headers["api-secret"]) ||
-      !sharedConstants.appConfig.app.isEncrypt
+      !req.headers["api-key"] &&
+      !req.headers["api-secret"] &&
+      sharedConstants.appConfig.app.isEncrypt == 1
     ) {
       parsedResponse.result = encryptionServices.encryptUsingRsaAlgorithm(
         JSON.stringify(parsedResponse.result),

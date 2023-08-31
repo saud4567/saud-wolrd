@@ -3,7 +3,7 @@ const sharedConstants = require("shared/constants");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const moment = require("moment");
-const axios = require("axios");
+const tradingPlatformUpdateService = require("../../common/services/tradingPlatformUpdate.service");
 
 module.exports = async ({ username, twoFa, mpin, biometric, password }) => {
   /** get customer details using username*/
@@ -79,16 +79,12 @@ module.exports = async ({ username, twoFa, mpin, biometric, password }) => {
     );
 
     /**update password on trading platform */
-    // Note: change the url to actual URL
-    const requestUrl = "";
-    const payload = JSON.stringify({
-      customer_id: customerDetails[0].customer_ref_id,
-      password: password,
+    const tradingPlatformUpdate = await tradingPlatformUpdateService({
+      customer_ref_id: customerDetails[0].customer_ref_id,
+      resetMode:
+        customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD,
+      changedCredentials: password,
     });
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    // const res = await axios.post(requestUrl, payload, { headers });
   } else {
     /** Insert data into customer_authentication table */
     await sharedModels.customerAuthentication.create(

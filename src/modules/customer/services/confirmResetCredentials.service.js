@@ -53,6 +53,10 @@ module.exports = async ({ resetRequestId, resetCredentials }) => {
     customerId: customerResetData[0].customer_id,
   });
 
+  const customerDetails = await sharedModels.customer.read({
+    customerId: customerResetData[0].customer_id,
+  });
+
   if (
     customerResetData[0].authorization_mode ==
       customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD ||

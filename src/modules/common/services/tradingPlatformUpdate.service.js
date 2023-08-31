@@ -1,5 +1,6 @@
 const sharedServices = require("shared/services");
 const sharedModels = require("shared/models");
+const customerModuleConstants = require("../../customer/constants");
 const axios = require("axios");
 
 module.exports = async ({ customer_ref_id, resetMode, changedCredentials }) => {

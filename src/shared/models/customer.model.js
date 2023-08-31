@@ -74,16 +74,13 @@ customerModel.create = async (
 customerModel.read = async (whereParams) => {
   const where = [];
   /** encyption of  where params */
-   whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`id='${whereParams.customerId}'`);
   }
 
-  if (whereParams.emailORmobile &&
-    whereParams.email &&
-    whereParams.mobile
-  ) {
+  if (whereParams.emailORmobile && whereParams.email && whereParams.mobile) {
     where.push(
       `(mobile='${whereParams.mobile}' or email='${whereParams.email}')`
     );

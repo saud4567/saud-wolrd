@@ -1,5 +1,6 @@
 const sharedServices = require("../services");
 const encryptionServices = require("shared/services/encryption.services");
+const sharedConstants = require("shared/constants");
 
 const getParams = (params) => {
   if (params.length === 3) {
@@ -23,7 +24,10 @@ const eventLoggingMiddleware = (...params) => {
   const { req, res, next, error } = getParams(params);
   const requestId = sharedServices.uuidServices.uuidV4();
 
-  if (!req.headers["api-key"] && !req.headers["api-secret"]) {
+  if (
+    (!req.headers["api-key"] && !req.headers["api-secret"]) ||
+    !sharedConstants.appConfig.app.isEncrypt
+  ) {
     req.body = encryptionServices.decryptUsingRsaAlgorithm(
       req.body,
       (keyType = "REQUEST_PRIVATE")

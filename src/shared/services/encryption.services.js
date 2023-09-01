@@ -120,7 +120,7 @@ encryptionServices.encryptUsingRsaAlgorithm = (data, keyType) => {
 };
 
 encryptionServices.decryptUsingRsaAlgorithm = (data, keyType) => {
-  if (data) {
+  if (data.length) {
     let privateKey;
     if (keyType == "RESPONSE_PUBLIC") {
       privateKey = s.readFileSync(

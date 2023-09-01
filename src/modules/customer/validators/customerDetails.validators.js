@@ -7,10 +7,10 @@ module.exports = (req) => {
   let apiKey = req.headers["api-key"];
   let apiSecret = req.headers["api-secret"];
   let token = req.headers.authorization;
-  let customerId = req.body.customer_id;
-  let requestedData = req.body.requested_data;
 
   if (!token) {
+    let customerId = req.body.customer_id;
+    let requestedData = req.body.requested_data;
     if (sharedValidators.isRequired(apiKey)) {
       sharedServices.error.throw(
         customerModuleConstants.customerDetails.errorMessages.CCDE001
@@ -52,18 +52,20 @@ module.exports = (req) => {
         customerModuleConstants.customerDetails.errorMessages.CCDE007
       );
     }
+
+    return {
+      customerId,
+      requestedData,
+    };
   } else {
     if (sharedValidators.isRequired(token)) {
       sharedServices.error.throw(
         customerModuleConstants.customerDetails.errorMessages.CCDE009
       );
     }
+
+    return {
+      token,
+    };
   }
-
-
-  return {
-    token,
-    customerId,
-    requestedData,
-  };
 };

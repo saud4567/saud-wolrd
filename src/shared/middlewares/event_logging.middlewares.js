@@ -29,12 +29,20 @@ const eventLoggingMiddleware = (...params) => {
     !req.headers["api-secret"] &&
     sharedConstants.appConfig.app.isEncrypt == 1
   ) {
-    req.body = encryptionServices.decryptUsingRsaAlgorithm(
-      req.body,
-      (keyType = "REQUEST_PRIVATE")
-    );
+    try {
+      if (req.headers["content-type"] != "text/plain") {
+        res
+          .status(400)
+          .json(sharedConstants.masterConstants.errorMessages.ME001);
+      }
+      req.body = encryptionServices.decryptUsingRsaAlgorithm(
+        req.body,
+        (keyType = "REQUEST_PRIVATE")
+      );
+    } catch (error) {
+      res.status(400).json(sharedConstants.masterConstants.errorMessages.ME001);
+    }
   }
-  //req.body = encryptionServices.encryptUsingRsaAlgorithm(JSON.stringify(req.body));
 
   req.requestId = requestId;
 

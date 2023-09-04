@@ -81,7 +81,20 @@ customerModel.read = async (whereParams) => {
     where.push(`id='${whereParams.customerId}'`);
   }
 
-  if (whereParams.emailORmobile && whereParams.email && whereParams.mobile) {
+  if (
+    whereParams.emailORmobile &&
+    whereParams.email &&
+    whereParams.mobile &&
+    whereParams.customerRefId
+  ) {
+    where.push(
+      `(mobile='${whereParams.mobile}' or email='${whereParams.email}' or customer_ref_id='${whereParams.customerRefId}')`
+    );
+  } else if (
+    whereParams.emailORmobile &&
+    whereParams.email &&
+    whereParams.mobile
+  ) {
     where.push(
       `(mobile='${whereParams.mobile}' or email='${whereParams.email}')`
     );
@@ -93,7 +106,7 @@ customerModel.read = async (whereParams) => {
     );
   }
 
-  if (whereParams.customerRefId) {
+  if (!whereParams.emailORmobile && whereParams.customerRefId) {
     where.push(`customer_ref_id='${whereParams.customerRefId}'`);
   }
 

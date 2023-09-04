@@ -56,9 +56,9 @@ module.exports = async ({
       );
     }
 
-    if (customerDetails[0].email == email) {
+    if (customerDetails[0].mobile == mobile) {
       sharedServices.error.throw(
-        customerModuleConstants.registration.errorMessages.CRE073
+        customerModuleConstants.registration.errorMessages.CRE074
       );
     }
   }

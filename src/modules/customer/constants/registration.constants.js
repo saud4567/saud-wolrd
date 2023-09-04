@@ -387,6 +387,11 @@ module.exports = {
       statusCode: 400,
       message: "Customer Reference Id Is Required",
     },
+    CRE077: {
+      code: "CRE077",
+      statusCode: 400,
+      message: "Customer Reference Id Already Exists",
+    },
   },
 
   GENDER: {

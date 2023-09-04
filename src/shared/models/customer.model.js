@@ -73,6 +73,7 @@ customerModel.create = async (
 // @model-desc: read customers based on filter
 customerModel.read = async (whereParams) => {
   const where = [];
+  let customerRefNo = whereParams.username;
   /** encyption of  where params */
   whereParams = encryptionServices.encryptData(whereParams);
 
@@ -88,7 +89,7 @@ customerModel.read = async (whereParams) => {
 
   if (whereParams.username) {
     where.push(
-      `(mobile='${whereParams.username}' or email='${whereParams.username}' or customer_ref_id='${whereParams.username}')`
+      `(mobile='${whereParams.username}' or email='${whereParams.username}' or customer_ref_id='${customerRefNo}')`
     );
   }
 

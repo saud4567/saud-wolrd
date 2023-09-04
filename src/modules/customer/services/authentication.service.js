@@ -13,6 +13,23 @@ module.exports = async ({ username, mpin, biometric, password }) => {
       customerModuleConstants.authentication.errorMessages.CAE005
     );
 
+  if (
+    customerDetails[0].subscription_plan ==
+    customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
+    if (!password && !mpin && !biometric) {
+      sharedServices.error.throw(
+        customerModuleConstants.authentication.errorMessages.CAE014
+      );
+    }
+  } else {
+    if (!mpin && !biometric) {
+      sharedServices.error.throw(
+        customerModuleConstants.authentication.errorMessages.CAE015
+      );
+    }
+  }
+
   /** get customer authentication data */
   const customerAuthentication = await sharedModels.customerAuthentication.read(
     { customerId: customerDetails[0].customerId }
@@ -20,21 +37,8 @@ module.exports = async ({ username, mpin, biometric, password }) => {
 
   if (!customerAuthentication.length)
     sharedServices.error.throw(
-      customerModuleConstants.authentication.errorMessages.CAE005
+      customerModuleConstants.authentication.errorMessages.CAE016
     );
-
-  /** check if previous token is valid or not */
-  try {
-    if (customerAuthentication[0].token) {
-      const isValid = sharedServices.authServices.validateJWT(
-        customerAuthentication[0].token,
-        sharedConstants.appConfig.app.userJWTSecret
-      );
-      if (isValid) {
-        return { token: customerAuthentication[0].token };
-      }
-    }
-  } catch (error) {}
 
   /** check if is_login_blocked is set or not */
   if (customerAuthentication[0].is_login_blocked == 1) {
@@ -52,23 +56,6 @@ module.exports = async ({ username, mpin, biometric, password }) => {
     } else {
       sharedServices.error.throw(
         customerModuleConstants.authentication.errorMessages.CAE012
-      );
-    }
-  }
-  /** if previous token is not valid then generate new token */
-  if (
-    customerDetails[0].subscription_plan ==
-    customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM
-  ) {
-    if (!password && !mpin && !biometric) {
-      sharedServices.error.throw(
-        customerModuleConstants.authentication.errorMessages.CAE009
-      );
-    }
-  } else {
-    if (!mpin && !biometric) {
-      sharedServices.error.throw(
-        customerModuleConstants.authentication.errorMessages.CAE010
       );
     }
   }
@@ -94,9 +81,34 @@ module.exports = async ({ username, mpin, biometric, password }) => {
   );
 
   if (match) {
+    /** check if previous token is valid or not */
+    try {
+      if (customerAuthentication[0].token) {
+        const isValid = sharedServices.authServices.validateJWT(
+          customerAuthentication[0].token,
+          sharedConstants.appConfig.app.userJWTSecret
+        );
+        if (isValid) {
+          await sharedModels.customerAuthentication.update(
+            { failedLoginAttempt: 0, isLoginBlocked: 0 },
+            {
+              customerId: customerDetails[0].customerId,
+            }
+          );
+          return { token: customerAuthentication[0].token };
+        }
+      }
+    } catch (error) {}
+
+    /** if previous token is not valid then generate new token */
     /** set JWT token expiry to midnight */
     let midnightTime = moment().add(1, "days").startOf("day");
     let jwtExpiresIn = moment(midnightTime).diff(moment(), "hours");
+    if (jwtExpiresIn < 1) {
+      jwtExpiresIn = moment(midnightTime).diff(moment(), "minutes") + "m";
+    } else {
+      jwtExpiresIn = jwtExpiresIn + "h";
+    }
 
     // generate a jwt token based on customer_id and customerRefId
     const token = sharedServices.authServices.getJWT(
@@ -105,17 +117,16 @@ module.exports = async ({ username, mpin, biometric, password }) => {
         customerRefId: customerDetails[0].customer_ref_id,
       },
       sharedConstants.appConfig.app.userJWTSecret,
-      { expiresIn: jwtExpiresIn + "h" }
+      { expiresIn: jwtExpiresIn }
     );
 
     /**Update credential into customer_authentication table */
     await sharedModels.customerAuthentication.update(
-      { token },
+      { token, failedLoginAttempt: 0, isLoginBlocked: 0 },
       {
         customerId: customerDetails[0].customerId,
       }
     );
-
     return { token: token };
   } else {
     /** get customer authentication data */
@@ -139,8 +150,8 @@ module.exports = async ({ username, mpin, biometric, password }) => {
     });
 
     let remainingLoginAttempts =
-      sharedConstants.appConfig.app.failedLoginAttemptLimit -
-      updateParams.failedLoginAttempt;
+      parseInt(sharedConstants.appConfig.app.failedLoginAttemptLimit) -
+      parseInt(updateParams.failedLoginAttempt);
     let errorMsg = {
       code: "CAE011",
       statusCode: "400",

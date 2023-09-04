@@ -48,6 +48,9 @@ module.exports = async ({ resetRequestId, resetCredentials }) => {
     updateParams.biometric = newCredentialsHash;
   }
 
+  updateParams.failedLoginAttempt = 0;
+  updateParams.isLoginBlocked = 0;
+
   /**Update credential into customer_authentication table */
   await sharedModels.customerAuthentication.update(updateParams, {
     customerId: customerResetData[0].customer_id,

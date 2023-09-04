@@ -39,13 +39,20 @@ module.exports = async ({
   const customerDetails = await sharedModels.customer.read({
     email,
     mobile,
+    customerRefId: customer_ref_id,
     emailORmobile: 1,
   });
 
   if (customerDetails.length) {
-    if (customerDetails[0].mobile == mobile) {
+    if (customerDetails[0].customer_ref_id == customer_ref_id) {
       sharedServices.error.throw(
-        customerModuleConstants.registration.errorMessages.CRE074
+        customerModuleConstants.registration.errorMessages.CRE077
+      );
+    }
+
+    if (customerDetails[0].email == email) {
+      sharedServices.error.throw(
+        customerModuleConstants.registration.errorMessages.CRE073
       );
     }
 

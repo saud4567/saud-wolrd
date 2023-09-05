@@ -15,7 +15,8 @@ customerModuleControllers.register = async (req, res, next) => {
 
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.registration(
-      validateBody.body
+      validateBody.body,
+      { requestId: req.requestId }
     );
 
     /**return response */
@@ -33,13 +34,13 @@ customerModuleControllers.register = async (req, res, next) => {
 //      controller used to get customer login type
 customerModuleControllers.loginType = async (req, res, next) => {
   try {
-
     /** Validation of request data */
     const validateBody = customerModuleValidators.loginType(req.body);
 
     /** handle logic within service function */
     const customerDetails = await customerModuleServices.loginType({
       username: validateBody.username,
+      requestId: req.requestId,
     });
 
     /**return response */
@@ -57,15 +58,20 @@ customerModuleControllers.loginType = async (req, res, next) => {
 //      controller used to validate customer for first time login
 customerModuleControllers.firstTimeLoginValidate = async (req, res, next) => {
   try {
-
     /** Validation of request data */
-    const validateBody = customerModuleValidators.firstTimeLoginValidate(req.body);
+    const validateBody = customerModuleValidators.firstTimeLoginValidate(
+      req.body
+    );
 
     /** handle logic within service function */
-    const customerDetails = await customerModuleServices.firstTimeLoginValidate({
-      username: validateBody.username,
-      twoFa: validateBody.two_fa,
-    });
+    const customerDetails = await customerModuleServices.firstTimeLoginValidate(
+      {
+        username: validateBody.username,
+        twoFa: validateBody.two_fa,
+        password: validateBody.password,
+        requestId: req.requestId,
+      }
+    );
 
     /**return response */
     next({
@@ -82,7 +88,6 @@ customerModuleControllers.firstTimeLoginValidate = async (req, res, next) => {
 //      controller used to login for first time
 customerModuleControllers.firstTimeLogin = async (req, res, next) => {
   try {
-
     /** Validation of request data */
     const validateBody = customerModuleValidators.firstTimeLogin(req.body);
 
@@ -92,7 +97,8 @@ customerModuleControllers.firstTimeLogin = async (req, res, next) => {
       twoFa: validateBody.two_fa,
       mpin: validateBody.mpin,
       biometric: validateBody.biometric,
-      password: validateBody.password
+      password: validateBody.password,
+      requestId: req.requestId,
     });
 
     /**return response */
@@ -105,13 +111,11 @@ customerModuleControllers.firstTimeLogin = async (req, res, next) => {
   }
 };
 
-
 // controller_name: authenticate
 // controller_description:
 //      controller used to authenticate customer and generate token
 customerModuleControllers.authenticate = async (req, res, next) => {
   try {
-
     /** Validation of request data */
     const validateBody = customerModuleValidators.authentication(req.body);
 
@@ -120,7 +124,8 @@ customerModuleControllers.authenticate = async (req, res, next) => {
       username: validateBody.username,
       mpin: validateBody.mpin,
       biometric: validateBody.biometric,
-      password: validateBody.password
+      password: validateBody.password,
+      requestId: req.requestId,
     });
 
     /**return response */
@@ -144,6 +149,7 @@ customerModuleControllers.validate = async (req, res, next) => {
     /** handle logic within service function */
     const validateToken = await customerModuleServices.validate({
       token: validateBody.authorization,
+      requestId: req.requestId,
     });
 
     /**return response */
@@ -179,6 +185,7 @@ customerModuleControllers.customerDetails = async (req, res, next) => {
       token: validateBody.token,
       customerRefId: validateBody.customerId,
       requestedData: validateBody.requestedData,
+      requestId: req.requestId,
     });
 
     /**return response */
@@ -213,6 +220,7 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
       resetMode: validateBody.reset_mode,
       changedCredentials: validateBody.changed_credentials,
       customerRefId: req.customerRefId,
+      requestId: req.requestId,
     });
 
     /**return response */
@@ -230,15 +238,17 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
 //      controller used to initiate the process for resetting the credentials of customer
 customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
   try {
-
     /** Validation of request data */
-    const validateBody = customerModuleValidators.initiateResetCredentials(req.body);
+    const validateBody = customerModuleValidators.initiateResetCredentials(
+      req.body
+    );
     /** handle logic within service function */
     const initiateReset = await customerModuleServices.initiateResetCredentials(
       {
         username: validateBody.username,
         twoFa: validateBody.two_fa,
         resetMode: validateBody.reset_mode,
+        requestId: req.requestId,
       }
     );
 
@@ -258,11 +268,14 @@ customerModuleControllers.initiateResetCredentials = async (req, res, next) => {
 customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
   try {
     /** Validation of request data */
-    const validateBody = customerModuleValidators.confirmResetCredentials(req.body);
+    const validateBody = customerModuleValidators.confirmResetCredentials(
+      req.body
+    );
     /** handle logic within service function */
     const confirmReset = await customerModuleServices.confirmResetCredentials({
       resetRequestId: validateBody.reset_request_id,
       resetCredentials: validateBody.reset_credentials,
+      requestId: req.requestId,
     });
 
     /**return response */

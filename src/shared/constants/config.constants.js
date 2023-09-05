@@ -15,6 +15,7 @@ const config = {
     responsePrivateKey: process.env.APP_RESPONSE_PRIVATE_KEY_PATH,
     failedLoginAttemptLimit: process.env.FAILED_LOGIN_ATTEMPT_LIMIT,
     loginBlockedTime: process.env.LOGIN_BLOCKED_TIME,
+    isEncrypt: process.env.IS_ENCRYPT,
   },
   database: {
     host: process.env.DATABASE_HOST,
@@ -36,7 +37,7 @@ const config = {
   encryption: {
     secretKey: process.env.ENCRYPTION_SECRET_KEY,
     secretIv: process.env.ENCRYPTION_SECRET_IV,
-  }
+  },
 };
 
 module.exports = config;

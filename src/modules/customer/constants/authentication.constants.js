@@ -56,22 +56,43 @@ module.exports = {
     CAE009: {
       code: "CAE009",
       statusCode: 400,
-      message: "MPIN OR Biometric OR Password Is Required",
+      message: "MPIN,Biometric And Password Are Required",
     },
     CAE010: {
       code: "CAE010",
       statusCode: 400,
-      message: "MPIN OR Biometric Is Required",
+      message: "MPIN AND Biometric Are Required",
     },
     CAE011: {
       code: "CAE011",
       statusCode: 400,
-      message: "Credentials Does Not Match, <number> Number of Attempt(s) Remaining",
+      message:
+        "Credentials Does Not Match, <number> Number of Attempt(s) Remaining",
     },
     CAE012: {
       code: "CAE012",
       statusCode: 400,
       message: "Login Is Blocked, Please Try After 1 Hour",
+    },
+    CAE013: {
+      code: "CAE013",
+      statusCode: 400,
+      message: "Password Is Required",
+    },
+    CAE014: {
+      code: "CAE014",
+      statusCode: 400,
+      message: "MPIN OR Biometric OR Password Are Required",
+    },
+    CAE015: {
+      code: "CAE015",
+      statusCode: 400,
+      message: "MPIN OR Biometric Are Required",
+    },
+    CAE016: {
+      code: "CAE016",
+      statusCode: 400,
+      message: "MPIN OR Biometric OR Password Is Not Set For This User",
     },
   },
   AUTHORIZATION_TYPE: {

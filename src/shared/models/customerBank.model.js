@@ -53,7 +53,7 @@ customerBankModel.createMany = async (bulkData) => {
 customerBankModel.read = async (whereParams) => {
   const where = [];
   /** encyption of  where params */
-  // whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`customer_id='${whereParams.customerId}'`);
@@ -94,7 +94,7 @@ customerBankModel.read = async (whereParams) => {
 customerBankModel.update = async (updateParams, whereParams) => {
   const where = [];
   /** encyption of  where params */
-  // whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.id) {
     where.push(`id='${whereParams.id}'`);

@@ -73,14 +73,25 @@ customerModel.create = async (
 // @model-desc: read customers based on filter
 customerModel.read = async (whereParams) => {
   const where = [];
+  let customerRefNo = whereParams.username;
   /** encyption of  where params */
-  // whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`id='${whereParams.customerId}'`);
   }
 
-  if (whereParams.emailORmobile &&
+  if (
+    whereParams.emailORmobile &&
+    whereParams.email &&
+    whereParams.mobile &&
+    whereParams.customerRefId
+  ) {
+    where.push(
+      `(mobile='${whereParams.mobile}' or email='${whereParams.email}' or customer_ref_id='${whereParams.customerRefId}')`
+    );
+  } else if (
+    whereParams.emailORmobile &&
     whereParams.email &&
     whereParams.mobile
   ) {
@@ -91,11 +102,11 @@ customerModel.read = async (whereParams) => {
 
   if (whereParams.username) {
     where.push(
-      `(mobile='${whereParams.username}' or email='${whereParams.username}' or customer_ref_id='${whereParams.username}')`
+      `(mobile='${whereParams.username}' or email='${whereParams.username}' or customer_ref_id='${customerRefNo}')`
     );
   }
 
-  if (whereParams.customerRefId) {
+  if (!whereParams.emailORmobile && whereParams.customerRefId) {
     where.push(`customer_ref_id='${whereParams.customerRefId}'`);
   }
 
@@ -146,7 +157,7 @@ customerModel.read = async (whereParams) => {
 customerModel.update = async (updateParams, whereParams) => {
   const where = [];
   /** encyption of  where params */
-  // whereParams = encryptionServices.encryptData(whereParams);
+  whereParams = encryptionServices.encryptData(whereParams);
 
   if (whereParams.customerId) {
     where.push(`id='${whereParams.customerId}'`);

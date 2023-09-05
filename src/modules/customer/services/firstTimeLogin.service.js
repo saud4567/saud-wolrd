@@ -5,17 +5,49 @@ const sharedModels = require("shared/models");
 const moment = require("moment");
 const tradingPlatformUpdateService = require("../../common/services/tradingPlatformUpdate.service");
 
-module.exports = async ({ username, twoFa, mpin, biometric, password }) => {
+module.exports = async ({
+  username,
+  twoFa,
+  mpin,
+  biometric,
+  password,
+  requestId,
+}) => {
+  sharedServices.loggerServices.success.info({
+    requestId,
+    stage: "Customer First Time Login- Request params",
+    msg: "Request params recieved",
+    username,
+    twoFa,
+  });
   /** get customer details using username*/
   const customerDetails = await sharedModels.customer.read({ username });
 
-  if (!customerDetails.length)
+  if (!customerDetails.length) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer First Time Login- customer credentials",
+      msg: "Credentials does not match",
+      username,
+      error: customerModuleConstants.authentication.errorMessages.CAE005,
+    });
     sharedServices.error.throw(
       customerModuleConstants.authentication.errorMessages.CAE005
     );
+  }
 
   /** two factor authentication */
   if (twoFa != customerDetails[0].pan && twoFa != customerDetails[0].dob) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer First Time Login- Two Factor Authentication",
+      msg: "Two-factor Authentication Failed",
+      username,
+      customerId: customerDetails[0].customerId,
+      customerRefId: customerDetails[0].customer_ref_id,
+      error: customerModuleConstants.authentication.errorMessages.CAE008,
+    });
+
     sharedServices.error.throw(
       customerModuleConstants.authentication.errorMessages.CAE008
     );
@@ -55,6 +87,11 @@ module.exports = async ({ username, twoFa, mpin, biometric, password }) => {
   /** set JWT token expiry to midnight */
   let midnightTime = moment().add(1, "days").startOf("day");
   let jwtExpiresIn = moment(midnightTime).diff(moment(), "hours");
+  if (jwtExpiresIn < 1) {
+    jwtExpiresIn = moment(midnightTime).diff(moment(), "minutes") + "m";
+  } else {
+    jwtExpiresIn = jwtExpiresIn + "h";
+  }
 
   // generate a jwt token based on customer_id and customer_ref_id
   const token = sharedServices.authServices.getJWT(
@@ -63,8 +100,16 @@ module.exports = async ({ username, twoFa, mpin, biometric, password }) => {
       customerRefId: customerDetails[0].customer_ref_id,
     },
     sharedConstants.appConfig.app.userJWTSecret,
-    { expiresIn: jwtExpiresIn + "h" }
+    { expiresIn: jwtExpiresIn }
   );
+
+  sharedServices.loggerServices.success.info({
+    requestId,
+    stage: "Customer First Time Login- New token generate",
+    msg: "Generated new token",
+    customerRefId: customerDetails[0].customer_ref_id,
+    customerId: customerDetails[0].customerId,
+  });
 
   if (
     customerDetails[0].subscription_plan ==
@@ -79,11 +124,22 @@ module.exports = async ({ username, twoFa, mpin, biometric, password }) => {
     );
 
     /**update password on trading platform */
+    sharedServices.loggerServices.success.info({
+      requestId,
+      stage:
+        "Customer First Time Login- update password/mpin on trading platform",
+      msg: "Update password/mpin on trading platform",
+      customerRefId: customerDetails[0].customer_ref_id,
+      customerId: customerDetails[0].customerId,
+    });
+
     const tradingPlatformUpdate = await tradingPlatformUpdateService({
-      customer_ref_id: customerDetails[0].customer_ref_id,
+      customerId: customerDetails[0].customerId,
+      customerRefId: customerDetails[0].customer_ref_id,
       resetMode:
         customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD,
       changedCredentials: password,
+      requestId,
     });
   } else {
     /** Insert data into customer_authentication table */

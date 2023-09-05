@@ -22,29 +22,29 @@ class LoggerAPITransport extends winston.Transport {
   }
 }
 
-// service_name: alert
+// service_name: warn
 // service_description:
-//      logger service to log messages in alert log file
-loggerServices.alert = winston.createLogger({
-  level: "info",
+//      logger service to log messages in warn log file
+loggerServices.warn = winston.createLogger({
+  level: "warn",
   format: winston.format.combine(
     winston.format.splat(),
     winston.format.simple(),
     winston.format.timestamp(),
-    winston.format.json()
+    winston.format.json(),
+    winston.format.printf((params) => {
+      const { timestamp, level, message } = params;
+      return `${timestamp} ${level}: \n${JSON.stringify(message)}`;
+    })
   ),
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
-      filename: "log/alert.log",
-      level: "info",
-    }),
-    new LoggerAPITransport({
-      apiEndpoint: "http://127.0.0.1:3001/log/alert",
+      filename: "log/warn.log",
+      level: "warn",
     }),
   ],
 });
-// loggerServices.alert = loggerServices.alert;
 
 // service_name: success
 // service_description:
@@ -56,9 +56,8 @@ loggerServices.success = winston.createLogger({
     winston.format.simple(),
     winston.format.timestamp(),
     winston.format.printf((info) => {
-      const { timestamp, level, message, ...meta } = info;
-      const metaString = JSON.stringify(meta, null, 2);
-      return `${timestamp} ${level}: ${message}\n${metaString}`;
+      const { timestamp, level, message } = info;
+      return `${timestamp} ${level}: \n${JSON.stringify(message)}`;
     })
   ),
   transports: [
@@ -74,18 +73,22 @@ loggerServices.success = winston.createLogger({
 // service_description:
 //      logger service to log messages in error log file
 loggerServices.error = winston.createLogger({
-  level: "info",
+  level: "error",
   format: winston.format.combine(
     winston.format.splat(),
     winston.format.simple(),
     winston.format.timestamp(),
-    winston.format.json()
+    winston.format.json(),
+    winston.format.printf((error) => {
+      const { timestamp, level, message } = error;
+      return `${timestamp} ${level}: \n${JSON.stringify(message)}`;
+    })
   ),
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
       filename: "log/error.log",
-      level: "info",
+      level: "error",
     }),
   ],
 });

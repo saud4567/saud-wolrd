@@ -4,14 +4,28 @@ const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const moment = require("moment");
 
-module.exports = async ({ username, mpin, biometric, password }) => {
+module.exports = async ({ username, mpin, biometric, password, requestId }) => {
+  sharedServices.loggerServices.success.info({
+    requestId,
+    stage: "Customer Authentication- Request params",
+    msg: "Request params recieved",
+    username,
+  });
   /** get customer details using username*/
   const customerDetails = await sharedModels.customer.read({ username });
 
-  if (!customerDetails.length)
+  if (!customerDetails.length) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer Authentication - Customer Credentials",
+      msg: "Credentials does not match",
+      username,
+      error: customerModuleConstants.authentication.errorMessages.CAE005,
+    });
     sharedServices.error.throw(
       customerModuleConstants.authentication.errorMessages.CAE005
     );
+  }
 
   if (
     customerDetails[0].subscription_plan ==
@@ -35,10 +49,19 @@ module.exports = async ({ username, mpin, biometric, password }) => {
     { customerId: customerDetails[0].customerId }
   );
 
-  if (!customerAuthentication.length)
+  if (!customerAuthentication.length) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer Authentication - Customer Credentials Not Set",
+      msg: "Customer Credentials Not Set",
+      username,
+      customerId: customerDetails[0].customerId,
+      error: customerModuleConstants.authentication.errorMessages.CAE016,
+    });
     sharedServices.error.throw(
       customerModuleConstants.authentication.errorMessages.CAE016
     );
+  }
 
   /** check if is_login_blocked is set or not */
   if (customerAuthentication[0].is_login_blocked == 1) {
@@ -54,6 +77,14 @@ module.exports = async ({ username, mpin, biometric, password }) => {
         }
       );
     } else {
+      sharedServices.loggerServices.error.error({
+        requestId,
+        stage: "Customer Authentication - Login Blocked",
+        msg: "Customer Login Is Blocked",
+        username,
+        customerId: customerDetails[0].customerId,
+        error: customerModuleConstants.authentication.errorMessages.CAE012,
+      });
       sharedServices.error.throw(
         customerModuleConstants.authentication.errorMessages.CAE012
       );
@@ -98,7 +129,15 @@ module.exports = async ({ username, mpin, biometric, password }) => {
           return { token: customerAuthentication[0].token };
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      sharedServices.loggerServices.error.error({
+        requestId,
+        stage: "Customer Authentication - Check previous token",
+        msg: "Customer Previous Token Not Valid",
+        username,
+        customerId: customerDetails[0].customerId,
+      });
+    }
 
     /** if previous token is not valid then generate new token */
     /** set JWT token expiry to midnight */
@@ -120,6 +159,14 @@ module.exports = async ({ username, mpin, biometric, password }) => {
       { expiresIn: jwtExpiresIn }
     );
 
+    sharedServices.loggerServices.success.info({
+      requestId,
+      stage: "Customer Authentication- Generate New Token",
+      msg: "Generated new token",
+      customerRefId: customerDetails[0].customer_ref_id,
+      customerId: customerDetails[0].customerId,
+    });
+
     /**Update credential into customer_authentication table */
     await sharedModels.customerAuthentication.update(
       { token, failedLoginAttempt: 0, isLoginBlocked: 0 },
@@ -134,17 +181,20 @@ module.exports = async ({ username, mpin, biometric, password }) => {
       await sharedModels.customerAuthentication.read({
         customerId: customerDetails[0].customerId,
       });
+
     /**Update login attempt failed count into customer_authentication table */
     let updateParams = {};
     updateParams.failedLoginAttempt =
-      customerAuthentication[0].failed_login_attempt + 1;
+      parseInt(customerAuthentication[0].failed_login_attempt) + 1;
     updateParams.lastFailedLoginDate = moment().format("YYYY-MM-DD HH:mm:ss");
+
     if (
       updateParams.failedLoginAttempt ==
       sharedConstants.appConfig.app.failedLoginAttemptLimit
     ) {
       updateParams.isLoginBlocked = 1;
     }
+
     await sharedModels.customerAuthentication.update(updateParams, {
       customerId: customerDetails[0].customerId,
     });
@@ -152,17 +202,28 @@ module.exports = async ({ username, mpin, biometric, password }) => {
     let remainingLoginAttempts =
       parseInt(sharedConstants.appConfig.app.failedLoginAttemptLimit) -
       parseInt(updateParams.failedLoginAttempt);
+
     let errorMsg = {
       code: "CAE011",
       statusCode: "400",
       message: "",
     };
+
     errorMsg.message =
       customerModuleConstants.authentication.errorMessages.CAE011.message;
     errorMsg.message = errorMsg.message.replace(
       "<number>",
       remainingLoginAttempts
     );
+
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer Authentication - Customer Credentials",
+      msg: "Credentials does not match",
+      username,
+      customerId: customerDetails[0].customerId,
+      error: errorMsg.message,
+    });
 
     sharedServices.error.throw(errorMsg);
   }

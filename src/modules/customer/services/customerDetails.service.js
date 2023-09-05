@@ -5,6 +5,11 @@ const sharedConstants = require("shared/constants");
 const customerModuleParsers = require("../parsers");
 
 module.exports = async ({ token, customerRefId, requestedData }) => {
+  sharedServices.loggerServices.success.info({
+    requestId,
+    stage: "Customer Info- Request params",
+    msg: "Request params recieved",
+  });
   if (token) {
     /** check if token is valid or not */
     const isValid = sharedServices.authServices.validateJWT(
@@ -13,16 +18,29 @@ module.exports = async ({ token, customerRefId, requestedData }) => {
     );
     if (isValid) {
       customerRefId = isValid.customerRefId;
+      sharedServices.loggerServices.success.info({
+        requestId,
+        stage: "Customer Info- validate token",
+        msg: "token validate successfully",
+        customerRefId,
+      });
     }
-
   }
   /** get customer details using customerRefId*/
   let customerDetails = await sharedModels.customer.read({ customerRefId });
 
-  if (!customerDetails.length)
+  if (!customerDetails.length) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer Info - Customer Details",
+      msg: "Customer Details Not Found",
+      customerRefId,
+      error: customerModuleConstants.authentication.errorMessages.CCDE008,
+    });
     sharedServices.error.throw(
       customerModuleConstants.customerDetails.errorMessages.CCDE008
     );
+  }
 
   customerDetails = customerDetails[0];
 
@@ -30,7 +48,7 @@ module.exports = async ({ token, customerRefId, requestedData }) => {
     customerId: customerDetails.customerId,
   };
   if (!token) {
-    //   whereParams.isDefault = 1
+    whereParams.isDefault = 1;
   }
 
   /** get customer bank and DP details */
@@ -41,46 +59,59 @@ module.exports = async ({ token, customerRefId, requestedData }) => {
   if (!token) {
     requestedData.map((rd) => {
       if (customerDetails.hasOwnProperty(rd)) {
-        resp[rd] = customerDetails.hasOwnProperty(rd) ? customerDetails[rd] : "";
+        resp[rd] = customerDetails.hasOwnProperty(rd)
+          ? customerDetails[rd]
+          : "";
       } else if (customerBank && customerBank[0].hasOwnProperty(rd)) {
         //resp[rd] = customerBank.map((cb) => {cb[rd]});
-        if (!resp.hasOwnProperty('bank_details')) {
+        if (!resp.hasOwnProperty("bank_details")) {
           resp.bank_details = [];
         }
 
         for (bank of customerBank) {
-          if (typeof resp['bank_details'][bank.id] !== 'undefined') {
-            resp['bank_details'][bank.id][rd] = bank[rd];
+          if (typeof resp["bank_details"][bank.id] !== "undefined") {
+            resp["bank_details"][bank.id][rd] = bank[rd];
           } else {
-            resp['bank_details'][bank.id] = {};
-            resp['bank_details'][bank.id][rd] = bank[rd];
+            resp["bank_details"][bank.id] = {};
+            resp["bank_details"][bank.id][rd] = bank[rd];
           }
         }
       } else if (customerDp && customerDp[0].hasOwnProperty(rd)) {
         // resp[rd] = customerDp.map((cd) => cd[rd]);
-        if (!resp.hasOwnProperty('dp_details')) {
+        if (!resp.hasOwnProperty("dp_details")) {
           resp.dp_details = [];
         }
         for (dp of customerDp) {
-          if (typeof resp['dp_details'][dp.id] !== 'undefined') {
-            resp['dp_details'][dp.id][rd] = dp[rd];
+          if (typeof resp["dp_details"][dp.id] !== "undefined") {
+            resp["dp_details"][dp.id][rd] = dp[rd];
           } else {
-            resp['dp_details'][dp.id] = {};
-            resp['dp_details'][dp.id][rd] = dp[rd];
+            resp["dp_details"][dp.id] = {};
+            resp["dp_details"][dp.id][rd] = dp[rd];
           }
         }
       }
     });
 
-    if (resp.hasOwnProperty('bank_details')) {
-      resp['bank_details'] = resp['bank_details'].filter(bank => bank);
+    if (resp.hasOwnProperty("bank_details")) {
+      resp["bank_details"] = resp["bank_details"].filter((bank) => bank);
     }
-    if (resp.hasOwnProperty('dp_details')) {
-      resp['dp_details'] = resp['dp_details'].filter(dp => dp);
+    if (resp.hasOwnProperty("dp_details")) {
+      resp["dp_details"] = resp["dp_details"].filter((dp) => dp);
     }
   } else {
-    resp = customerModuleParsers.customerDetails({ customerDetails, customerBank, customerDp });
+    resp = customerModuleParsers.customerDetails({
+      customerDetails,
+      customerBank,
+      customerDp,
+    });
   }
 
+  sharedServices.loggerServices.success.info({
+    requestId,
+    stage: "Customer Info",
+    msg: "Customer information",
+    customerRefId,
+    customerInfo: resp,
+  });
   return resp;
 };

@@ -23,6 +23,7 @@ const getParams = (params) => {
 const eventLoggingMiddleware = (...params) => {
   const { req, res, next, error } = getParams(params);
   const requestId = sharedServices.uuidServices.uuidV4();
+  req.requestId = requestId;
 
   if (
     !req.headers["api-key"] &&
@@ -43,8 +44,6 @@ const eventLoggingMiddleware = (...params) => {
       res.status(400).json(sharedConstants.masterConstants.errorMessages.ME001);
     }
   }
-
-  req.requestId = requestId;
 
   req.on("end", () => requestOnEnd(...params));
 

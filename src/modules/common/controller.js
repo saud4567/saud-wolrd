@@ -17,6 +17,7 @@ commonModuleControllers.encryptionDecryption = async (req, res, next) => {
       type: validateBody.type,
       keyType: validateBody.keyType,
       data: validateBody.data,
+      requestId: req.requestId,
     });
 
     /**return response */

@@ -3,14 +3,33 @@ const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const tradingPlatformUpdateService = require("../../common/services/tradingPlatformUpdate.service");
 
-module.exports = async ({ resetMode, changedCredentials, customerRefId }) => {
+module.exports = async ({
+  resetMode,
+  changedCredentials,
+  customerRefId,
+  requestId,
+}) => {
+  sharedServices.loggerServices.success.info({
+    requestId,
+    stage: "Customer change credentials- Request params",
+    msg: "Request params recieved",
+    customerRefId,
+  });
   /** check if customer already exist */
   const customerDetails = await sharedModels.customer.read({ customerRefId });
 
-  if (!customerDetails)
+  if (!customerDetails) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer change credentials- Customer Details",
+      msg: "Customer details not found",
+      customerRefId,
+      error: customerModuleConstants.authentication.errorMessages.CCDE008,
+    });
     sharedServices.error.throw(
       customerModuleConstants.customerDetails.errorMessages.CCDE008
     );
+  }
 
   let updateParams = {};
   /** password,mpin and biometric encryption */
@@ -50,10 +69,21 @@ module.exports = async ({ resetMode, changedCredentials, customerRefId }) => {
   ) {
     /**update password on trading platform */
 
+    sharedServices.loggerServices.success.info({
+      requestId,
+      stage:
+        "Customer change credentials- update password/mpin on trading platform",
+      msg: "Update password/mpin on trading platform",
+      customerRefId: customerDetails[0].customer_ref_id,
+      customerId: customerDetails[0].customerId,
+    });
+
     const tradingPlatformUpdate = await tradingPlatformUpdateService({
-      customer_ref_id: customerDetails[0].customer_ref_id,
+      customerId: customerDetails[0].customerId,
+      customerRefId: customerDetails[0].customer_ref_id,
       resetMode,
       changedCredentials,
+      requestId,
     });
   }
 };

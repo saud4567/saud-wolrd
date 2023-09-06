@@ -5,7 +5,7 @@ const sharedModels = require("shared/models");
 const moment = require("moment");
 const tradingPlatformUpdateService = require("../../common/services/tradingPlatformUpdate.service");
 
-module.exports = async ({ resetRequestId, resetCredentials }) => {
+module.exports = async ({ resetRequestId, resetCredentials, requestId }) => {
   sharedServices.loggerServices.success.info({
     requestId,
     stage: "Customer Reset Credentials- Request params",

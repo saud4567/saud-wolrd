@@ -2,7 +2,7 @@ const sharedServices = require("shared/services");
 const customerModuleConstants = require("../constants");
 const sharedConstants = require("shared/constants");
 
-module.exports = async ({ token }) => {
+module.exports = async ({ token, requestId }) => {
   sharedServices.loggerServices.success.info({
     requestId,
     stage: "Customer token Validate- Request params",

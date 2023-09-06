@@ -4,7 +4,7 @@ const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
 const moment = require("moment");
 
-module.exports = async ({ username, twoFa, resetMode }) => {
+module.exports = async ({ username, twoFa, resetMode, requestId }) => {
   sharedServices.loggerServices.success.info({
     requestId,
     stage: "Customer Initiate Reset Credentials- Request params",

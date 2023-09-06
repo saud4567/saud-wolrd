@@ -4,7 +4,7 @@ const sharedModels = require("shared/models");
 const sharedConstants = require("shared/constants");
 const customerModuleParsers = require("../parsers");
 
-module.exports = async ({ token, customerRefId, requestedData }) => {
+module.exports = async ({ token, customerRefId, requestedData, requestId }) => {
   sharedServices.loggerServices.success.info({
     requestId,
     stage: "Customer Info- Request params",

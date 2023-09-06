@@ -17,5 +17,11 @@ module.exports = {
       statusCode: 400,
       message: "Change Credential Is Required",
     },
+    CCCE003: {
+      code: "CCCE003",
+      statusCode: 400,
+      message:
+        "Only Platinum Subcription Plan Users Can Update Password, you can update mpin or biometric",
+    },
   },
 };

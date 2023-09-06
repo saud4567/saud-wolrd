@@ -45,6 +45,17 @@ module.exports = async ({ username, twoFa, resetMode, requestId }) => {
     );
   }
 
+  if (
+    resetMode.toUpperCase() ==
+      customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD &&
+    customerDetails[0].subscription_plan !=
+      customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
+    sharedServices.error.throw(
+      customerModuleConstants.initiateResetCredentials.errorMessages.CIRCE006
+    );
+  }
+
   /** generate reset_request_id and set expiry for 5 mins */
   const resetRequestId = sharedServices.uuidServices.uuidV4();
   let resetRequestExpiry = moment()

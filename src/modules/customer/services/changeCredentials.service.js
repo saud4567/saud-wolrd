@@ -24,7 +24,7 @@ module.exports = async ({
       stage: "Customer change credentials- Customer Details",
       msg: "Customer details not found",
       customerRefId,
-      error: customerModuleConstants.authentication.errorMessages.CCDE008,
+      error: customerModuleConstants.customerDetails.errorMessages.CCDE008,
     });
     sharedServices.error.throw(
       customerModuleConstants.customerDetails.errorMessages.CCDE008
@@ -36,6 +36,7 @@ module.exports = async ({
   const newCredentialHash = await sharedServices.authServices.getPasswordHash(
     changedCredentials
   );
+
   if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.password.toUpperCase()
@@ -51,6 +52,23 @@ module.exports = async ({
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric.toUpperCase()
   ) {
     updateParams.biometric = newCredentialHash;
+  }
+
+  if (
+    updateParams.password &&
+    customerDetails[0].subscription_plan !=
+      customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
+    sharedServices.loggerServices.error.error({
+      requestId,
+      stage: "Customer change credentials- Password Change",
+      msg: "Can not update password",
+      customerRefId,
+      error: customerModuleConstants.changeCredentials.errorMessages.CCCE003,
+    });
+    sharedServices.error.throw(
+      customerModuleConstants.changeCredentials.errorMessages.CCCE003
+    );
   }
 
   updateParams.failedLoginAttempt = 0;

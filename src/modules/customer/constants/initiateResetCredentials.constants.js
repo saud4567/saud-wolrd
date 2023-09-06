@@ -33,5 +33,11 @@ module.exports = {
       statusCode: 400,
       message: "Two-factor Authentication Key Is Invalid",
     },
+    CIRCE006: {
+      code: "CIRCE006",
+      statusCode: 400,
+      message:
+        "Only Platinum Subcription Plan Users Can Reset Password, You Can Reset mpin Or biometric",
+    },
   },
 };

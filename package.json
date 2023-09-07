@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "link-module-alias",
     "start": "nodemon",
-    "test": "mocha"
+    "test": "mocha ./test/registration.js"
   },
   "repository": {
     "type": "git",

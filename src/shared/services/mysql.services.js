@@ -10,36 +10,36 @@ class mysqlServices {
     this.query = "";
     this.isTransactionStarted = false;
     if (connection === undefined) {
-        this.pool = mysql.createPool({
-            host: sharedConstants.appConfig.database.host,
-            port: sharedConstants.appConfig.database.port,
-            user: sharedConstants.appConfig.database.user,
-            password: sharedConstants.appConfig.database.password,
-            database: sharedConstants.appConfig.database.name,
-            debug: sharedConstants.appConfig.database.debug,
-            timezone: sharedConstants.appConfig.database.timezone,
-            multipleStatements: false,
-            waitForConnections: true,
-            connectionLimit: 10,
-            queueLimit: 0,
-        });
+      this.pool = mysql.createPool({
+        host: sharedConstants.appConfig.database.host,
+        port: sharedConstants.appConfig.database.port,
+        user: sharedConstants.appConfig.database.user,
+        password: sharedConstants.appConfig.database.password,
+        database: sharedConstants.appConfig.database.name,
+        debug: sharedConstants.appConfig.database.debug,
+        timezone: sharedConstants.appConfig.database.timezone,
+        multipleStatements: false,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+      });
     }
-}
+  }
 
-async execute() {
+  async execute() {
     if (connection === undefined) {
-        connection = await this.pool.getConnection();
+      connection = await this.pool.getConnection();
     }
 
     try {
-        const [rows] = await connection.query(this.query);
-        return rows;
+      const [rows] = await connection.query(this.query);
+      return rows;
     } catch (error) {
-        throw error;
+      throw error;
     } finally {
-        connection.release();
+      connection.release();
     }
-}
+  }
 
   select(columns) {
     this.query += `SELECT ${columns} `;
@@ -183,7 +183,7 @@ async execute() {
       let result = await this.execute();
       /** decypt the result */
       if (result.length) {
-         result = encryptionServices.decryptData(result);
+        result = encryptionServices.decryptData(result);
       }
       return result;
     } catch (error) {

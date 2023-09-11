@@ -94,6 +94,16 @@ module.exports = {
       statusCode: 400,
       message: "MPIN OR Biometric OR Password Is Not Set For This User",
     },
+    CAE017: {
+      code: "CAE017",
+      statusCode: 400,
+      message: "MPIN Is Required",
+    },
+    CAE018: {
+      code: "CAE018",
+      statusCode: 400,
+      message: "Biometric Is Required",
+    },
   },
   AUTHORIZATION_TYPE: {
     password: "password",
@@ -104,5 +114,13 @@ module.exports = {
     SILVER: "SILVER",
     GOLD: "GOLD",
     PLATINUM: "PLATINUM",
+  },
+
+  TEST_CONSTANT: {
+    PAYLOAD: {
+      username: "shalaka.devarde+11@techstalwarts.com",
+      mpin: "123456",
+    },
+    PASSWORD_KEYS: ["mpin", "password", "biometric"],
   },
 };

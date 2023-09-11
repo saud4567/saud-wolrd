@@ -1,4 +1,6 @@
 const registrationConstants = require("./registration.constants");
+const loginTypeConstants = require("./loginType.constants");
+const firstTimeLoginValidateConstants = require("./firstTimeLoginValidate.constants");
 const authenticationConstants = require("./authentication.constants");
 const validateConstants = require("./validate.constants");
 const customerDetailsConstants = require("./customerDetails.constants");
@@ -8,6 +10,8 @@ const confirmResetCredentialsConstants = require("./confirmResetCredentials.cons
 
 const customerModuleConstants = {
   registration: registrationConstants,
+  loginType: loginTypeConstants,
+  firstTimeLoginValidate: firstTimeLoginValidateConstants,
   authentication: authenticationConstants,
   validate: validateConstants,
   customerDetails: customerDetailsConstants,

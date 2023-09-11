@@ -17,7 +17,7 @@ describe("Authentication API", () => {
       expect(payload).to.have.property("username");
       expect(payload).to.include.any.keys("mpin", "password", "biometric").to
         .not.be.null;
-      assert.isNotNull(payload.username, "username is required");
+      assert.isNotEmpty(payload.username, "username is required");
 
       chai
         .request(server)

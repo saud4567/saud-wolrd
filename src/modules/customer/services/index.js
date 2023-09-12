@@ -8,6 +8,7 @@ const customerDetailsService = require("./customerDetails.service");
 const changeCredentialsService = require("./changeCredentials.service");
 const initiateResetCredentialsService = require("./initiateResetCredentials.service");
 const confirmResetCredentialsService = require("./confirmResetCredentials.service");
+const unblockLoginService = require("./unblockLogin.service");
 
 const customerModuleServices = {
   registration: registrationService,
@@ -19,7 +20,8 @@ const customerModuleServices = {
   customerDetails: customerDetailsService,
   changeCredentials: changeCredentialsService,
   initiateResetCredentials: initiateResetCredentialsService,
-  confirmResetCredentials: confirmResetCredentialsService
+  confirmResetCredentials: confirmResetCredentialsService,
+  unblockLogin: unblockLoginService,
 };
 
 module.exports = customerModuleServices;

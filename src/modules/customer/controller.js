@@ -288,4 +288,27 @@ customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
   }
 };
 
+// controller_name: unblockLogin
+// controller_description:
+//      controller used to unblock login of customer
+customerModuleControllers.unblockLogin = async (req, res, next) => {
+  try {
+    /** Validation of request data */
+    const validateBody = customerModuleValidators.unblockLogin(req.body);
+    /** handle logic within service function */
+    const confirmReset = await customerModuleServices.unblockLogin({
+      username: validateBody.username,
+      requestId: req.requestId,
+    });
+
+    /**return response */
+    return next({
+      ...customerModuleConstants.unblockLogin.messages.CULS001,
+      result: "",
+    });
+  } catch (error) {
+    next(JSON.parse(error.message));
+  }
+};
+
 module.exports = customerModuleControllers;

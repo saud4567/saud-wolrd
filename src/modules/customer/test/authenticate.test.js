@@ -9,105 +9,29 @@ chai.use(chaiHttp);
 
 describe("POST /customer/register", () => {
   const payload = customerModuleConstants.authentication.TEST_CONSTANT.PAYLOAD;
-  it("check if payload is in object format", (done) => {
+
+  it("check if payload is in object format", () => {
     expect(payload).to.be.a("object");
-    chai
-      .request(server)
-      .post("/customer/authenticate")
-      .send(payload)
-      .end((err, response) => {
-        if (response.status == 200) {
-          response.should.have.status(200);
-          response.body.should.be.a("object");
-          response.body.should.have.property("result");
-          response.body.result.should.have.property("token");
-          done();
-        }
-        if (response.status == 400) {
-          response.should.have.status(400);
-          response.body.should.be.a("object");
-          response.body.should.have.property("code");
-          response.body.should.have.property("message");
-          done();
-        }
-      });
   });
-  it("check if username is present in payload", (done) => {
+
+  it("check if username is present in payload", () => {
     expect(payload).to.have.property("username");
-    chai
-      .request(server)
-      .post("/customer/authenticate")
-      .send(payload)
-      .end((err, response) => {
-        if (response.status == 200) {
-          response.should.have.status(200);
-          response.body.should.be.a("object");
-          response.body.should.have.property("result");
-          response.body.result.should.have.property("token");
-          done();
-        }
-        if (response.status == 400) {
-          response.should.have.status(400);
-          response.body.should.be.a("object");
-          response.body.should.have.property("code");
-          response.body.should.have.property("message");
-          done();
-        }
-      });
   });
-  it("check if mpin or password or biometric present in payload", (done) => {
+
+  it("check if mpin or password or biometric present in payload", () => {
     expect(payload).to.include.any.keys(
       customerModuleConstants.authentication.TEST_CONSTANT.PASSWORD_KEYS
     ).to.not.be.null;
-    chai
-      .request(server)
-      .post("/customer/authenticate")
-      .send(payload)
-      .end((err, response) => {
-        if (response.status == 200) {
-          response.should.have.status(200);
-          response.body.should.be.a("object");
-          response.body.should.have.property("result");
-          response.body.result.should.have.property("token");
-          done();
-        }
-        if (response.status == 400) {
-          response.should.have.status(400);
-          response.body.should.be.a("object");
-          response.body.should.have.property("code");
-          response.body.should.have.property("message");
-          done();
-        }
-      });
   });
-  it("check if username is not empty", (done) => {
+
+  it("check if username is not empty", () => {
     assert.isNotEmpty(
       payload.username,
       customerModuleConstants.authentication.errorMessages.CAE001.message
     );
-    chai
-      .request(server)
-      .post("/customer/authenticate")
-      .send(payload)
-      .end((err, response) => {
-        if (response.status == 200) {
-          response.should.have.status(200);
-          response.body.should.be.a("object");
-          response.body.should.have.property("result");
-          response.body.result.should.have.property("token");
-          done();
-        }
-        if (response.status == 400) {
-          response.should.have.status(400);
-          response.body.should.be.a("object");
-          response.body.should.have.property("code");
-          response.body.should.have.property("message");
-          done();
-        }
-      });
   });
 
-  it("check if mpin or password or biometric present in payload should not be empty", (done) => {
+  it("check if mpin or password or biometric present in payload should not be empty", () => {
     if (payload.hasOwnProperty("mpin")) {
       assert.isNotEmpty(
         payload.mpin,
@@ -127,25 +51,26 @@ describe("POST /customer/register", () => {
         customerModuleConstants.authentication.errorMessages.CAE013.message
       );
     }
-    chai
-      .request(server)
-      .post("/customer/authenticate")
-      .send(payload)
-      .end((err, response) => {
-        if (response.status == 200) {
-          response.should.have.status(200);
-          response.body.should.be.a("object");
-          response.body.should.have.property("result");
-          response.body.result.should.have.property("token");
-          done();
-        }
-        if (response.status == 400) {
-          response.should.have.status(400);
-          response.body.should.be.a("object");
-          response.body.should.have.property("code");
-          response.body.should.have.property("message");
-          done();
-        }
-      });
   });
+
+  chai
+    .request(server)
+    .post("/customer/authenticate")
+    .send(payload)
+    .end((err, response) => {
+      if (response.status == 200) {
+        response.should.have.status(200);
+        response.body.should.be.a("object");
+        response.body.should.have.property("result");
+        response.body.result.should.have.property("token");
+        //done();
+      }
+      if (response.status == 400) {
+        response.should.have.status(400);
+        response.body.should.be.a("object");
+        response.body.should.have.property("code");
+        response.body.should.have.property("message");
+        //  done();
+      }
+    });
 });

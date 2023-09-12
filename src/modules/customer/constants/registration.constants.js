@@ -392,6 +392,11 @@ module.exports = {
       statusCode: 400,
       message: "Customer Reference Id Already Exists",
     },
+    CRE078: {
+      code: "CRE078",
+      statusCode: 400,
+      message: "DP Provider Is Required",
+    },
   },
 
   GENDER: {

@@ -35,7 +35,7 @@ module.exports = async ({ token, customerRefId, requestedData, requestId }) => {
       stage: "Customer Info - Customer Details",
       msg: "Customer Details Not Found",
       customerRefId,
-      error: customerModuleConstants.authentication.errorMessages.CCDE008,
+      error: customerModuleConstants.customerDetails.errorMessages.CCDE008,
     });
     sharedServices.error.throw(
       customerModuleConstants.customerDetails.errorMessages.CCDE008

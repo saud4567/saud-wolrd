@@ -14,10 +14,7 @@ customerModuleRoutes.post("/register", customerModuleControllers.register);
 // route_path: /customer/login-type
 // route_description:
 //      route used to get customer login type
-customerModuleRoutes.post(
-  "/login-type",
-  customerModuleControllers.loginType
-);
+customerModuleRoutes.post("/login-type", customerModuleControllers.loginType);
 
 // route_name: first-login-validate
 // route_path: /customer/first-login-validate
@@ -86,4 +83,12 @@ customerModuleRoutes.post(
   customerModuleControllers.confirmResetCredentials
 );
 
+// route_name: unblock-login
+// route_path: /customer/unblock-login
+// route_description:
+//      route used to unblock login of customer
+customerModuleRoutes.post(
+  "/unblock-login",
+  customerModuleControllers.unblockLogin
+);
 module.exports = customerModuleRoutes;

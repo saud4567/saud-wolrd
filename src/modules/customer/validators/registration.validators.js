@@ -300,6 +300,42 @@ module.exports = (body) => {
     });
   }
 
+  if (body.address) {
+    if (sharedValidators.isRequired(body.address.address_line_1)) {
+      errorListArray.push({
+        address_line_1:
+          customerModuleConstants.registration.errorMessages.CRE079.message,
+      });
+    }
+
+    if (sharedValidators.isRequired(body.address.city)) {
+      errorListArray.push({
+        city: customerModuleConstants.registration.errorMessages.CRE080.message,
+      });
+    }
+
+    if (sharedValidators.isRequired(body.address.country)) {
+      errorListArray.push({
+        country:
+          customerModuleConstants.registration.errorMessages.CRE081.message,
+      });
+    }
+
+    if (sharedValidators.isRequired(body.address.pin_code)) {
+      errorListArray.push({
+        pin_code:
+          customerModuleConstants.registration.errorMessages.CRE082.message,
+      });
+    }
+
+    if (sharedValidators.isRequired(body.address.state)) {
+      errorListArray.push({
+        state:
+          customerModuleConstants.registration.errorMessages.CRE083.message,
+      });
+    }
+  }
+
   if (sharedValidators.isRequired(body.father_name)) {
     errorListArray.push({
       father_name:

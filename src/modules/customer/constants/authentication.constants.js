@@ -117,9 +117,17 @@ module.exports = {
   },
 
   TEST_CONSTANT: {
-    PAYLOAD: {
+    VALID_PAYLOAD: {
       username: "shalaka.devarde+11@techstalwarts.com",
       mpin: "123456",
+    },
+    INVALID_PAYLOAD_WITH_MISSING_KEYS: {
+      //  username: "shalaka.devarde+11@techstalwarts.com",
+      //  mpin: "123456",
+    },
+    INVALID_PAYLOAD_WITH_EMPTY_VALUES: {
+      username: "",
+      mpin: "",
     },
     PASSWORD_KEYS: ["mpin", "password", "biometric"],
   },

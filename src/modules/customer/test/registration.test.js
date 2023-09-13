@@ -1,60 +1,188 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const server = require("../../../index.js");
+const { expect, assert } = chai;
 const customerModuleConstants = require("../constants");
-const expect = chai.expect;
-const assert = chai.assert;
 chai.should();
 chai.use(chaiHttp);
 
-describe("POST /customer/register", () => {
-  const payload = customerModuleConstants.registration.TEST_CONSTANT.PAYLOAD;
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        customerId in result
+// Case : Positive
 
-  it("check if payload is in object format", () => {
+describe("Case: Positive", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT.VALID_PAYLOAD;
+
+  it("payload should be of type object", () => {
     expect(payload).to.be.a("object");
   });
 
-  it("check if payload contains mandatory fields", () => {
-    expect(payload).to.include.keys(
+  it("payload should contains mandatory fields", () => {
+    assert.containsAllKeys(
+      payload,
       customerModuleConstants.registration.TEST_CONSTANT.PAYLOAD_KEYS
-    ).to.not.be.null;
+    );
   });
 
-  it("validate address object", () => {
-    it("check if address object contains mandatory fields", () => {
-      expect(payload.address).to.include.keys(
-        customerModuleConstants.registration.ADDRESS_KEYS
-      ).to.not.be.null;
-    });
+  it("address should contains mandatory fields", () => {
+    assert.containsAllKeys(
+      payload.address,
+      customerModuleConstants.registration.ADDRESS_KEYS
+    );
+  });
+
+  it("mandatory fields should not be empty", () => {
+    assert.isNotEmpty(
+      payload.name,
+      customerModuleConstants.registration.errorMessages.CRE002.message
+    );
+    assert.isNotEmpty(
+      payload.email,
+      customerModuleConstants.registration.errorMessages.CRE004.message
+    );
+    assert.isNotEmpty(
+      payload.mobile,
+      customerModuleConstants.registration.errorMessages.CRE006.message
+    );
+    assert.isNotEmpty(
+      payload.gender,
+      customerModuleConstants.registration.errorMessages.CRE008.message
+    );
+    assert.isNotEmpty(
+      payload.dob,
+      customerModuleConstants.registration.errorMessages.CRE010.message
+    );
+    assert.isNotEmpty(
+      payload.address,
+      customerModuleConstants.registration.errorMessages.CRE014.message
+    );
+    assert.isNotEmpty(
+      payload.father_name,
+      customerModuleConstants.registration.errorMessages.CRE018.message
+    );
+    assert.isNotEmpty(
+      payload.occupation,
+      customerModuleConstants.registration.errorMessages.CRE021.message
+    );
+    assert.isNotEmpty(
+      payload.annual_income,
+      customerModuleConstants.registration.errorMessages.CRE022.message
+    );
+    assert.isNotEmpty(
+      payload.fatca,
+      customerModuleConstants.registration.errorMessages.CRE024.message
+    );
+    assert.isNotEmpty(
+      payload.pep,
+      customerModuleConstants.registration.errorMessages.CRE026.message
+    );
+    assert.isNotEmpty(
+      payload.customer_type,
+      customerModuleConstants.registration.errorMessages.CRE028.message
+    );
+    assert.isNotEmpty(
+      payload.trading_experience,
+      customerModuleConstants.registration.errorMessages.CRE030.message
+    );
+    assert.isNotEmpty(
+      payload.subscription_plan,
+      customerModuleConstants.registration.errorMessages.CRE031.message
+    );
+    assert.isNotEmpty(
+      payload.brokerage_plan,
+      customerModuleConstants.registration.errorMessages.CRE033.message
+    );
+    assert.isNotEmpty(
+      payload.ddpi,
+      customerModuleConstants.registration.errorMessages.CRE035.message
+    );
+    assert.isNotEmpty(
+      payload.dis_booklet,
+      customerModuleConstants.registration.errorMessages.CRE037.message
+    );
+    assert.isNotEmpty(
+      payload.bsda,
+      customerModuleConstants.registration.errorMessages.CRE039.message
+    );
+    assert.isNotEmpty(
+      payload.marital_status,
+      customerModuleConstants.registration.errorMessages.CRE041.message
+    );
+    assert.isNotEmpty(
+      payload.ucc_id,
+      customerModuleConstants.registration.errorMessages.CRE043.message
+    );
+    assert.isNotEmpty(
+      payload.rm_code,
+      customerModuleConstants.registration.errorMessages.CRE044.message
+    );
+    assert.isNotEmpty(
+      payload.is_active,
+      customerModuleConstants.registration.errorMessages.CRE060.message
+    );
+    assert.isNotEmpty(
+      payload.product_details,
+      customerModuleConstants.registration.errorMessages.CRE067.message
+    );
   });
 
   if (
     payload.subscription_plan ==
     customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
   ) {
-    it("check if payload  contains mandatory fields for platonum subscription plan", () => {
-      expect(payload).to.include.keys(
+    it("payload should contains mandatory fields for platinum subscription plan", () => {
+      assert.containsAllKeys(payload, [
         "customer_ref_id",
         "pan",
         "aadhar",
         "password",
         "bank_account_details",
-        "dp_details"
-      ).to.not.be.null;
+        "dp_details",
+      ]);
+    });
+
+    it("mandatory fields should not be empty", () => {
+      assert.isNotEmpty(
+        payload.customer_ref_id,
+        customerModuleConstants.registration.errorMessages.CRE001.message
+      );
+      assert.isNotEmpty(
+        payload.pan,
+        customerModuleConstants.registration.errorMessages.CRE012.message
+      );
+      assert.isNotEmpty(
+        payload.aadhar,
+        customerModuleConstants.registration.errorMessages.CRE016.message
+      );
+      assert.isNotEmpty(
+        payload.password,
+        customerModuleConstants.registration.errorMessages.CRE045.message
+      );
+      assert.isNotEmpty(
+        payload.bank_account_details,
+        customerModuleConstants.registration.errorMessages.CRE051.message
+      );
+      assert.isNotEmpty(
+        payload.dp_details,
+        customerModuleConstants.registration.errorMessages.CRE062.message
+      );
     });
   }
 
   if (payload.bank_account_details) {
-    it("validate bank_account_details should be an array", () => {
+    it("bank_account_details should be an array", () => {
       assert.isArray(
         payload.bank_account_details,
         "bank_account_details should be an array"
       );
     });
 
-    it("validate bank_account_details contains mandatory fields", () => {
+    it("bank_account_details should contains mandatory fields", () => {
       payload.bank_account_details.map((b) => {
-        expect(b).to.include.keys(
+        assert.containsAllKeys(
+          b,
           customerModuleConstants.registration.BANK_DETAILS
         );
 
@@ -94,13 +222,14 @@ describe("POST /customer/register", () => {
   }
 
   if (payload.dp_details) {
-    it("validate dp_details should be an array", () => {
+    it("dp_details should be an array", () => {
       assert.isArray(payload.dp_details, "dp_details should be an array");
     });
 
-    it("validate dp_details contains mandatory fields", () => {
+    it("dp_details should contains mandatory fields", () => {
       payload.dp_details.map((d) => {
-        expect(d).to.include.keys(
+        assert.containsAllKeys(
+          d,
           customerModuleConstants.registration.DP_DETAILS
         );
 
@@ -128,16 +257,17 @@ describe("POST /customer/register", () => {
   }
 
   if (payload.product_details) {
-    it("validate product_details should be an array", () => {
+    it("product_details should be an array", () => {
       assert.isArray(
         payload.product_details,
         "product_details should be an array"
       );
     });
 
-    it("validate product_details contains mandatory fields", () => {
+    it("product_details should contains mandatory fields", () => {
       payload.product_details.map((p) => {
-        expect(p).to.include.keys(
+        assert.containsAllKeys(
+          p,
           customerModuleConstants.registration.PRODUCT_DETAILS
         );
 
@@ -281,25 +411,644 @@ describe("POST /customer/register", () => {
     });
   }
 
-  chai
-    .request(server)
-    .post("/customer/register")
-    .send(payload)
-    .end((err, response) => {
-      if (response.status == 200) {
-        response.should.have.status(200);
-        response.body.should.be.a("object");
-        response.body.should.have.property("result");
-        response.body.result.should.have.property("customerId");
-        // done();
-      }
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
 
-      if (response.status == 400) {
-        response.should.have.status(400);
-        response.body.should.be.a("object");
-        response.body.should.have.property("code");
-        response.body.should.have.property("message");
-      }
-      // done();
+  it("Should have status code of 200", () => {
+    expect(response).to.have.status(200);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties code, message, result", () => {
+    assert.hasAllKeys(response.body, ["code", "message", "result"]);
+  });
+
+  it("Result object should contain customerId key", () => {
+    assert.hasAllKeys(response.body.result, ["customerId"]);
+  });
+});
+
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Invalid Payload With Missing Keys
+
+describe("Case: Invalid Payload With Missing Keys", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_PAYLOAD_WITH_MISSING_KEYS;
+
+  it("payload should be of type object", () => {
+    expect(payload).to.be.a("object");
+  });
+
+  it("if payload does not contain mandatory fields", () => {
+    assert.doesNotHaveAllKeys(
+      payload,
+      customerModuleConstants.registration.TEST_CONSTANT.PAYLOAD_KEYS
+    );
+  });
+
+  if (
+    payload.subscription_plan ==
+    customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
+    it("if payload does not contain mandatory fields for platinum subscription plan", () => {
+      assert.doesNotHaveAllKeys(payload, [
+        "customer_ref_id",
+        "pan",
+        "aadhar",
+        "password",
+        "bank_account_details",
+        "dp_details",
+      ]);
     });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid Address field With Missing Keys", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_ADDRESS_WITH_MISSING_KEYS;
+
+  it("if address does not contain mandatory fields", () => {
+    assert.doesNotHaveAllKeys(
+      payload.address,
+      customerModuleConstants.registration.ADDRESS_KEYS
+    );
+  });
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid bank_account_details field With Missing Keys", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_BANK_DETAILS_WITH_MISSING_KEYS;
+  if (payload.bank_account_details) {
+    it("bank_account_details should be an array", () => {
+      assert.isArray(
+        payload.bank_account_details,
+        "bank_account_details should be an array"
+      );
+    });
+
+    it("bank_account_details does not contain mandatory fields", () => {
+      payload.bank_account_details.map((b) => {
+        assert.doesNotHaveAllKeys(
+          b,
+          customerModuleConstants.registration.BANK_DETAILS
+        );
+      });
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid dp_details field With Missing Keys", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_DP_DETAILS_WITH_MISSING_KEYS;
+  if (payload.dp_details) {
+    it("dp_details should be an array", () => {
+      assert.isArray(payload.dp_details, "dp_details should be an array");
+    });
+
+    it("dp_details does not contain mandatory fields", () => {
+      payload.dp_details.map((d) => {
+        assert.doesNotHaveAllKeys(
+          d,
+          customerModuleConstants.registration.DP_DETAILS
+        );
+      });
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid product_details field With Missing Keys", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_PRODUCT_DETAILS_WITH_MISSING_KEYS;
+  if (payload.product_details) {
+    it("product_details should be an array", () => {
+      assert.isArray(
+        payload.product_details,
+        "product_details should be an array"
+      );
+    });
+
+    it("product_details does not contain mandatory fields", () => {
+      payload.product_details.map((p) => {
+        assert.doesNotHaveAllKeys(
+          p,
+          customerModuleConstants.registration.PRODUCT_DETAILS
+        );
+      });
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Invalid Payload With All Keys But Empty Values
+describe("Case: Invalid Payload With All Keys But Empty Values", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_PAYLOAD_WITH_EMPTY_VALUES;
+
+  it("payload should be of type object", () => {
+    expect(payload).to.be.a("object");
+  });
+
+  it("payload should contains mandatory fields", () => {
+    assert.containsAllKeys(
+      payload,
+      customerModuleConstants.registration.TEST_CONSTANT.PAYLOAD_KEYS
+    );
+  });
+
+  it("payload mandatory fields should not be empty", () => {
+    assert.isEmpty(
+      payload.name,
+      customerModuleConstants.registration.errorMessages.CRE002.message
+    );
+    assert.isEmpty(
+      payload.email,
+      customerModuleConstants.registration.errorMessages.CRE004.message
+    );
+    assert.isEmpty(
+      payload.mobile,
+      customerModuleConstants.registration.errorMessages.CRE006.message
+    );
+    assert.isEmpty(
+      payload.gender,
+      customerModuleConstants.registration.errorMessages.CRE008.message
+    );
+    assert.isEmpty(
+      payload.dob,
+      customerModuleConstants.registration.errorMessages.CRE010.message
+    );
+    assert.isEmpty(
+      payload.address,
+      customerModuleConstants.registration.errorMessages.CRE014.message
+    );
+    assert.isEmpty(
+      payload.father_name,
+      customerModuleConstants.registration.errorMessages.CRE018.message
+    );
+    assert.isEmpty(
+      payload.occupation,
+      customerModuleConstants.registration.errorMessages.CRE021.message
+    );
+    assert.isEmpty(
+      payload.annual_income,
+      customerModuleConstants.registration.errorMessages.CRE022.message
+    );
+    assert.isEmpty(
+      payload.fatca,
+      customerModuleConstants.registration.errorMessages.CRE024.message
+    );
+    assert.isEmpty(
+      payload.pep,
+      customerModuleConstants.registration.errorMessages.CRE026.message
+    );
+    assert.isEmpty(
+      payload.customer_type,
+      customerModuleConstants.registration.errorMessages.CRE028.message
+    );
+    assert.isEmpty(
+      payload.trading_experience,
+      customerModuleConstants.registration.errorMessages.CRE030.message
+    );
+    assert.isEmpty(
+      payload.subscription_plan,
+      customerModuleConstants.registration.errorMessages.CRE031.message
+    );
+    assert.isEmpty(
+      payload.brokerage_plan,
+      customerModuleConstants.registration.errorMessages.CRE033.message
+    );
+    assert.isEmpty(
+      payload.ddpi,
+      customerModuleConstants.registration.errorMessages.CRE035.message
+    );
+    assert.isEmpty(
+      payload.dis_booklet,
+      customerModuleConstants.registration.errorMessages.CRE037.message
+    );
+    assert.isEmpty(
+      payload.bsda,
+      customerModuleConstants.registration.errorMessages.CRE039.message
+    );
+    assert.isEmpty(
+      payload.marital_status,
+      customerModuleConstants.registration.errorMessages.CRE041.message
+    );
+    assert.isEmpty(
+      payload.ucc_id,
+      customerModuleConstants.registration.errorMessages.CRE043.message
+    );
+    assert.isEmpty(
+      payload.rm_code,
+      customerModuleConstants.registration.errorMessages.CRE044.message
+    );
+    assert.isEmpty(
+      payload.is_active,
+      customerModuleConstants.registration.errorMessages.CRE060.message
+    );
+    assert.isEmpty(
+      payload.product_details,
+      customerModuleConstants.registration.errorMessages.CRE067.message
+    );
+  });
+  if (
+    payload.subscription_plan ==
+    customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
+  ) {
+    it("payload should contains mandatory fields for platinum subscription plan", () => {
+      assert.containsAllKeys(payload, [
+        "customer_ref_id",
+        "pan",
+        "aadhar",
+        "password",
+        "bank_account_details",
+        "dp_details",
+      ]);
+    });
+    it("payload mandatory fields should not be empty", () => {
+      assert.isEmpty(
+        payload.customer_ref_id,
+        customerModuleConstants.registration.errorMessages.CRE001.message
+      );
+      assert.isEmpty(
+        payload.pan,
+        customerModuleConstants.registration.errorMessages.CRE012.message
+      );
+      assert.isEmpty(
+        payload.aadhar,
+        customerModuleConstants.registration.errorMessages.CRE016.message
+      );
+      assert.isEmpty(
+        payload.password,
+        customerModuleConstants.registration.errorMessages.CRE045.message
+      );
+      assert.isEmpty(
+        payload.bank_account_details,
+        customerModuleConstants.registration.errorMessages.CRE051.message
+      );
+      assert.isEmpty(
+        payload.dp_details,
+        customerModuleConstants.registration.errorMessages.CRE062.message
+      );
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid Address field With All Keys But Empty Values", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_ADDRESS_WITH_ALL_KEYS_BUT_EMPTY_VALUES;
+  it("address should contain all mandatory fields", () => {
+    assert.containsAllKeys(
+      payload.address,
+      customerModuleConstants.registration.ADDRESS_KEYS
+    );
+  });
+  it("mandetory fields should not be empty", () => {
+    assert.isEmpty(
+      payload.address.address_line_1,
+      customerModuleConstants.registration.errorMessages.CRE079.message
+    );
+    assert.isEmpty(
+      payload.address.city,
+      customerModuleConstants.registration.errorMessages.CRE080.message
+    );
+    assert.isEmpty(
+      payload.address.country,
+      customerModuleConstants.registration.errorMessages.CRE081.message
+    );
+    assert.isEmpty(
+      payload.address.pin_code,
+      customerModuleConstants.registration.errorMessages.CRE082.message
+    );
+    assert.isEmpty(
+      payload.address.state,
+      customerModuleConstants.registration.errorMessages.CRE083.message
+    );
+  });
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties  message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid bank_account_details field With All Keys But Empty Values", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_BANK_DETAILS_WITH_ALL_KEYS_BUT_EMPTY_VALUES;
+
+  if (payload.bank_account_details) {
+    it("bank_account_details should be an array", () => {
+      assert.isArray(
+        payload.bank_account_details,
+        "bank_account_details should be an array"
+      );
+    });
+
+    it("bank_account_details should contains mandatory fields", () => {
+      payload.bank_account_details.map((b) => {
+        assert.containsAllKeys(
+          b,
+          customerModuleConstants.registration.BANK_DETAILS
+        );
+
+        assert.isEmpty(
+          b.bank_name,
+          customerModuleConstants.registration.errorMessages.CRE053.message
+        );
+
+        assert.isEmpty(
+          b.account_name,
+          customerModuleConstants.registration.errorMessages.CRE054.message
+        );
+
+        assert.isEmpty(
+          b.account_number,
+          customerModuleConstants.registration.errorMessages.CRE055.message
+        );
+
+        assert.isEmpty(
+          b.ifsc_code,
+          customerModuleConstants.registration.errorMessages.CRE056.message
+        );
+
+        assert.isEmpty(
+          b.micr_code,
+          customerModuleConstants.registration.errorMessages.CRE057.message
+        );
+        assert.isEmpty(
+          b.is_default,
+          customerModuleConstants.registration.errorMessages.CRE058.message
+        );
+      });
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties  message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid dp_details field With All Keys But Empty Values", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_DP_DETAILS_WITH_ALL_KEYS_BUT_EMPTY_VALUES;
+
+  if (payload.dp_details) {
+    it("dp_details should be an array", () => {
+      assert.isArray(payload.dp_details, "dp_details should be an array");
+    });
+
+    it("dp_details should contains mandatory fields", () => {
+      payload.dp_details.map((d) => {
+        assert.containsAllKeys(
+          d,
+          customerModuleConstants.registration.DP_DETAILS
+        );
+
+        assert.isEmpty(
+          d.dp_provider,
+          customerModuleConstants.registration.errorMessages.CRE078.message
+        );
+        assert.isEmpty(
+          d.dp_id,
+          customerModuleConstants.registration.errorMessages.CRE064.message
+        );
+        assert.isEmpty(
+          d.beneficiary_id,
+          customerModuleConstants.registration.errorMessages.CRE065.message
+        );
+        assert.isEmpty(
+          d.is_default,
+          customerModuleConstants.registration.errorMessages.CRE058.message
+        );
+      });
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties  message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+describe("Case: Invalid product_details field With All Keys But Empty Values", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .INVALID_PRODUCT_DETAILS_WITH_ALL_KEYS_BUT_EMPTY_VALUES;
+
+  if (payload.product_details) {
+    it("product_details should be an array", () => {
+      assert.isArray(
+        payload.product_details,
+        "product_details should be an array"
+      );
+    });
+
+    it("product_details should contains mandatory fields", () => {
+      payload.product_details.map((p) => {
+        assert.containsAllKeys(
+          p,
+          customerModuleConstants.registration.PRODUCT_DETAILS
+        );
+
+        assert.isEmpty(
+          p.product_code,
+          customerModuleConstants.registration.errorMessages.CRE069.message
+        );
+      });
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties  message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
 });

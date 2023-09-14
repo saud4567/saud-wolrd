@@ -24,9 +24,6 @@ describe("Case: Positive", () => {
   });
 
   it("payload should contain any one of mpin or password or biometric", () => {
-    // expect(payload).to.include.any.keys(
-    //   customerModuleConstants.authentication.TEST_CONSTANT.PASSWORD_KEYS
-    // );
     assert.hasAnyKeys(
       payload,
       customerModuleConstants.authentication.TEST_CONSTANT.PASSWORD_KEYS

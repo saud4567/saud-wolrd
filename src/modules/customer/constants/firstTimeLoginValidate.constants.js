@@ -30,6 +30,16 @@ module.exports = {
       two_fa: "CEBPA1215P",
       password: "123",
     },
+    INVALID_PAYLOAD_WITH_MISSING_KEYS: {
+      // username: "shalaka.devarde+7@techstalwarts.com",
+      // two_fa: "CEBPA1215P",
+      // password: "123",
+    },
+    INVALID_PAYLOAD_WITH_EMPTY_VALUES: {
+      username: "",
+      two_fa: "",
+      password: "",
+    },
     PAYLOAD_KEYS: ["username", "two_fa"],
   },
 };

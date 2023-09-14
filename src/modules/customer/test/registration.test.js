@@ -823,6 +823,10 @@ describe("Case: Invalid Payload With All Keys But Empty Values", () => {
   });
 });
 
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Invalid Address field With All Keys But Empty Values
 describe("Case: Invalid Address field With All Keys But Empty Values", () => {
   const payload =
     customerModuleConstants.registration.TEST_CONSTANT
@@ -876,6 +880,10 @@ describe("Case: Invalid Address field With All Keys But Empty Values", () => {
   });
 });
 
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Invalid bank_account_details field With All Keys But Empty Values
 describe("Case: Invalid bank_account_details field With All Keys But Empty Values", () => {
   const payload =
     customerModuleConstants.registration.TEST_CONSTANT
@@ -948,6 +956,10 @@ describe("Case: Invalid bank_account_details field With All Keys But Empty Value
   });
 });
 
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Invalid dp_details field With All Keys But Empty Values
 describe("Case: Invalid dp_details field With All Keys But Empty Values", () => {
   const payload =
     customerModuleConstants.registration.TEST_CONSTANT
@@ -1005,6 +1017,10 @@ describe("Case: Invalid dp_details field With All Keys But Empty Values", () => 
   });
 });
 
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Invalid product_details field With All Keys But Empty Values
 describe("Case: Invalid product_details field With All Keys But Empty Values", () => {
   const payload =
     customerModuleConstants.registration.TEST_CONSTANT
@@ -1049,6 +1065,178 @@ describe("Case: Invalid product_details field With All Keys But Empty Values", (
   });
 
   it("Response should have properties  message", () => {
+    assert.hasAllKeys(response.body, ["message"]);
+  });
+});
+
+// Api  : /customer/register
+// Desc : Customer register api should return
+//        error message and code
+// Case : Payload With All Keys But Invalid Values
+describe("Case:Payload With All Keys But Invalid Values", () => {
+  const payload =
+    customerModuleConstants.registration.TEST_CONSTANT
+      .PAYLOAD_WITH_All_KEYS_BUT_INVALID_VALUES;
+
+  it("payload should be of type object", () => {
+    expect(payload).to.be.a("object");
+  });
+
+  it("payload should contains mandatory fields", () => {
+    assert.containsAllKeys(
+      payload,
+      customerModuleConstants.registration.TEST_CONSTANT.PAYLOAD_KEYS
+    );
+  });
+
+  it("validate gender", () => {
+    expect(payload.gender).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.GENDER
+    );
+  });
+
+  it("validate fatca", () => {
+    expect(payload.fatca).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.YES_NO_FLAG
+    );
+  });
+
+  it("validate pep", () => {
+    expect(payload.pep).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.YES_NO_FLAG
+    );
+  });
+
+  it("validate customer_type", () => {
+    expect(payload.customer_type).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.TYPE
+    );
+  });
+
+  it("validate ddpi", () => {
+    expect(payload.ddpi).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.YES_NO_FLAG
+    );
+  });
+
+  it("validate dis_booklet", () => {
+    expect(payload.dis_booklet).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.YES_NO_FLAG
+    );
+  });
+
+  it("validate bsda", () => {
+    expect(payload.bsda).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.YES_NO_FLAG
+    );
+  });
+
+  it("validate subscription_plan", () => {
+    expect(payload.subscription_plan).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.SUBSCRIPTION_PLAN
+    );
+  });
+
+  it("validate brokerage_plan", () => {
+    expect(payload.brokerage_plan).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.BROKERAGE_PLAN
+    );
+  });
+
+  it("validate marital_status", () => {
+    expect(payload.marital_status).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.MARITIAL_STATUS
+    );
+  });
+
+  it("validate is_active", () => {
+    expect(payload.is_active).to.not.be.oneOf(
+      customerModuleConstants.registration.TEST_CONSTANT.IS_ACTIVE
+    );
+  });
+
+  it("validate  email", () => {
+    assert.isNotTrue(
+      /^\w+([\.\+-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(payload.email),
+      customerModuleConstants.registration.errorMessages.CRE005.message
+    );
+  });
+
+  it("validate mobile", () => {
+    assert.isNotTrue(
+      /^[6-9]\d{9}$/.test(payload.mobile),
+      customerModuleConstants.registration.errorMessages.CRE007.message
+    );
+  });
+
+  it("validate name", () => {
+    assert.isNotTrue(
+      /[A-z\s]+$/.test(payload.name),
+      customerModuleConstants.registration.errorMessages.CRE003.message
+    );
+  });
+
+  it("validate date of birth", () => {
+    assert.isNotTrue(
+      /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(payload.dob),
+      customerModuleConstants.registration.errorMessages.CRE011.message
+    );
+  });
+
+  it("validate father_name", () => {
+    assert.isNotTrue(
+      /[A-z\s]+$/.test(payload.father_name),
+      customerModuleConstants.registration.errorMessages.CRE019.message
+    );
+  });
+
+  it("validate annual_income", () => {
+    assert.isNotTrue(
+      /[+-]?([0-9]*[.])?[0-9]+$/.test(payload.annual_income),
+      customerModuleConstants.registration.errorMessages.CRE023.message
+    );
+  });
+
+  it("validate trading_experience", () => {
+    assert.isNotTrue(
+      /[+-]?([0-9]*[.])?[0-9]+$/.test(payload.trading_experience),
+      customerModuleConstants.registration.errorMessages.CRE075.message
+    );
+  });
+
+  if (payload.pan) {
+    it("validate pan", () => {
+      assert.isNotTrue(
+        /[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(payload.pan),
+        customerModuleConstants.registration.errorMessages.CRE013.message
+      );
+    });
+  }
+  if (payload.aadhar) {
+    it("validate aadhar", () => {
+      assert.isNotTrue(
+        /^\d{12}$/.test(payload.aadhar),
+        customerModuleConstants.registration.errorMessages.CRE017.message
+      );
+    });
+  }
+
+  before(async () => {
+    response = await chai
+      .request(server)
+      .post("/customer/register")
+      .send(payload);
+  });
+
+  it("Should have status code of 400", () => {
+    expect(response).to.have.status(400);
+  });
+
+  it("Reponse should be of type object", () => {
+    response.request.header.should.be.a("object");
+  });
+
+  it("Response should have properties message", () => {
     assert.hasAllKeys(response.body, ["message"]);
   });
 });

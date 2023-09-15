@@ -23,10 +23,7 @@
     "app_modules": "./src/modules"
   },
   "devDependencies": {
-    "chai": "^4.3.8",
-    "chai-http": "^4.4.0",
     "link-module-alias": "^1.2.0",
-    "mocha": "^10.2.0",
     "nodemon": "^2.0.22"
   },
   "dependencies": {

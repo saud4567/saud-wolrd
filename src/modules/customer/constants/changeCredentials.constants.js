@@ -20,6 +20,12 @@ module.exports = {
     CCCE003: {
       code: "CCCE003",
       statusCode: 400,
+      message:
+        "Only Platinum Subcription Plan Users Can Update Password, you can update mpin or biometric",
+    },
+    CCCE004: {
+      code: "CCCE004",
+      statusCode: 400,
       message: "Reset Mode Is Invalid, It Should Be mpin/password/biometric",
     },
   },

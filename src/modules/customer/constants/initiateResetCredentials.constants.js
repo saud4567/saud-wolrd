@@ -36,6 +36,12 @@ module.exports = {
     CIRCE006: {
       code: "CIRCE006",
       statusCode: 400,
+      message:
+        "Only Platinum Subcription Plan Users Can Reset Password, You Can Reset mpin Or biometric",
+    },
+    CIRCE007: {
+      code: "CIRCE007",
+      statusCode: 400,
       message: "Reset Mode Is Invalid, It Should Be mpin/password/biometric",
     },
   },

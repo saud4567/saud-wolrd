@@ -8,6 +8,7 @@ const changeCredentialsValidators = require("./changeCredentials.validators");
 const tokenValidateValidators = require("./tokenValidate.validators");
 const initiateResetCredentialsValidators = require("./initiateResetCredentials.validators");
 const confirmResetCredentialsValidators = require("./confirmResetCredentials.validators");
+const unblockLoginValidators = require("./unblockLogin.validators");
 
 const customerModuleValidators = {
   registration: registrationValidators,
@@ -20,6 +21,7 @@ const customerModuleValidators = {
   tokenValidate: tokenValidateValidators,
   initiateResetCredentials: initiateResetCredentialsValidators,
   confirmResetCredentials: confirmResetCredentialsValidators,
+  unblockLogin: unblockLoginValidators,
 };
 
 module.exports = customerModuleValidators;

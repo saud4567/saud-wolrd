@@ -25,21 +25,34 @@ module.exports = {
   },
 
   TEST_CONSTANT: {
-    PAYLOAD: {
-      username: "shalaka.devarde+7@techstalwarts.com",
-      two_fa: "CEBPA1215P",
-      password: "123",
+    PAYLOAD_FOR_PLATINUM: {
+      username: "shalaka.devarde+14@techstalwarts.com",
+      two_fa: "CEBPA1217P",
+      password: "Test@1234",
     },
-    INVALID_PAYLOAD_WITH_MISSING_KEYS: {
+    PAYLOAD_FOR_GOLD_SILVER: {
+      username: "shalaka.devarde+7@techstalwarts.com",
+      two_fa: "1992-06-12",
+    },
+    INVALID_PAYLOAD_WITH_MISSING_KEYS_FOR_PLATINUM: {
       // username: "shalaka.devarde+7@techstalwarts.com",
       // two_fa: "CEBPA1215P",
       // password: "123",
     },
-    INVALID_PAYLOAD_WITH_EMPTY_VALUES: {
+    INVALID_PAYLOAD_WITH_MISSING_KEYS_FOR_GOLD_SILVER: {
+      // username: "shalaka.devarde+7@techstalwarts.com",
+      // two_fa: "CEBPA1215P",
+    },
+    INVALID_PAYLOAD_WITH_EMPTY_VALUES_FOR_PLATINUM: {
       username: "",
       two_fa: "",
       password: "",
     },
+    INVALID_PAYLOAD_WITH_EMPTY_VALUES_FOR_GOLD_SILVER: {
+      username: "",
+      two_fa: "",
+    },
+    PAYLOAD_KEYS_FOR_PLATINUM: ["username", "two_fa", "password"],
     PAYLOAD_KEYS: ["username", "two_fa"],
   },
 };

@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "link-module-alias",
     "start": "nodemon",
-    "test": "mocha ./src/modules/customer/test/unblockLogin.test.js --timeout 10000 --exit"
+    "test": "mocha ./src/modules/customer/test/customerInfo.test.js --timeout 10000 --exit"
   },
   "repository": {
     "type": "git",

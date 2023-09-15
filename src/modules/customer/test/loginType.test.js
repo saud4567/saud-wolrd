@@ -96,7 +96,7 @@ describe("Case : Invalid Payload With Missing Keys", () => {
 });
 
 // Api  : /customer/login-type
-// Desc : Customer authenticate api should return
+// Desc : Customer login-type api should return
 //        error message and code
 // Case : Invalid Payload With Empty Values
 describe("Case : Invalid Payload With Empty Values", () => {

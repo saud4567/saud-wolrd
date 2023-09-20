@@ -115,6 +115,14 @@ module.exports = async ({
     customerDetails[0].subscription_plan ==
     customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM
   ) {
+    /** get customer old credentials data */
+    const customerAuthentication =
+      await sharedModels.customerAuthentication.read({
+        customerId: customerDetails[0].customerId,
+      });
+
+    let oldCredentials = customerAuthentication[0].password;
+
     /** Update data into customer_authentication table */
     await sharedModels.customerAuthentication.update(
       { password, mpin, biometric, token },
@@ -138,7 +146,8 @@ module.exports = async ({
       customerRefId: customerDetails[0].customer_ref_id,
       resetMode:
         customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD,
-      changedCredentials: password,
+      oldCredentials,
+      newCredentials: password,
       requestId,
     });
   } else {

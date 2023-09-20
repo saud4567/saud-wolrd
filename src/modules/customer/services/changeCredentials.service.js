@@ -31,6 +31,13 @@ module.exports = async ({
     );
   }
 
+  /** get customer old credentials data */
+  const customerAuthentication = await sharedModels.customerAuthentication.read(
+    { customerId: customerDetails[0].customerId }
+  );
+
+  let oldCredentials;
+
   let updateParams = {};
   /** password,mpin and biometric encryption */
   const newCredentialHash = await sharedServices.authServices.getPasswordHash(
@@ -42,16 +49,19 @@ module.exports = async ({
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.password.toUpperCase()
   ) {
     updateParams.password = newCredentialHash;
+    oldCredentials = customerAuthentication[0].password;
   } else if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin.toUpperCase()
   ) {
     updateParams.mpin = newCredentialHash;
+    oldCredentials = customerAuthentication[0].mpin;
   } else if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric.toUpperCase()
   ) {
     updateParams.biometric = newCredentialHash;
+    oldCredentials = customerAuthentication[0].biometric;
   }
 
   if (
@@ -100,7 +110,8 @@ module.exports = async ({
       customerId: customerDetails[0].customerId,
       customerRefId: customerDetails[0].customer_ref_id,
       resetMode,
-      changedCredentials,
+      oldCredentials,
+      newCredentials: changedCredentials,
       requestId,
     });
   }

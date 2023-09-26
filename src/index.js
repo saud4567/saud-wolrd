@@ -27,27 +27,27 @@ app.use(helmet());
 
 // enable CORS implementation
 app.use(
-    cors({
-        // origin: "http://localhost:3001",
-        methods: "GET,POST",
-        preflightContinue: false,
-        optionsSuccessStatus: 204,
-    })
+  cors({
+    // origin: "http://localhost:3001",
+    methods: "GET,POST",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
 );
 
 // enable response compression
 app.use(
-    compression({
-        filter: function (req, res) {
-            if (req.headers["x-no-compression"]) {
-                // don't compress responses with this request header
-                return false;
-            }
+  compression({
+    filter: function (req, res) {
+      if (req.headers["x-no-compression"]) {
+        // don't compress responses with this request header
+        return false;
+      }
 
-            // fallback to standard filter function
-            return compression.filter(req, res);
-        },
-    })
+      // fallback to standard filter function
+      return compression.filter(req, res);
+    },
+  })
 );
 
 // load all app modules
@@ -58,18 +58,25 @@ app.use(sharedMiddlewares.responseMiddleware);
 
 // define root route
 app.get("/", (req, res) => {
-    res.send("Centrum IAM api");
+  res.send("Centrum IAM api");
 });
 
 // start application server
-app.listen(sharedConstants.appConfig.app.port, sharedConstants.appConfig.app.host, (err) => {
+const server = app.listen(
+  sharedConstants.appConfig.app.port,
+  sharedConstants.appConfig.app.host,
+  (err) => {
     if (err) {
-        logger.error({
-            error: err,
-            message: err.message,
-        });
-        console.log(`Error ${err.message}`);
+      logger.error({
+        error: err,
+        message: err.message,
+      });
+      console.log(`Error ${err.message}`);
     }
 
-    console.log(`Server running on http://${sharedConstants.appConfig.app.host}:${sharedConstants.appConfig.app.port}`);
-});
+    console.log(
+      `Server running on http://${sharedConstants.appConfig.app.host}:${sharedConstants.appConfig.app.port}`
+    );
+  }
+);
+module.exports = server;

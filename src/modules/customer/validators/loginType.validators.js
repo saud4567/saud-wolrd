@@ -3,13 +3,13 @@ const sharedValidators = require("shared/validators");
 const customerModuleConstants = require("../constants");
 
 module.exports = ({ username }) => {
-	if (sharedValidators.isRequired(username)) {
-		sharedServices.error.throw(
-			customerModuleConstants.authentication.errorMessages.CAE001
-		);
-	}
+  if (sharedValidators.isRequired(username)) {
+    sharedServices.error.throw(
+      customerModuleConstants.authentication.errorMessages.CAE001
+    );
+  }
 
-	return {
-		username,
-	};
+  return {
+    username,
+  };
 };

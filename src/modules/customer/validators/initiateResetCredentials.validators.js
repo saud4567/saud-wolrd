@@ -21,6 +21,17 @@ module.exports = ({ username, two_fa, reset_mode }) => {
     );
   }
 
+  if (
+    reset_mode &&
+    !customerModuleConstants.authentication.AUTHORIZATION_TYPE.hasOwnProperty(
+      reset_mode
+    )
+  ) {
+    sharedServices.error.throw(
+      customerModuleConstants.initiateResetCredentials.errorMessages.CIRCE006
+    );
+  }
+
   return {
     username,
     two_fa,

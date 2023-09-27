@@ -1,28 +1,19 @@
 module.exports = {
   messages: {
-    CULS001: {
-      code: "CULS001",
+    CLTS001: {
+      code: "CLTS001",
       statusCode: 200,
-      message: "Login Unblocked Successfully",
+      message: "",
     },
   },
   errorMessages: {
-    CULE001: {
-      code: "CULE001",
+    CLTE001: {
+      code: "CLTE001",
       statusCode: 400,
       message: "Username Is Required",
     },
-    CULE002: {
-      code: "CULE002",
-      statusCode: 400,
-      message: "Customer Details Not Found",
-    },
-    CULE003: {
-      code: "CULE003",
-      statusCode: 400,
-      message: "Credentials Not Set For This User",
-    },
   },
+
   TEST_CONSTANT: {
     PAYLOAD: {
       username: "shalaka.devarde+11@techstalwarts.com",

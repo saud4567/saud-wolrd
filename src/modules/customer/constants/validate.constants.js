@@ -20,4 +20,10 @@ module.exports = {
   },
   tokenExpiredError: "TokenExpiredError",
   JsonWebTokenError: "JsonWebTokenError",
+
+  TEST_CONSTANTS: {
+    VALID_TOKEN:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoxOCwiY3VzdG9tZXJSZWZJZCI6InBxcnh5eiIsImlhdCI6MTY5NDcwMDc5MywiZXhwIjoxNjk0NzE1MTkzfQ.iNVH1-AQeybn_GE2_QcoyvRC8-syjRvC6ol-aaeaj2c",
+    INVALID_TOKEN: "abc",
+  },
 };

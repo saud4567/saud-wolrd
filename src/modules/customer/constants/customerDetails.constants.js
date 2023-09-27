@@ -53,4 +53,46 @@ module.exports = {
       message: "Token Is Required",
     },
   },
+
+  TEST_CONSTANT: {
+    VALID_TOKEN:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoxOCwiY3VzdG9tZXJSZWZJZCI6InBxcnh5eiIsImlhdCI6MTY5NDc2OTYyOSwiZXhwIjoxNjk0ODAyMDI5fQ.74th88HEqVUCUApmKRrhKNjQx0ovQgeyHd7UwHqTGC8",
+    INVALID_TOKEN: "123abc",
+    VALID_API_KEY: "f3f84033-6547-44ce-809a-840de76d58ca",
+    INVALID_API_KEY: "456",
+    VALID_API_SECRET: "dZmExc9efjAywPvx7dVIYJ6lpvTdjqBIjh6FoFRs",
+    INVALID_API_SECRET: "xyz",
+    PAYLOAD: {
+      customer_id: "pqrxyz",
+      requested_data: [
+        "name",
+        "email",
+        "pan",
+        "mobile",
+        "bank_name",
+        "account_number",
+        "dp_id",
+        "beneficiary_id",
+      ],
+    },
+    INVALID_PAYLOAD_WITH_MISSING_KEYS: {
+      // customer_id: "pqrxyz",
+      // requested_data: [
+      //   "name",
+      //   "email",
+      //   "pan",
+      //   "mobile",
+      //   "bank_name",
+      //   "account_number",
+      //   "dp_id",
+      //   "beneficiary_id",
+      // ],
+    },
+    INVALID_PAYLOAD_WITH_EMPTY_VALUES: {
+      customer_id: "",
+      requested_data: "",
+    },
+
+    PAYLOAD_KEYS: ["customer_id", "requested_data"],
+  },
 };

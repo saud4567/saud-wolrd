@@ -5,7 +5,18 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "link-module-alias",
-    "start": "nodemon"
+    "start": "nodemon",
+    "test-registration": "mocha ./src/modules/customer/test/registration.test.js --timeout 10000 --exit",
+    "test-loginType": "mocha ./src/modules/customer/test/loginType.test.js --timeout 10000 --exit",
+    "test-firstLoginValidate": "mocha ./src/modules/customer/test/firstLoginValidate.test.js --timeout 10000 --exit",
+    "test-firstTimeLogin": "mocha ./src/modules/customer/test/firstTimeLogin.test.js --timeout 10000 --exit",
+    "test-authenticate": "mocha ./src/modules/customer/test/authenticate.test.js --timeout 10000 --exit",
+    "test-validate": "mocha ./src/modules/customer/test/validate.test.js --timeout 10000 --exit",
+    "test-customerInfo": "mocha ./src/modules/customer/test/customerInfo.test.js --timeout 10000 --exit",
+    "test-changeCredentials": "mocha ./src/modules/customer/test/changeCredentials.test.js --timeout 10000 --exit",
+    "test-initiateResetCredentials": "mocha ./src/modules/customer/test/initiateResetCredentials.test.js --timeout 10000 --exit",
+    "test-confirmResetCredentials": "mocha ./src/modules/customer/test/confirmResetCredentials.test.js --timeout 10000 --exit",
+    "test-unblockLogin": "mocha ./src/modules/customer/test/unblockLogin.test.js --timeout 10000 --exit"
   },
   "repository": {
     "type": "git",

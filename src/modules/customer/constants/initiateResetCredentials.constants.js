@@ -39,5 +39,30 @@ module.exports = {
       message:
         "Only Platinum Subcription Plan Users Can Reset Password, You Can Reset mpin Or biometric",
     },
+    CIRCE007: {
+      code: "CIRCE007",
+      statusCode: 400,
+      message: "Reset Mode Is Invalid, It Should Be mpin/password/biometric",
+    },
+  },
+
+  TEST_CONSTANT: {
+    PAYLOAD: {
+      username: "shalaka.devarde+7@techstalwarts.com",
+      two_fa: "CEBPA1215P",
+      reset_mode: "mpin",
+    },
+    INVALID_PAYLOAD_WITH_MISSING_KEYS: {
+      // username: "shalaka.devarde+7@techstalwarts.com",
+      // two_fa: "CEBPA1215P",
+      // reset_mode: "mpin",
+    },
+    INVALID_PAYLOAD_WITH_EMPTY_VALUES: {
+      username: "",
+      two_fa: "",
+      reset_mode: "",
+    },
+    PAYLOAD_KEYS: ["username", "two_fa", "reset_mode"],
+    RESET_MODE: ["password", "mpin", "biometric"],
   },
 };

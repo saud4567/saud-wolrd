@@ -72,17 +72,17 @@ module.exports = async ({
   }
 
   /** password ,mpin and biometric encryption */
-  if (password) {
-    password = await sharedServices.authServices.getPasswordHash(password);
-  }
+  // if (password) {
+  //   password = await sharedServices.authServices.getPasswordHash(password);
+  // }
 
-  if (mpin) {
-    mpin = await sharedServices.authServices.getPasswordHash(mpin);
-  }
+  // if (mpin) {
+  //   mpin = await sharedServices.authServices.getPasswordHash(mpin);
+  // }
 
-  if (biometric) {
-    biometric = await sharedServices.authServices.getPasswordHash(biometric);
-  }
+  // if (biometric) {
+  //   biometric = await sharedServices.authServices.getPasswordHash(biometric);
+  // }
 
   /** set JWT token expiry to midnight */
   let midnightTime = moment().add(1, "days").startOf("day");

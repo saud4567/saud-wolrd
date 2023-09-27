@@ -26,6 +26,30 @@ module.exports = ({ reset_mode, changed_credentials }) => {
       customerModuleConstants.changeCredentials.errorMessages.CCCE003
     );
   }
+
+  if (
+    reset_mode &&
+    reset_mode == customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin
+  ) {
+    if (mpin && !sharedValidators.isValidMpin(mpin)) {
+      sharedServices.error.throw(
+        customerModuleConstants.changeCredentials.errorMessages.CCCE005
+      );
+    }
+  }
+
+  if (
+    reset_mode &&
+    reset_mode ==
+      customerModuleConstants.authentication.AUTHORIZATION_TYPE.password
+  ) {
+    if (password && !sharedValidators.isValidPassword(password)) {
+      sharedServices.error.throw(
+        customerModuleConstants.changeCredentials.errorMessages.CCCE006
+      );
+    }
+  }
+
   return {
     reset_mode,
     changed_credentials,

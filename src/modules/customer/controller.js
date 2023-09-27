@@ -2,6 +2,8 @@ const customerModuleConstants = require("./constants");
 const customerModuleServices = require("./services");
 const customerModuleValidators = require("./validators");
 const encryptionServices = require("shared/services/encryption.services");
+const sharedConstants = require("shared/constants");
+const dbLoggerServices = require("shared/services/dbLogger.services");
 
 const customerModuleControllers = {};
 
@@ -107,7 +109,17 @@ customerModuleControllers.firstTimeLogin = async (req, res, next) => {
       result: customerDetails,
     });
   } catch (error) {
-    next(JSON.parse(error.message));
+    if (error.code == sharedConstants.masterConstants.BAD_REQUEST) {
+      const errorMessage = error.response.data.message;
+      await dbLoggerServices.log({
+        action: sharedConstants.appConfig.tradingPlatform.trading_platform_url,
+        response: JSON.stringify(error.response.data),
+        code: error.response.status,
+      });
+      next({ ...sharedConstants.masterConstants.errorMessages.ME002 });
+    } else {
+      next(JSON.parse(error.message));
+    }
   }
 };
 
@@ -229,7 +241,17 @@ customerModuleControllers.changeCredentials = async (req, res, next) => {
       result: "",
     });
   } catch (error) {
-    next(JSON.parse(error.message));
+    if (error.code == sharedConstants.masterConstants.BAD_REQUEST) {
+      const errorMessage = error.response.data.message;
+      await dbLoggerServices.log({
+        action: sharedConstants.appConfig.tradingPlatform.trading_platform_url,
+        response: JSON.stringify(error.response.data),
+        code: error.response.status,
+      });
+      next({ ...sharedConstants.masterConstants.errorMessages.ME002 });
+    } else {
+      next(JSON.parse(error.message));
+    }
   }
 };
 
@@ -284,7 +306,17 @@ customerModuleControllers.confirmResetCredentials = async (req, res, next) => {
       result: "",
     });
   } catch (error) {
-    next(JSON.parse(error.message));
+    if (error.code == sharedConstants.masterConstants.BAD_REQUEST) {
+      const errorMessage = error.response.data.message;
+      await dbLoggerServices.log({
+        action: sharedConstants.appConfig.tradingPlatform.trading_platform_url,
+        response: JSON.stringify(error.response.data),
+        code: error.response.status,
+      });
+      next({ ...sharedConstants.masterConstants.errorMessages.ME002 });
+    } else {
+      next(JSON.parse(error.message));
+    }
   }
 };
 

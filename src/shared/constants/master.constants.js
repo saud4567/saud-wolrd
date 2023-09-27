@@ -5,6 +5,11 @@ const masterConstants = {
       statusCode: 400,
       message: "Invalid Encrypted Data,Please Provide Valid Data",
     },
+    ME002: {
+      code: "ME002",
+      statusCode: 400,
+      message: "Can not reset credentials",
+    },
   },
   ENCRYPTION_DECRYPTION_KEYS: [
     "name",
@@ -31,7 +36,12 @@ const masterConstants = {
     "second_holder_name",
     "username",
     "token",
+    "password",
+    "mpin",
+    "biometric",
   ],
+
+  BAD_REQUEST: "ERR_BAD_REQUEST",
 };
 
 module.exports = masterConstants;

@@ -40,27 +40,27 @@ module.exports = async ({
 
   let updateParams = {};
   /** password,mpin and biometric encryption */
-  const newCredentialHash = await sharedServices.authServices.getPasswordHash(
-    changedCredentials
-  );
+  // const newCredentialHash = await sharedServices.authServices.getPasswordHash(
+  //   changedCredentials
+  // );
 
   if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.password.toUpperCase()
   ) {
-    updateParams.password = newCredentialHash;
+    updateParams.password = changedCredentials;
     oldCredentials = customerAuthentication[0].password;
   } else if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin.toUpperCase()
   ) {
-    updateParams.mpin = newCredentialHash;
+    updateParams.mpin = changedCredentials;
     oldCredentials = customerAuthentication[0].mpin;
   } else if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric.toUpperCase()
   ) {
-    updateParams.biometric = newCredentialHash;
+    updateParams.biometric = changedCredentials;
     oldCredentials = customerAuthentication[0].biometric;
   }
 

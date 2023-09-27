@@ -25,7 +25,7 @@ module.exports = async ({
     user_id: customerDetails[0].ucc_id,
     source: sharedConstants.appConfig.tradingPlatform.trading_platform_source,
     api_key:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDdXN0b21lcklkIjoiMTQwNCIsImV4cCI6MTY1NzM2MTQwMCwiaWF0IjoxNjI1ODI1NDU2fQ.QYENFd6uCQM-oiglroQ6K6I6F...",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDdXN0b21lcklkIjoiMTMwNSIsImV4cCI6MTcxMTAzNjc0MCwiaWF0IjoxNjc5NTAwNzgwfQ.64-QfjZ2V2GfLcsXd-PNAPpINA_ovxu7YLbrVUq2yvg",
   };
 
   if (
@@ -53,7 +53,14 @@ module.exports = async ({
     "x-api-key":
       sharedConstants.appConfig.tradingPlatform.trading_platform_api_key,
   };
-  const res = await axios.post(requestUrl, payload, { headers });
+
+  await dbLoggerServices.log({
+    customerId: customerId,
+    action: requestUrl,
+    request: payload,
+  });
+
+  const res = await axios.put(requestUrl, payload, { headers });
 
   if (res) {
     await dbLoggerServices.log({

@@ -28,6 +28,17 @@ module.exports = {
       statusCode: 400,
       message: "Reset Mode Is Invalid, It Should Be mpin/password/biometric",
     },
+    CCCE005: {
+      code: "CCCE005",
+      statusCode: 400,
+      message: "Mpin must be 4-6 characters in length consisting only digits",
+    },
+    CCCE006: {
+      code: "CCCE006",
+      statusCode: 400,
+      message:
+        "Password must be minimum 6 characters in length consisting alphabets and numbers",
+    },
   },
 
   TEST_CONSTANT: {

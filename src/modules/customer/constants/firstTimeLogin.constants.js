@@ -32,6 +32,17 @@ module.exports = {
       statusCode: 400,
       message: "Password Is Required",
     },
+    CFTLE006: {
+      code: "CFTLE006",
+      statusCode: 400,
+      message: "Mpin must be 4-6 characters in length consisting only digits",
+    },
+    CFTLE007: {
+      code: "CFTLE007",
+      statusCode: 400,
+      message:
+        "Password must be minimum 6 characters in length consisting alphabets and numbers",
+    },
   },
 
   TEST_CONSTANT: {

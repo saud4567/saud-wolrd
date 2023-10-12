@@ -92,24 +92,35 @@ module.exports = async ({ username, mpin, biometric, password, requestId }) => {
   }
 
   /** based on subscription_plan compare mpin,biometric or password */
-  let passwordHash;
-  let authorizationKey;
-  if (password) {
-    passwordHash = customerAuthentication[0].password;
+  // let passwordHash;
+  // let authorizationKey;
+  // if (password) {
+  //   passwordHash = customerAuthentication[0].password;
+  //   authorizationKey = password;
+  // } else if (mpin) {
+  //   passwordHash = customerAuthentication[0].mpin;
+  //   authorizationKey = mpin;
+  // } else if (biometric) {
+  //   passwordHash = customerAuthentication[0].biometric;
+  //   authorizationKey = biometric;
+  // }
+
+  // /**compare credentials */
+  // const match = await sharedServices.authServices.comparePassword(
+  //   authorizationKey,
+  //   passwordHash
+  // );
+  let match = false;
+  if (password && password == customerAuthentication[0].password) {
+    match = true;
     authorizationKey = password;
-  } else if (mpin) {
-    passwordHash = customerAuthentication[0].mpin;
+  } else if (mpin && mpin == customerAuthentication[0].mpin) {
+    match = true;
     authorizationKey = mpin;
-  } else if (biometric) {
-    passwordHash = customerAuthentication[0].biometric;
+  } else if (biometric && biometric == customerAuthentication[0].biometric) {
+    match = true;
     authorizationKey = biometric;
   }
-
-  /**compare credentials */
-  const match = await sharedServices.authServices.comparePassword(
-    authorizationKey,
-    passwordHash
-  );
 
   if (match) {
     /** check if previous token is valid or not */

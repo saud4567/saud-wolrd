@@ -54,13 +54,13 @@ module.exports = async ({ username, twoFa, password, requestId }) => {
     let passwordHash = customerAuthentication[0].password;
 
     /**compare credentials */
-    const match = await sharedServices.authServices.comparePassword(
-      password,
-      passwordHash
-    );
+    // const match = await sharedServices.authServices.comparePassword(
+    //   password,
+    //   passwordHash
+    // );
 
     if (
-      match &&
+      password == customerAuthentication[0].password &&
       (twoFa == customerDetails[0].pan || twoFa == customerDetails[0].dob)
     ) {
       isValid = true;

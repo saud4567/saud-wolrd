@@ -99,6 +99,13 @@ module.exports = (body) => {
           customerModuleConstants.registration.errorMessages.CRE045.message,
       });
     }
+
+    if (body.password && !sharedValidators.isValidPassword(body.password)) {
+      errorListArray.push({
+        password:
+          customerModuleConstants.registration.errorMessages.CRE084.message,
+      });
+    }
   }
 
   if (

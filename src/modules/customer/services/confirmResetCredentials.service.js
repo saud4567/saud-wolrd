@@ -1,4 +1,5 @@
 const sharedServices = require("shared/services");
+const sharedValidators = require("shared/validators");
 const sharedConstants = require("shared/constants");
 const customerModuleConstants = require("../constants");
 const sharedModels = require("shared/models");
@@ -47,28 +48,47 @@ module.exports = async ({ resetRequestId, resetCredentials, requestId }) => {
     );
   }
 
+  /** get customer old credentials data */
+  const customerAuthentication = await sharedModels.customerAuthentication.read(
+    { customerId: customerResetData[0].customer_id }
+  );
+
+  let oldCredentials;
   let updateParams = {};
   /** password,mpin and biometric encryption */
-  const newCredentialsHash = await sharedServices.authServices.getPasswordHash(
-    resetCredentials
-  );
+  // const newCredentialsHash = await sharedServices.authServices.getPasswordHash(
+  //   resetCredentials
+  // );
   if (
     customerResetData[0].authorization_mode ==
     customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD
   ) {
-    updateParams.password = newCredentialsHash;
+    if (!sharedValidators.isValidPassword(resetCredentials)) {
+      sharedServices.error.throw(
+        customerModuleConstants.confirmResetCredentials.errorMessages.CCRCE006
+      );
+    }
+    updateParams.password = resetCredentials;
     updateParams.pwdLastSetDate = moment().format("YYYY-MM-DD HH:mm:ss");
+    oldCredentials = customerAuthentication[0].password;
   } else if (
     customerResetData[0].authorization_mode ==
     customerModuleConstants.confirmResetCredentials.RESET_TYPE.MPIN
   ) {
-    updateParams.mpin = newCredentialsHash;
+    if (!sharedValidators.isValidMpin(resetCredentials)) {
+      sharedServices.error.throw(
+        customerModuleConstants.confirmResetCredentials.errorMessages.CCRCE005
+      );
+    }
+    updateParams.mpin = resetCredentials;
     updateParams.mpinLastSetDate = moment().format("YYYY-MM-DD HH:mm:ss");
+    oldCredentials = customerAuthentication[0].mpin;
   } else if (
     customerResetData[0].authorization_mode ==
     customerModuleConstants.confirmResetCredentials.RESET_TYPE.BIOMETRIC
   ) {
-    updateParams.biometric = newCredentialsHash;
+    updateParams.biometric = resetCredentials;
+    oldCredentials = customerAuthentication[0].biometric;
   }
 
   updateParams.failedLoginAttempt = 0;
@@ -103,7 +123,8 @@ module.exports = async ({ resetRequestId, resetCredentials, requestId }) => {
       customerId: customerDetails[0].customerId,
       customerRefId: customerDetails[0].customer_ref_id,
       resetMode: customerResetData[0].authorization_mode,
-      changedCredentials: resetCredentials,
+      oldCredentials,
+      newCredentials: resetCredentials,
       requestId,
     });
   }

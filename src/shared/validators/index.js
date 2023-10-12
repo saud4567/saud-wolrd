@@ -50,10 +50,4 @@ sharedValidators.isFloat = (value) => /[+-]?([0-9]*[.])?[0-9]+$/.test(value);
 
 sharedValidators.isValidAadhar = (value) => /^\d{12}$/.test(value);
 
-sharedValidators.isValidMpin = (value) => /^[0-9]{4,6}$/.test(value);
-
-sharedValidators.isValidPassword = (value) => {
-  return value.length >= 6 && /^[A-z]+[0-9]+$/.test(value);
-};
-
 module.exports = sharedValidators;

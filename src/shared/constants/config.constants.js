@@ -38,11 +38,6 @@ const config = {
     secretKey: process.env.ENCRYPTION_SECRET_KEY,
     secretIv: process.env.ENCRYPTION_SECRET_IV,
   },
-  tradingPlatform: {
-    trading_platform_url: process.env.TRADING_PLATFORM_URL,
-    trading_platform_api_key: process.env.TRADING_PLATFORM_API_KEY,
-    trading_platform_source: process.env.TRADING_PLATFORM_SOURCE,
-  },
 };
 
 module.exports = config;

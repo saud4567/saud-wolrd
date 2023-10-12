@@ -422,12 +422,6 @@ module.exports = {
       statusCode: 400,
       message: "State Is Required",
     },
-    CRE084: {
-      code: "CRE084",
-      statusCode: 400,
-      message:
-        "Password must be minimum 6 characters in length consisting alphabets and numbers",
-    },
   },
 
   GENDER: {

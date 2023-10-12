@@ -72,17 +72,17 @@ module.exports = async ({
   }
 
   /** password ,mpin and biometric encryption */
-  // if (password) {
-  //   password = await sharedServices.authServices.getPasswordHash(password);
-  // }
+  if (password) {
+    password = await sharedServices.authServices.getPasswordHash(password);
+  }
 
-  // if (mpin) {
-  //   mpin = await sharedServices.authServices.getPasswordHash(mpin);
-  // }
+  if (mpin) {
+    mpin = await sharedServices.authServices.getPasswordHash(mpin);
+  }
 
-  // if (biometric) {
-  //   biometric = await sharedServices.authServices.getPasswordHash(biometric);
-  // }
+  if (biometric) {
+    biometric = await sharedServices.authServices.getPasswordHash(biometric);
+  }
 
   /** set JWT token expiry to midnight */
   let midnightTime = moment().add(1, "days").startOf("day");
@@ -115,14 +115,6 @@ module.exports = async ({
     customerDetails[0].subscription_plan ==
     customerModuleConstants.authentication.SUBSCRIPTION_PLAN.PLATINUM
   ) {
-    /** get customer old credentials data */
-    const customerAuthentication =
-      await sharedModels.customerAuthentication.read({
-        customerId: customerDetails[0].customerId,
-      });
-
-    let oldCredentials = customerAuthentication[0].password;
-
     /** Update data into customer_authentication table */
     await sharedModels.customerAuthentication.update(
       { password, mpin, biometric, token },
@@ -146,8 +138,7 @@ module.exports = async ({
       customerRefId: customerDetails[0].customer_ref_id,
       resetMode:
         customerModuleConstants.confirmResetCredentials.RESET_TYPE.PASSWORD,
-      oldCredentials,
-      newCredentials: password,
+      changedCredentials: password,
       requestId,
     });
   } else {

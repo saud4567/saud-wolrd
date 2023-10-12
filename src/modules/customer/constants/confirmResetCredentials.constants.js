@@ -27,17 +27,6 @@ module.exports = {
       statusCode: 400,
       message: "Customer Reset Request Is Expired",
     },
-    CCRCE005: {
-      code: "CCRCE005",
-      statusCode: 400,
-      message: "Mpin must be 4-6 characters in length consisting only digits",
-    },
-    CCRCE006: {
-      code: "CCRCE006",
-      statusCode: 400,
-      message:
-        "Password must be minimum 6 characters in length consisting alphabets and numbers",
-    },
   },
   RESET_TYPE: {
     PASSWORD: "PASSWORD",

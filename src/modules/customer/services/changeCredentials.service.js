@@ -31,37 +31,27 @@ module.exports = async ({
     );
   }
 
-  /** get customer old credentials data */
-  const customerAuthentication = await sharedModels.customerAuthentication.read(
-    { customerId: customerDetails[0].customerId }
-  );
-
-  let oldCredentials;
-
   let updateParams = {};
   /** password,mpin and biometric encryption */
-  // const newCredentialHash = await sharedServices.authServices.getPasswordHash(
-  //   changedCredentials
-  // );
+  const newCredentialHash = await sharedServices.authServices.getPasswordHash(
+    changedCredentials
+  );
 
   if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.password.toUpperCase()
   ) {
-    updateParams.password = changedCredentials;
-    oldCredentials = customerAuthentication[0].password;
+    updateParams.password = newCredentialHash;
   } else if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.mpin.toUpperCase()
   ) {
-    updateParams.mpin = changedCredentials;
-    oldCredentials = customerAuthentication[0].mpin;
+    updateParams.mpin = newCredentialHash;
   } else if (
     resetMode.toUpperCase() ==
     customerModuleConstants.authentication.AUTHORIZATION_TYPE.biometric.toUpperCase()
   ) {
-    updateParams.biometric = changedCredentials;
-    oldCredentials = customerAuthentication[0].biometric;
+    updateParams.biometric = newCredentialHash;
   }
 
   if (
@@ -110,8 +100,7 @@ module.exports = async ({
       customerId: customerDetails[0].customerId,
       customerRefId: customerDetails[0].customer_ref_id,
       resetMode,
-      oldCredentials,
-      newCredentials: changedCredentials,
+      changedCredentials,
       requestId,
     });
   }

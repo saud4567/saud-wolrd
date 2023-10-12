@@ -145,7 +145,7 @@ module.exports = async (
     customerModuleConstants.registration.SUBSCRIPTION_PLAN.PLATINUM
   ) {
     /** password ,mpin and biometric encryption */
-    // password = await sharedServices.authServices.getPasswordHash(password);
+    password = await sharedServices.authServices.getPasswordHash(password);
     // mpin = await sharedServices.authServices.getPasswordHash(mpin);
     //  biometric = await sharedServices.authServices.getPasswordHash(biometric);
 
